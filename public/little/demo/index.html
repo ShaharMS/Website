@@ -274,6 +274,7 @@
         }
     </style>
 
+    <link rel="stylesheet" href="/css/playground-responsive.css">
     <div id="code-row">
         <textarea id="input" class="collapsible" title="Code" placeholder="Code here..."
             style="display:inline-block; white-space:pre-wrap;">
@@ -351,43 +352,7 @@ Ast
 
     <script src="./interp.js"></script>
 
-    <script>
-
-        var textboxes = document.getElementsByClassName("collapsible");
-        var buttons = [];
-        console.log(textboxes.length);
-        for (let i = 0; i < textboxes.length; i++) {
-            let box = textboxes.item(i);
-            let button = document.createElement('button');
-
-            button.textContent = "Collapse";
-            box.parentElement.append(button);
-            button.style.position = "absolute";
-
-            button.onclick = () => {
-                console.log("click");
-                console.log(box);
-                if (box.classList.contains("collapsed")) {
-                    box.classList.remove("collapsed");
-                    button.textContent = "Collapse";
-                    for (let j = 0; j < buttons.length; j++) buttons[j].adjust();
-                } else {
-                    box.classList.add("collapsed");
-                    button.textContent = "Uncollapse";
-                    for (let j = 0; j < buttons.length; j++) buttons[j].adjust();
-                }
-            }
-            button.adjust = () => {
-                let rect = box.getBoundingClientRect();
-                button.style.top = rect.top + 5 + "px";
-                button.style.left = `calc(${rect.right}px - ${button.getBoundingClientRect().width}px - 5px)`;
-            }
-            button.adjust();
-            buttons.push(button);
-        }
-
-        window.addEventListener("resize", (_) => { for (let j = 0; j < buttons.length; j++) buttons[j].adjust(); });
-    </script>
+    <script src="/sources/playgroundLayout.js"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"3d9e2f7ead2a4e07ad8644dfcd7ce66f"}'></script>
 </body>
 

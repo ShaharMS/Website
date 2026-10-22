@@ -81,7 +81,7 @@ var JsExample = function() {
 	var ast = this.d.getElementById("ast");
 	var output = this.d.getElementById("output");
 	haxe_Log.trace(input,{ fileName : "src/JsExample.js.hx", lineNumber : 26, className : "JsExample", methodName : "new", customParams : [ast,output]});
-	input.addEventListener("keyup",function(_) {
+	input.addEventListener("input",function(_) {
 		try {
 			var tmp = little_parser_Parser.parse(little_lexer_Lexer.lex(input.value));
 			ast.value = little_tools_PrettyPrinter.printParserAst(tmp);
@@ -100,6 +100,7 @@ var JsExample = function() {
 			var end = input.selectionEnd;
 			input.value = input.value.substring(0,start) + "\t" + input.value.substring(end);
 			input.selectionStart = input.selectionEnd = start + 1;
+			input.dispatchEvent(new Event('input'));
 		}
 	};
 	var keywordTable = this.d.getElementById("k-table-body");
@@ -149,7 +150,7 @@ var JsExample = function() {
 		keywordTable.appendChild(row);
 	}
 	Highlighter.registerOnParagraphs();
-	document.getElementById("input").dispatchEvent(new Event("keyup"));
+	document.getElementById("input").dispatchEvent(new Event("input"));
 	update();
 };
 $hxClasses["JsExample"] = JsExample;

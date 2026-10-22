@@ -1,0 +1,120 @@
+/* Adapt geometry to the screen; the original palette, outlines and typefaces stay. */
+@media (max-width: 1000px), (max-height: 600px) {
+    html { scroll-snap-type: y proximity; }
+
+    #section-1 h1 {
+        box-sizing: border-box;
+        padding-inline: 5vw;
+        font-size: clamp(3rem, 12vw, 8rem);
+        text-wrap: balance;
+    }
+    #section-2 h1 {
+        max-width: 90%;
+        font-size: clamp(2.75rem, 10vw, 7rem);
+        text-wrap: balance;
+    }
+    #section-3 { min-height: 560px; }
+    #section-3 .content {
+        width: min(600px, calc(100% - 48px));
+        height: auto;
+        min-height: min(400px, 30vh);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-left: 0;
+    }
+    #section-3 .content ul { padding-right: 16px; }
+
+    #section-4, #section-6 {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+    #section-4 {
+        --little-flow-layout: 1;
+        padding-block: 28px;
+        gap: 24px;
+    }
+    #section-4 > .container {
+        flex: none;
+        flex-direction: column;
+        gap: 28px;
+        width: calc(100% - 48px);
+    }
+    #section-4 .content {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    #section-4 h1, #section-6 h1 {
+        font-size: clamp(3.5rem, 10vw, 6.3rem);
+    }
+    #section-4 .code-io {
+        display: flex;
+        flex: none;
+        width: min(100%, 620px);
+        max-width: none;
+        height: clamp(360px, 55vh, 520px);
+    }
+    #section-4 .links.row {
+        box-sizing: border-box;
+        width: calc(100% - 48px);
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    #section-4 .links.row a, #section-6 .links.column a {
+        box-sizing: border-box;
+        flex: 1 1 180px;
+        width: auto;
+        max-width: 260px;
+        min-height: 44px;
+        margin: 0;
+        padding: 8px 12px;
+    }
+
+    #section-6 { padding: 96px 0 32px; }
+    #section-6 h1 { margin-block: 0 16px; }
+    #section-6 .highlight { width: calc(100% - 48px); margin-block: 12px; }
+    #section-6 .container, #section-6 .container.reverse {
+        box-sizing: border-box;
+        width: calc(100% - 48px);
+        flex-direction: column;
+        gap: 12px;
+        line-height: 1.5;
+    }
+    #section-6 .container > p { margin-block: 12px; }
+    #section-6 .links.column {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        margin-top: 12px;
+    }
+    /* Keep the effect behind readable copy when no hovering pointer is available. */
+    #section-6 > h1, #section-6 > .highlight, #section-6 > .container {
+        position: relative;
+        z-index: 20001;
+    }
+}
+
+@media (max-width: 600px) {
+    #section-4 .code-io { display: none; }
+    #section-4 .links.row a, #section-6 .links.column a {
+        flex-basis: 100%;
+        max-width: none;
+    }
+}
+
+@media (pointer: coarse) {
+    #section-6 > h1, #section-6 > .highlight, #section-6 > .container {
+        position: relative;
+        z-index: 20001;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}

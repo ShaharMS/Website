@@ -85,12 +85,13 @@ El.prototype.attach = function () {
 		"s;"
 	);
 };
-const spacing = 170;
+let spacing = 170;
 const yOffset = 15;
 let i, s;
 function init() {
 	w = wrapper.clientWidth;
 	h = wrapper.clientHeight;
+	spacing = w < 600 ? 130 : w < 1000 ? 150 : 170;
 	while (wrapper.firstChild) {
 		wrapper.removeChild(wrapper.firstChild);
 	}

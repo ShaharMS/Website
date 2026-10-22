@@ -10,8 +10,11 @@
     function draw() {
         pending = false;
         const bounds = section.getBoundingClientRect();
+        const visibleTop = Math.max(0, -bounds.top);
+        const visibleBottom = Math.min(height, innerHeight - bounds.top);
+        const restingY = visibleBottom > visibleTop ? (visibleTop + visibleBottom) / 2 : height / 2;
         const x = pointer ? Math.max(0, Math.min(width, pointer.x - bounds.left)) : width / 2;
-        const y = pointer ? Math.max(0, Math.min(height, pointer.y - bounds.top)) : height / 2;
+        const y = pointer ? Math.max(0, Math.min(height, pointer.y - bounds.top)) : restingY;
         const radius = (width + height) / 20;
         context.globalCompositeOperation = 'source-over';
         context.clearRect(0, 0, width, height);
@@ -66,6 +69,7 @@
     section.addEventListener('pointerdown', trackPointer);
     section.addEventListener('click', trackPointer);
     section.addEventListener('pointerleave', () => { pointer = null; schedule(); });
+    section.addEventListener('pointercancel', () => { pointer = null; schedule(); });
     window.addEventListener('scroll', schedule, {passive: true});
     new ResizeObserver(resize).observe(section);
     resize();

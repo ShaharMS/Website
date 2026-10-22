@@ -150,13 +150,35 @@ The check does not mistake a homepage fallback for a successful asset response.
 Browser verification also covers interpreter output, the embedded canvas, article
 image loading, and Vision navigation/search.
 
+### Responsive layouts
+
+Wide desktop styling remains unchanged. At widths up to 1000px or viewport heights
+up to 600px, intro panels still fill a page and the landscape has enough height for
+its sign. Little and Vision fill at least a viewport and can grow with their text.
+They use normal scrolling rather than shrinking body text to fit a fixed frame.
+Little stays at 16px, uses a stacked tablet layout, and keeps its embedded editor
+on tablets while linking to the standalone playground on small phones.
+
+The existing spotlight effect sits behind readable copy in compact/touch layouts.
+Documentation navigation can collapse on narrow screens; search opens it, and
+wide code signatures/tables scroll inside their own panels. The standalone
+playground keeps all controls available, initially collapses the AST on phones,
+and reacts to input events for virtual keyboards and pasting.
+
+Browser viewport checks: 320x568, 390x844, 768x1024, 844x390, 900x700, 1024x768,
+and 1280x720. Checks cover heading/copy/button bounds, horizontal overflow, phone
+documentation search/navigation, article images, and interpreter output. The
+playground was also checked at phone, tablet, and desktop widths.
+
+`.gitattributes` preserves downloaded vendor bytes so Windows line-ending settings
+cannot invalidate script integrity hashes on checkout.
+
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth
 is `public/`. Deployment needs only `npm ci` and `npm run deploy`.
 
-An hourly chat monitor named `Verify shahar.ms activation` checks zone activation,
-public delegation, valid HTTPS on apex/www, and actual Web Analytics collection.
-It is instructed to stay quiet on unchanged status and delete itself on success.
+The activation monitor completed successfully and was deleted after public DNS,
+valid HTTPS on apex/www, and actual Web Analytics collection were verified.
 
 References:
 - https://developers.cloudflare.com/pages/configuration/custom-domains/

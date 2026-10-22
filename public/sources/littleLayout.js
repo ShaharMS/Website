@@ -18,6 +18,7 @@
         fullHighlight.textContent = (highlight.dataset.fullText || highlight.innerText) + ' |';
         container.append(probe);
 
+        const flowing = getComputedStyle(section).getPropertyValue('--little-flow-layout').trim() === '1';
         let low = 10, high = 16;
         for (let i = 0; i < 9; i++) {
             const size = (low + high) / 2;
@@ -27,7 +28,7 @@
         }
         // Preserve the original 16px size whenever the complete copy already fits.
         probe.style.fontSize = '16px';
-        const size = probe.getBoundingClientRect().height <= available - 2 ? 16 : Math.floor(low * 100) / 100;
+        const size = flowing || probe.getBoundingClientRect().height <= available - 2 ? 16 : Math.floor(low * 100) / 100;
         probe.style.fontSize = size + 'px';
         section.style.setProperty('--little-copy-size', size + 'px');
         highlight.style.minHeight = Math.ceil(fullHighlight.getBoundingClientRect().height) + 'px';

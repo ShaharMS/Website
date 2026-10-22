@@ -1,3 +1,15 @@
+// Every generated page loads this script in its head, before the body is laid out.
+if (!document.querySelector('meta[name="viewport"]')) {
+	const viewport = document.createElement('meta');
+	viewport.name = 'viewport';
+	viewport.content = 'width=device-width, initial-scale=1';
+	document.head.append(viewport);
+}
+const documentLayout = document.createElement('script');
+documentLayout.src = '/sources/documentLayout.js';
+documentLayout.defer = true;
+document.head.append(documentLayout);
+
 function createCookie(name, value) {
 	localStorage.setItem(name, value);
 }

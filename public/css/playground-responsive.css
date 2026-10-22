@@ -1,0 +1,28 @@
+/* Keep the existing editor palette; give each pane a local, reachable control. */
+body { width: 100%; min-height: 100dvh; }
+#code-row { flex: 0 0 40%; min-width: 0; height: 100dvh; }
+.editor-pane { position: relative; flex: 1 1 0; min-height: 120px; width: 100%; }
+.editor-pane > .collapsible { display: block; width: 100%; height: 100%; min-height: 0; padding: 38px 8px 8px; }
+.editor-pane > #ast:not(.collapsed), .editor-pane > #output:not(.collapsed) { overflow-x: auto; }
+.editor-pane .pane-toggle { position: absolute; top: 6px; right: 6px; min-height: 28px; padding: 4px 8px; }
+.editor-pane.is-collapsed { flex: none; height: 44px; min-height: 44px; }
+.editor-pane.is-collapsed > .collapsible { display: none; }
+#second-container { flex: 1; min-width: 0; width: auto; margin: 0; padding: 12px; }
+#keywords { display: block; max-width: 100%; overflow: auto; }
+#k-table-body { min-width: 100%; }
+#keywords input { min-width: 100px; }
+
+@media (max-width: 900px), (max-height: 600px) {
+    body { display: flex; flex-direction: column; }
+    #code-row { flex: none; width: 100%; height: auto; margin: 0; }
+    .editor-pane { flex: none; height: 220px; min-height: 0; }
+    .editor-pane[data-field="input"] { height: clamp(240px, 40dvh, 360px); }
+    .editor-pane > .collapsible { width: 100%; margin: 0; padding-top: 52px; font-size: 16px; }
+    .editor-pane .pane-toggle { display: block; min-height: 40px; }
+    #code-row #ast:not(.collapsed) { display: block; }
+    #second-container { display: flex; flex: none; width: 100%; margin: 0; padding: 16px; flex-direction: column-reverse; }
+    #k-table-body { display: table; height: auto; padding: 0; }
+    #keywords td { height: auto; }
+    #keywords input { min-height: 44px; font-size: 16px; }
+    #guide a { display: inline-flex; min-height: 44px; align-items: center; }
+}
