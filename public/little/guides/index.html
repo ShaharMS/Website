@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" href="data:,">
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <title>Little — Getting started | Shahar</title>
+  <style>
+    :root { color-scheme: dark; font: 17px/1.7 system-ui,sans-serif; background: #151515; color: #ddd; }
+    body { max-width: 780px; margin: auto; padding: 2rem 1.5rem 5rem; }
+    a { color: #8dc9ff; } nav { display:flex; gap:1.5rem; flex-wrap:wrap; }
+    h1,h2 { color: white; line-height:1.2; margin-top: 2rem; }
+    pre { padding: 1rem; background: #252525; border-radius: .5rem; overflow:auto; }
+    code { color: #b5cea8; } .note { color: #aaa; }
+  </style>
+</head>
+<body>
+  <nav><a href="/">← Home</a><a href="/little/demo/">Playground ↗</a><a href="/little/doc/">Documentation</a></nav>
+  <h1>Getting started with Little</h1>
+  <p>Little is a programming language designed around portability, flexibility and ease of use. Its keywords can be customized, including for other languages.</p>
+  <p>Open the <a href="/little/demo/">playground</a> and type code into the Code field. Output updates as you type. The keyword table lets you try different names for keywords and built-in types.</p>
+  <h2>Variables and output</h2>
+  <pre><code>define x = 3
+x = x + 3
+print(x)</code></pre>
+  <p>This prints <code>6</code>. Use <code>define</code> to declare a variable and <code>print</code> to write output.</p>
+  <h2>Actions</h2>
+  <pre><code>action getNumber() = {
+    return 5
+}
+print(getNumber())</code></pre>
+  <p>Use <code>action</code> to declare a function and <code>return</code> to return its result.</p>
+  <h2>Loops</h2>
+  <pre><code>define i = 0
+while (i &lt;= 10) {
+    print(i)
+    i = i + 2
+}</code></pre>
+  <h2 id="reference">Language reference</h2>
+  <p><code>as</code> specifies a type, <code>nothing</code> is the null value, and <code>true</code> and <code>false</code> are boolean values. Built-in type names in this playground include <code>Number</code>, <code>Decimal</code>, <code>Boolean</code>, and <code>Characters</code>.</p>
+  <p>These examples are adapted from the <a href="https://github.com/ShaharMS/Little#readme">Little project's README</a> and the bundled playground. See the project for more examples and current development.</p>
+  <p class="note">The playground is the version bundled with the original website; newer language features may differ.</p>
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"3d9e2f7ead2a4e07ad8644dfcd7ce66f"}'></script>
+</body>
+</html>

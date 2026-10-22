@@ -1,0 +1,13 @@
+{
+  "name": "shahar-ms-homepage",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "check": "python scripts/check-links.py",
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public --project-name shahar-ms --branch main"
+  },
+  "devDependencies": {
+    "wrangler": "4.152.0"
+  }
+}

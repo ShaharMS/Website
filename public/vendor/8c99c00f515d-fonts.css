@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 600;
+  src: url("/vendor/f6c827583516-6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZY4lCds18E.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 200;
+  src: url("/vendor/ea35960d1eee-6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url("/vendor/237e75a353f1-6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: url("/vendor/0ce8682dd88a-6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdr.ttf") format('truetype');
+}

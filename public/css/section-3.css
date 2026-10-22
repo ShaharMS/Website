@@ -1,0 +1,374 @@
+#section-3 {
+    width: 100%;
+    height: 100vh;
+	overflow: hidden;
+	background: #87CEEB;
+
+	/*border-bottom: #000 solid 16px;*/
+	/*Border isnt visible because of landscape, it is done manually*/
+}
+
+#section-3 h1 {
+	font-size: 3.5em;
+}
+#section-3 .title {
+	white-space: nowrap;
+}
+
+#section-3 .title .part1 {
+	position: relative;
+	font-size: calc(2em);
+	top: -20px;	
+}
+
+#section-3 .title .part2 {
+	position: relative;
+	font-size: calc(1.4em);
+}
+#section-3 .title .part3 {
+	position: relative;
+	font-size: calc(2em);
+	top: 20px;
+}
+
+#section-3 .title {
+	position: relative;
+	margin-top: 0;
+	padding-top: 7vh;
+	z-index: 9999;
+
+}
+
+#section-3 .title > small {
+	font-size: 0.4em;
+	display: block;
+	padding-left: 10px;
+}
+
+#section-3 .content {
+	width: min(600px, 50vw);
+	height: min(400px, 30vh);
+	background-color: green;
+	border: saddlebrown 10px solid;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	position: relative;
+	left: 50vw;
+	top: 60vh;
+	transform: translate(-50%, -50%);
+}
+
+@media screen and (max-height: 700px) {
+	#section-3 .content {
+		display: flex;
+		flex-direction: row;
+		padding-left: 20px;
+		justify-content: space-between;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	#section-3 .content:nth-child(1) {
+		margin-inline-end: -30px;
+	}
+}
+
+#section-3 .content-stick1 {
+	content: "";
+	position: absolute;
+	display: inline-block;
+	width: 10px;
+	height: 25vh;
+	top: calc(260vh + min(400px, 30vh) / 2);
+	left: calc(50vw - min(600px, 50vw) / 3);
+	background: black;
+}
+
+#section-3 .content-stick2 {
+	content: "";
+	position: absolute;
+	display: inline-block;
+	width: 10px;
+	height: 25vh;
+	top: calc(260vh + min(400px, 30vh) / 2);
+	left: calc(50vw + min(600px, 50vw) / 3);
+	background: black;
+}
+
+#section-3 .content:hover {
+	z-index: 10002;
+	scale: 1.02;
+	
+	left: 50vw;
+	top: 60vh;
+	transform: translate(-49%, -49%);
+}
+
+#section-3 .content #scrolling {
+	color: black;
+	font-weight: bold;
+}
+
+/*
+----------------------------------------------
+Airplane
+----------------------------------------------
+*/
+
+#section-3 .airplane-aftermath,
+#section-3 .airplane {
+	scale: 0.2;
+	position: absolute;
+	top: 216vh;
+}
+
+/*
+----------------------------------------------
+Clouds
+----------------------------------------------
+*/
+
+.cloud-container {
+	width: 100%;
+	height: 30%;
+	position: absolute;
+	z-index: 9998;
+	top: calc(200vh + 32px);
+}
+
+.cloud {
+	width: 200px;
+	height: 60px;
+	background: #ffffff;
+
+	border-radius: 200px;
+
+	position: absolute;
+	opacity: 0.5;
+	z-index: 0;
+
+	text-align: center;
+	font-size: 90%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	transition: opacity 0.5s ease;
+}
+
+.cloud > * {
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}
+
+.cloud:hover > * {
+	opacity: 1;
+}
+.cloud:hover {
+	z-index: 1;
+	opacity: 1;
+}
+
+.cloud:before,
+.cloud:after {
+	content: '';
+	position: absolute;
+	background: #ffffff;
+	width: 100px;
+	height: 80px;
+	position: absolute;
+	top: -15px;
+	left: 10px;
+
+	border-radius: 100px;
+	z-index: -1;
+
+	transform: rotate(30deg);
+}
+
+.cloud:after {
+	width: 120px;
+	height: 120px;
+	top: -55px;
+	left: auto;
+	right: 15px;
+}
+
+/*
+----------------------------------------------
+Sun
+----------------------------------------------
+*/
+:root {
+	--sun-radius: calc(25vh);
+}
+.sun-icon {
+	position: absolute;
+	top: calc(200vh + 32px - var(--sun-radius));
+	right: calc(0px - var(--sun-radius));
+	transform: translate(-50%, -50%);
+	width: calc(var(--sun-radius) * 2);
+	margin: 0 auto;
+	display: block;
+	animation: rotate 60s 0s linear infinite;
+	fill: #ffee00;
+	transition: all 0.4s;
+}
+
+.sun-icon .ray,
+.sun-icon .circle {
+	stroke: #ffee00;
+	fill: #ffee00;
+	transition: all 0.4s;
+}
+
+.hover {
+	width: calc(var(--sun-radius) * 2.5);
+	fill: orange;
+	transition: all 0.4s;
+
+	top: calc(200vh + 32px - var(--sun-radius) * 1.25);
+	right: calc(0px - var(--sun-radius) * 1.25);
+}
+
+.hover .ray,
+.hover .circle {
+	width: calc(var(--sun-radius) * 2.5);
+	stroke: orange;
+	fill: orange;
+	transition: all 0.4s;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	50% {
+		transform: rotate(180deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.secret {
+		font-size: 1em;
+	}
+	
+}
+
+/*
+----------------------------------------------
+landscape
+----------------------------------------------
+*/
+
+.grass-bottom {
+	/*draw window-wide ellipse, 100px tall ellipse*/
+	height: 200px;
+	rotate: 1deg;
+	width: 150vw;
+	transform: translate(-20%);
+	border: 16px solid green;
+	background-color: green;
+	position: absolute;
+	top: calc(300vh + 32px - 50px);
+	border-radius: 50%;
+}
+
+.grass-hill {
+	height: 60vh;
+	width: 2000px;
+	rotate: -10deg;
+	background-color: darkgreen;
+	position: absolute;
+	top: calc(280vh + 32px - 50px);
+	right: -800px;
+	border-radius: 50%;
+
+}
+
+
+.tree {
+	height: 150px;
+	width: 150px;
+	background-color: #6a976c;
+	border-radius: 100%;
+
+	position: absolute;
+}
+
+.tree1 {
+	top: calc(300vh + 32px - 50px - 150px - 47px);
+	left: 24px;
+	scale: 0.7;
+	background-color: #638864;
+}
+
+.tree2 {
+	top: calc(300vh + 32px - 50px - 150px - 95px);
+	left: 96px;
+}
+
+.tree3 {
+	top: calc(300vh + 32px - 50px - 150px - 20vh);
+	right: -10px;
+	scale: 0.4;
+	background-color: #638864;
+}
+
+.tree4 {
+	top: calc(300vh + 32px - 50px - 150px - 19vh);
+	right: 140px;
+	scale: 0.45;
+	background-color: #638864;
+}
+
+.trunk {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0 10px 212px 10px;
+	border-color: transparent transparent #374544 transparent;
+	margin-top: 54px;
+	margin-left: 65px;
+}
+
+.leftbranch {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0 3px 60px 3px;
+	border-color: transparent transparent #374544 transparent;
+	transform: rotate(-50deg);
+	position: absolute;
+	margin-top: 12.5px;
+	margin-left: -25px;
+}
+
+.rightbranch {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0 2px 35px 2px;
+	border-color: transparent transparent #374544 transparent;
+	transform: rotate(36deg);
+	position: absolute;
+	margin-top: 4px;
+	margin-left: 9px;
+}
+
+.example-container {
+	width: 10px;
+	height: 10px;
+	/*position absolute with positioning in the middle of the screen*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

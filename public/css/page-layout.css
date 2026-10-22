@@ -1,0 +1,98 @@
+/* Section geometry only: preserve the existing palette, typefaces and artwork. */
+#section-1, #section-2, #section-3, #section-4, #section-6 {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    height: 100vh;
+    height: 100dvh;
+    overflow: clip;
+}
+
+#section-1 h1 { top: 50%; }
+#section-2 #main-wrapper { inset: 0; height: 100%; overflow: visible; }
+
+/* Landscape graphics belong to this page, not to an assumed document offset. */
+#section-3 { --sun-radius: 25dvh; }
+#section-3 .cloud-container { top: 0; }
+#section-3 .airplane, #section-3 .airplane-aftermath { top: 16%; }
+#section-3 .sun-icon { top: calc(0px - var(--sun-radius)); }
+#section-3 .sun-icon.hover { top: calc(0px - var(--sun-radius) * 1.25); }
+#section-3 .content, #section-3 .content:hover { top: 60%; left: 50%; }
+#section-3 .content-stick1, #section-3 .content-stick2 {
+    top: 60%;
+    height: 40%;
+}
+#section-3 .grass-bottom { top: calc(100% - 50px); }
+#section-3 .grass-hill { top: calc(80% - 50px); }
+#section-3 .tree1 { top: calc(100% - 50px - 150px - 47px); }
+#section-3 .tree2 { top: calc(100% - 50px - 150px - 95px); }
+#section-3 .tree3 { top: calc(80% - 50px - 150px); }
+#section-3 .tree4 { top: calc(81% - 50px - 150px); }
+
+/* Keep the original Little styling while budgeting space for both content and links. */
+#section-4 { padding-block: clamp(12px, 2.5vh, 24px); gap: 16px; }
+#section-4 > .container {
+    flex: 1;
+    min-height: 0;
+    width: 90%;
+    gap: 6vw;
+}
+#section-4 .content {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--little-copy-size, 16px);
+}
+#section-4 .highlight { box-sizing: border-box; }
+#section-4 .code-io {
+    box-sizing: border-box;
+    flex: 0 1 34%;
+    max-width: 34vw;
+    min-height: 0;
+    height: 100%;
+    margin-left: 0;
+}
+#section-4 .code-io > div { width: 100%; height: 100%; min-height: 0; }
+#section-4 .code-io iframe { display: block; width: 100%; height: 100%; }
+#section-4 .links.row {
+    flex: none;
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 0;
+    justify-content: center;
+}
+
+/* Enlarge only the requested spotlight hardware; keep its original construction. */
+#section-6 .searchlight { width: 90px; height: 60px; }
+#section-6 .searchlight-stick { left: 49px; height: 60px; }
+#section-6 .searchlight-stick.mirror { left: unset; right: 49px; }
+
+@media (max-height: 700px) {
+    #section-3 .content { overflow: visible; }
+}
+
+@media (max-width: 700px) {
+    /* Let the existing sign and Vision copy wrap, rather than disappear at an edge. */
+    #section-3 .content {
+        height: auto;
+        min-height: min(400px, 30vh);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-left: 0;
+    }
+    #section-6 .highlight { width: 90%; margin-block: 8px; }
+    #section-6 .container, #section-6 .container.reverse {
+        width: 90%;
+        gap: 0;
+        flex-direction: column;
+    }
+    #section-6 .container > p { margin-block: 8px; }
+    #section-6 .links.column {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+    #section-6 .links.column a { margin-block: 6px; }
+}

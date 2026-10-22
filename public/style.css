@@ -1,0 +1,89 @@
+@import url('/vendor/3538d1210ea9-fonts.css');
+@import url('/vendor/4d6f0049ac7a-fonts.css');
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+
+	overflow-x: hidden;
+}
+
+html {
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+}
+
+.section {
+    width: 100%;
+    height: 100vh;
+
+    border-bottom: 16px solid black;
+
+	scroll-snap-align: start;
+}
+
+.links {
+    width: max-content;
+}
+
+.links.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.links a {
+    font-size: 1.2em;
+    display: block;
+    text-align: center;
+    font-weight: 400;
+    border: 4px solid white;
+    border-radius: 20px;
+    padding: 5px;
+    padding-inline: 10px;
+    width: 200px;
+    text-decoration: none;
+    color: white;
+    font-weight: 200;
+}
+
+.links.row a {
+    margin-block: 0;
+    margin-inline: 40px;
+}
+
+.links.column a {
+	margin-block: 30px;
+	margin-inline: 0;
+}
+
+.highlight {
+    font-weight: bolder;
+    font-size: 1.5em;
+    padding-block: 10px;
+}
+
+/* for flashing elements*/
+flash {
+    animation: blinker 1s linear infinite;
+}
+
+/* funny font for sophisticated thoughts  */
+sophisticated {
+	font-family: 'Geologica', sans-serif;
+    font-family: 'Great Vibes', cursive;
+
+	font-size: 140%;
+	line-height: inherit;
+}
+italic {
+	font-style: italic;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

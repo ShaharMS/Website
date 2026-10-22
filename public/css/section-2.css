@@ -1,0 +1,69 @@
+#section-2 {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: #81a6e0;
+    background: linear-gradient(to bottom, #81a6e0 0%, #cc7bc5 100%);
+    color: #ffffff;
+
+    overflow: hidden;
+
+	position: relative;
+	z-index: 9999;
+	border-bottom: #000000 solid 16px;
+}
+
+#section-2 h1 {
+    font-size: 8em;
+    text-align: center;
+}
+
+#section-2 svg {
+    opacity: 1;
+	position: relative;
+	z-index: 0;
+}
+
+#section-2 svg.hide {
+    display: none;
+}
+
+#section-2 svg * {
+    stroke: inherit;
+    animation-delay: inherit;
+    stroke: #ffffff;
+}
+
+#section-2 svg {
+    width: 80px;
+    height: 60px;
+    margin: 10px;
+    opacity: 0.9;
+    position: absolute;
+}
+
+#section-2 #main-wrapper {
+    position: absolute;
+
+    width: 100%;
+    height: calc(100% - 37px);
+
+    overflow: hidden;
+}
+
+#section-2 input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+    left: -99em;
+}
+
+/* Allow the existing animated artwork to extend beyond its symbol viewport. */
+#section-2 symbol,
+#section-2 #main-wrapper > svg {
+	overflow: visible;
+}
