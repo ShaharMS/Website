@@ -34,8 +34,8 @@
     .blended > .playground { position: static; width: 100%; height: max(640px, 85dvh); min-height: 0; }
     .blended .customization { width: 100%; display: flex; flex-direction: column; font-size: 16px; }
     .blended .customization nav { order: 0; }
-    .blended #guide { order: 1; margin-top: 0; margin-bottom: 24px; }
-    .blended .keyword-panel { order: 2; height: auto; }
+    .blended #guide { order: 2; margin-top: 24px; margin-bottom: 0; }
+    .blended .keyword-panel { order: 1; height: auto; }
     .blended .keyword-scroll { flex: none; overflow: visible; }
     .blended #keywords thead { display: none; }
     .blended #keywords, .blended #k-table-body { display: block; }
@@ -44,3 +44,18 @@
     .blended #keywords td:last-child { grid-column: 1 / -1; }
     .blended #keywords input { min-height: 44px; font-size: 16px; }
 }
+
+/* Keep the existing border styling; the divider itself accepts mouse and touch. */
+.blended .pane-divider { position: relative; height: 6px; min-height: 6px; border-top: 1px solid #444; cursor: row-resize; touch-action: none; z-index: 2; }
+.blended .pane-divider::after { content: ""; position: absolute; inset: -9px 0; }
+.blended .pane-divider[hidden] { display: none; }
+.blended .pane-divider:focus-visible { outline: 1px solid #858585; outline-offset: -1px; }
+.blended .resizable-panes .ast-panel { border: 0; }
+.blended .resizable-panes .ast-panel[open] { height: 100%; }
+.blended .resizable-panes #ast { max-height: none; }
+.blended .is-resizing, .blended .is-resizing * { cursor: row-resize !important; user-select: none !important; }
+@media (pointer: coarse), (max-width: 600px) {
+    .blended .pane-divider { height: 12px; min-height: 12px; }
+}
+
+.blended .resizable-panes > .toolbar { align-self: start; }

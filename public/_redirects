@@ -1,3 +1,7 @@
 /new / 301
 /new/ / 301
 /new/* /:splat 301
+/little/doc /haxe/ 301
+/little/doc/ /haxe/ 301
+/little/doc/index.html /haxe/ 301
+/little/doc/pages/index.html /haxe/ 301

@@ -5,6 +5,7 @@ import {syntaxHighlighting, HighlightStyle, bracketMatching, indentOnInput} from
 import {closeBrackets, closeBracketsKeymap} from '@codemirror/autocomplete';
 import {tags, highlightTree} from '@lezer/highlight';
 import {createLanguage} from './language-source.js';
+import {initializePaneResizing} from './pane-resize.mjs';
 import {keywordChanges, applyKeywordChanges} from './keyword-rewrite.mjs';
 import {keywordDefinitions, defaultKeywords, normalizeKeywords, exampleForKeyword, makeExample} from './keywords.mjs';
 
@@ -149,5 +150,6 @@ if (directionButton) directionButton.addEventListener('click', () => {
     directionButton.textContent = direction.toUpperCase();
     directionButton.title = 'Switch code and output to ' + (direction === 'ltr' ? 'RTL' : 'LTR');
 });
+if (dedicated) initializePaneResizing(() => view.requestMeasure());
 window.addEventListener('pagehide' , () => {clearTimeout(typingTimer); finish('Ready');});
 run();

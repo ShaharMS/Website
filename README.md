@@ -94,11 +94,11 @@ Migration repairs:
 
 - Same-origin framing is allowed so the Little iframe can render.
 - The Little playground now runs its initial example on load.
-- The original Guides link had no destination. A working guide now uses examples
-  from the bundled playground and https://github.com/ShaharMS/Little#readme.
-- The original Little docs shell linked to nonexistent standard-library pages.
-  It now links to the guide, playground, upstream language reference, and existing
-  Haxe articles. The migrated articles and their images remain available.
+- The invented separate Little guide page and mixed documentation hub were
+  removed. Quickstart stays inline in the playground; the homepage Documentation
+  button points to the actual Little repository reference.
+- The Haxe articles and their images live at /haxe/, without Little branding or
+  cross-links. Legacy /little/doc entry points redirect there for old bookmarks.
 - Broken generated Vision relative links are repaired. References to four omitted
   Haxe standard-library declarations link to the official Haxe API instead.
 - Unknown paths return a real 404 page, avoiding false success via SPA fallback.

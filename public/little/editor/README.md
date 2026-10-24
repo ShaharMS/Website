@@ -43,8 +43,7 @@ the left working pane. The modern keyword table stays at the upper right in a
 bounded scrolling region; the Quickstart manual stays below it, with the existing
 getting-started examples available directly in the page. The editor remains sticky
 while reading the manual on desktop. On phones, editor/AST/output stack above the
-right-side content, with Quickstart ahead of the keyword form as in the old mobile
-layout. There is no horizontal document overflow.
+right-side content, with Quickstart below the keyword form, matching its desktop ordering. There is no horizontal document overflow.
 
 The AST remains LTR. The dedicated-page LTR/RTL button switches code and output
 together, never the AST. The homepage preview has no direction button and retains
@@ -59,3 +58,18 @@ applied simultaneously through a CodeMirror transaction, retaining editor select
 mapping and undo history. Blank fields return to defaults and rewrite aliases back.
 Reset restores the initial example using the current keyword names. Invalid or
 conflicting names are flagged before execution.
+
+On the dedicated page, horizontal dividers resize Code/AST and AST/Output using
+pointer capture for both mouse and touch. Each pane retains a minimum usable
+height. Divider keyboard controls support arrows (Shift for larger steps) and
+Home/End. Dragging affects only the adjacent panes, respects AST collapse, and
+preserves the expanded layout when toggling it. Proportions adapt to viewport
+changes; CodeMirror is remeasured after layout. Only divider handles block touch
+scroll gestures, so the surrounding mobile page continues to scroll normally.
+
+The playground has no Home/Guides/Documentation navigation strip. Its Quickstart
+manual remains inline below the keyword table on every screen size. The invented
+separate /little/guides page has been removed. Haxe articles live at /haxe/,
+with old /little/doc entry points redirected for existing bookmarks; the Haxe area
+contains no Little landing page or playground cross-links. Little's homepage
+Documentation button points to the actual repository reference.
