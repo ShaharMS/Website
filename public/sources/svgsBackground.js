@@ -48,7 +48,7 @@ const images = [
 		name: "galaxy"
 	}
 ];
-const extraIcons = ['monster-can', 'shirt', 'hanger', 'chocolate-milk', 'car', 'steering-wheel'];
+const extraIcons = ['monster', 'shirt', 'hanger', 'chocolate-milk', 'car', 'steering-wheel'];
 extraIcons.forEach(name => images.push({id: '#' + name, name}));
 document.querySelectorAll('#main symbol').forEach(symbol => symbol.setAttribute('overflow', 'visible'));
 checkBox.addEventListener("change", checkStatus);
@@ -97,7 +97,8 @@ function init() {
 	}
 	i = 0;
 	s = 0;
-	for (let y = 0; y <= h; y += spacing) {
+	// Overscan the last row so animated artwork can reach the section's black border.
+	for (let y = 0; y <= h + spacing; y += spacing) {
 		if (y % (spacing * 2) === 0) {
 			for (let x = 0; x <= w; x += spacing) {
 				if (x % (spacing * 2) === 0) {
@@ -341,9 +342,9 @@ function stopAnimation() {
 // Small gestures keep the sourced line art alive without changing the pattern's size or placement.
 const extraMotion = [];
 for (const [name, rotation, x, y, duration] of [
-    ['monster-can', 5, 0, .4, 1.3], ['shirt', 3, 0, .2, 1.9],
+    ['shirt', 3, 0, .2, 1.9],
     ['hanger', 9, 0, 0, 2.2], ['chocolate-milk', 6, 0, .3, 1.8],
-    ['car', 0, 1.1, .15, .8], ['steering-wheel', 24, 0, 0, 2.1]
+    ['steering-wheel', 24, 0, 0, 2.1]
 ]) {
     const artwork = document.querySelector('symbol#' + name + ' > g');
     const motion = gsap.timeline({repeat: -1, yoyo: true});
@@ -351,3 +352,12 @@ for (const [name, rotation, x, y, duration] of [
         {rotation, x, y, duration, transformOrigin: '50% 50%', ease: 'sine.inOut'});
     extraMotion.push(motion);
 }
+
+// A continuous miniature drive: the road passes beneath rolling wheels.
+extraMotion.push(gsap.fromTo(document.querySelector('#car .car-road'),
+    {strokeDashoffset: 0}, {strokeDashoffset: -6, duration: .55, repeat: -1, ease: 'none'}));
+document.querySelectorAll('#car .car-wheel').forEach(wheel => {
+    extraMotion.push(gsap.to(wheel, {rotation: 360, transformOrigin: '50% 50%', duration: .85, repeat: -1, ease: 'none'}));
+});
+extraMotion.push(gsap.fromTo(document.querySelector('#car .car-chassis'),
+    {y: -.16}, {y: .16, duration: .16, repeat: -1, yoyo: true, ease: 'sine.inOut'}));

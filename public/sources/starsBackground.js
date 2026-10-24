@@ -27,10 +27,11 @@ let starsBackground__touchInput = false;
 starsBackground__generate();
 starsBackground__resize();
 starsBackground__step();
-window.onresize = starsBackground__resize;
+window.addEventListener('resize', starsBackground__resize);
 starsBackground__canvas.onmousemove = starsBackground__onMouseMove;
-starsBackground__canvas.ontouchmove = starsBackground__onTouchMove;
-starsBackground__canvas.ontouchend = starsBackground__onMouseLeave;
+starsBackground__canvas.addEventListener('touchmove', starsBackground__onTouchMove, {passive: true});
+starsBackground__canvas.addEventListener('touchend', starsBackground__onMouseLeave, {passive: true});
+starsBackground__canvas.addEventListener('touchcancel', starsBackground__onMouseLeave, {passive: true});
 document.onmouseleave = starsBackground__onMouseLeave;
 function starsBackground__generate() {
 	for (let i = 0; i < starsBackground__STAR_COUNT; i++) {
@@ -153,8 +154,8 @@ function starsBackground__onMouseMove(event) {
 }
 function starsBackground__onTouchMove(event) {
 	starsBackground__touchInput = true;
-	starsBackground__movePointer(event.touches[0].clientX, event.touches[0].clientY, true);
-	event.preventDefault();
+	const touch = event.touches[0];
+	if (touch) starsBackground__movePointer(touch.clientX, touch.clientY);
 }
 function starsBackground__onMouseLeave() {
 	starsBackground__pointerX = null;

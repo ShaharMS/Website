@@ -115,8 +115,8 @@ copied unchanged from the original source. The section 2 CSS only removes accide
 inherited transforms and allows animated symbols to overflow their own viewports.
 
 - Existing icon animations target artwork groups rather than SVG symbol viewports.
-- Six web-sourced icons were added: Monster can, shirt, hanger, chocolate milk,
-  car, and steering wheel, each with a small motion. Source artwork and attribution
+- Six web-sourced icons were added: Monster claw, shirt, hanger, chocolate milk,
+  car, and steering wheel. Source artwork and attribution
   are in `public/assets/icons/SOURCES.md`.
 - Clouds replenish every 2.5 seconds while below capacity, keeping the original
   cloud size, shape, opacity, and hover behavior.
@@ -138,8 +138,9 @@ The subsequently requested geometry adjustments are in `public/css/page-layout.c
   measures a hidden copy containing the complete typewriter text, waits for fonts,
   and responds to resizes. It retains 16px body text when possible and reduces only
   Little's copy when needed. The typewriter paragraph reserves its final height.
-- Vision fixture content dimensions increase from 60x40 to 90x60, and beam radius
-  increases by 60%. Their colors, shapes, and darkness are unchanged.
+- Vision fixture content dimensions increase from 60x40 to 90x60. The light pool
+  now scales with the highlighted text and heading: at least 12 text em or 2.75
+  heading em in radius. Its colors, shapes, and darkness are unchanged.
 - Narrow layouts wrap the existing sign/Vision content without adding new content.
 
 Before this adjustment, the touched sources were copied to the ignored
@@ -172,6 +173,17 @@ playground was also checked at phone, tablet, and desktop widths.
 
 `.gitattributes` preserves downloaded vendor bytes so Windows line-ending settings
 cannot invalidate script integrity hashes on checkout.
+
+### Input and icon refinements
+
+- The SVG wrapper has no inset clipping boundary; the section's black border is
+  the clipping edge. The pattern overscans its bottom row for moving artwork.
+- The Monster can is replaced by the original sourced claw mark, without lettering.
+  New line-art strokes increase from 0.65 to 0.85 SVG units.
+- The sourced car has an endless passing road, rolling wheels, and suspension motion.
+- Starfield touch listeners are passive and do not call `preventDefault`; the canvas
+  explicitly permits vertical panning and pinch zoom.
+- `npm test` runs the touch-scroll regression against the actual starfield script.
 
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth

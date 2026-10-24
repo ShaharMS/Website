@@ -49,11 +49,10 @@
 
 #section-2 #main-wrapper {
     position: absolute;
-
+    inset: 0;
     width: 100%;
-    height: calc(100% - 37px);
-
-    overflow: hidden;
+    height: 100%;
+    overflow: visible;
 }
 
 #section-2 input[type=checkbox] {

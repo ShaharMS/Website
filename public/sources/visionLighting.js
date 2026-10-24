@@ -15,7 +15,10 @@
         const restingY = visibleBottom > visibleTop ? (visibleTop + visibleBottom) / 2 : height / 2;
         const x = pointer ? Math.max(0, Math.min(width, pointer.x - bounds.left)) : width / 2;
         const y = pointer ? Math.max(0, Math.min(height, pointer.y - bounds.top)) : restingY;
-        const radius = (width + height) / 20;
+        // A reading-sized light pool, rather than a small cursor-sized cutout.
+        const textSize = parseFloat(getComputedStyle(section.querySelector('.highlight')).fontSize);
+        const headingSize = parseFloat(getComputedStyle(section.querySelector('h1')).fontSize);
+        const radius = Math.max(textSize * 12, headingSize * 2.75, Math.min(width, innerHeight) * .32);
         context.globalCompositeOperation = 'source-over';
         context.clearRect(0, 0, width, height);
         context.fillStyle = 'rgba(0, 0, 0, 0.7)';

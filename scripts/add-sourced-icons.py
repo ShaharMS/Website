@@ -12,27 +12,40 @@ def children(name):
     svg = ET.parse(assets / (name + '.svg')).getroot()
     return ''.join(ET.tostring(item, encoding='unicode') for item in svg)
 
-def symbol(name, art):
-    return f'<symbol id="{name}" viewBox="0 0 24 24" overflow="visible"><g class="icon-art" fill="none" stroke="#000" stroke-width=".65" stroke-linecap="round" stroke-linejoin="round">{art}</g></symbol>'
+def symbol(name, art, view_box='0 0 24 24'):
+    return f'<symbol id="{name}" viewBox="{view_box}" overflow="visible"><g class="icon-art" fill="none" stroke="#000" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round">{art}</g></symbol>'
 
-symbols = [symbol(name, children(name)) for name in ('shirt', 'hanger', 'car', 'steering-wheel')]
+symbols = [symbol(name, children(name)) for name in ('shirt', 'hanger', 'steering-wheel')]
+car = list(ET.parse(assets / 'car.svg').getroot())
+wheels = ''
+for index, wheel in enumerate(car[:2]):
+    center = 7 if index == 0 else 17
+    spokes = f'<path d="M{center - 1.25} 17h2.5M{center} 15.75v2.5" stroke-width=".5"/>'
+    wheels += '<g class="car-wheel">' + ET.tostring(wheel, encoding='unicode') + spokes + '</g>'
+chassis = '<g class="car-chassis">' + ''.join(ET.tostring(part, encoding='unicode') for part in car[2:]) + '</g>'
+road = '<path class="car-road" d="M1 22h22" stroke-dasharray="3 3"/>'
+symbols.append(symbol('car', road + chassis + wheels))
 logo = ET.parse(assets / 'monster-logo-alt.svg').getroot()
 claw = next(item for item in logo if item.get('fill') == '#0f0')
 claw.set('fill', '#000')
 claw.set('stroke', 'none')
-monster = '<g transform="translate(2.4 -1.5) scale(.8 1.08)">' + children('cylinder') + '</g><svg class="can-label" x="8" y="8" width="8" height="11" viewBox="60 70 3500 5700">' + ET.tostring(claw, encoding='unicode') + '</svg>'
-symbols.append(symbol('monster-can', monster))
+# The downloaded green compound path also contains lettering to the right of the
+# claw. Isolate the original mark without redrawing or importing the wordmark.
+claw_art = '<defs><clipPath id="monster-claw-only"><rect x="60" y="70" width="3500" height="5700" fill="#fff" stroke="none"/></clipPath></defs><g clip-path="url(#monster-claw-only)">' + ET.tostring(claw, encoding='unicode') + '</g>'
+symbols.append(symbol('monster', claw_art, '60 70 3500 5700'))
 milk = ET.parse(assets / 'milk.svg').getroot()
 body = ''.join(ET.tostring(item, encoding='unicode') for item in list(milk)[:2])
-chocolate = '<g class="chocolate-label" transform="translate(8.4 10.5) scale(.3)" stroke-width="1.6">' + children('chocolate') + '</g>'
+chocolate = '<g class="chocolate-label" transform="translate(8.4 10.5) scale(.3)" stroke-width="2.2">' + children('chocolate') + '</g>'
 symbols.append(symbol('chocolate-milk', body + chocolate))
 
 path = root / 'public/index.html'
 text = path.read_text(encoding='utf-8')
-for name in ('shirt', 'hanger', 'car', 'steering-wheel', 'monster-can', 'chocolate-milk'):
+for name in ('shirt', 'hanger', 'car', 'steering-wheel', 'monster', 'monster-can', 'chocolate-milk'):
     text = re.sub(r'<symbol id="' + name + r'".*?</symbol>', '', text, flags=re.S)
 text = text.replace('\n\t\t<!-- Web-sourced artwork; see assets/icons/SOURCES.md. -->\n', '')
 marker = '\n\t\t</svg>'
+prefix, suffix = text.split(marker, 1)
+text = prefix.rstrip() + '\n' + marker + suffix
 text = text.replace(marker, '\n\t\t<!-- Web-sourced artwork; see assets/icons/SOURCES.md. -->\n' + '\n'.join(symbols) + marker, 1)
 path.write_text(text, encoding='utf-8')
 
@@ -41,4 +54,4 @@ for unused in ('beer.svg', 'can.svg', 'monster-logo.svg', 'soda-can.svg', 'milk-
     path = assets / unused
     if path.exists():
         path.unlink()
-print('Added six sourced symbols: Monster can, shirt, hanger, chocolate milk, car, steering wheel')
+print('Updated six sourced symbols: Monster logo, shirt, hanger, chocolate milk, driving car, steering wheel')
