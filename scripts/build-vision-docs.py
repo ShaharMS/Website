@@ -51,6 +51,7 @@ for version, label in VERSIONS:
             ('https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css', '/vendor/664a30dc44c5-font-awesome.css')]:
             text = text.replace(remote, local)
         text = re.sub(r'https?://(?:spacebubble\.io|spacebubble-io\.pages\.dev)/vision/docs/', '/vision/docs/', text)
+        text = re.sub(r'((?:src|href)="\.\.?/)/+', r'\1', text)
         text = text.replace('kernalRadius', 'kernelRadius').replace('sigma%20=%201%47%20fast', 'sigma%20=%201,%20fast')
         # Older comments link from Vision.html as if it were at the package root.
         def repair(match):
