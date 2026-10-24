@@ -30,3 +30,6 @@ The car retains the sourced Tabler body and wheels, with simple animated spokes 
 passing road markings and road edges added for the requested driving animation.
 Monster Energy's logo is a trademark of its respective owner.
 The unmodified download is retained as monster-logo-alt.svg for source traceability.
+
+Scenery butterfly: https://github.com/tabler/tabler-icons/blob/main/icons/outline/butterfly.svg
+(MIT, same Tabler license above). Its original silhouette replaces the simple wing blobs.

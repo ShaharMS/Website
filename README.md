@@ -191,18 +191,22 @@ cannot invalidate script integrity hashes on checkout.
 
 ### Section, light and scenery geometry
 
-- Every section occupies 100dvh, with the existing 16px black separator painted
-  outside it and spaced between sections. Longer phone/tablet copy scrolls inside
-  its section, retaining readable type and access to all links.
+- Sections occupy 100dvh, with the existing 16px black separator painted outside
+  and spaced between sections. On phones/tablets, Little and Vision grow naturally
+  beyond that minimum height so all copy and links use normal document scrolling.
+  Neither section creates a separate scroll container.
 - Vision beams widen from the actual lens edges and continue beyond their target;
   fixture rotation and canvas geometry share coordinates. Pointer and keyboard
   focus aim the lamps, with passive scroll tracking and readable touch layouts.
-- The sign's shorter posts meet the raised hill. Three additional copies of the
-  original tree, a distant picnic pair and occasional butterflies use the existing
-  scenery palette. Decorative additions are noninteractive and hidden from AT.
-- Airplane passes alternate directions. Only the aircraft mirrors; banner text
-  stays readable and switches from Welcome / to my / Website! to Enjoy / your /
-  Stay :D. `npm test` verifies complete direction cycles and banner placement.
+- The sign has a compact, content-sized board (up to 440px wide) with readable
+  text and aligned posts on the raised hill. Additional original tree shapes,
+  a picnic pair, a small bench, footpath, flowers and occasional sourced Tabler
+  butterflies use the existing scenery palette. Decorations are noninteractive
+  and hidden from AT.
+- The airplane starts right-to-left with Welcome / to my / Website!, then returns
+  left-to-right with Enjoy / your / Stay :D. Only the aircraft mirrors, keeping its
+  trailing banner readable. The original aircraft SVG now has a spinning propeller
+  projected along its nose axis. `npm test` verifies both complete flight cycles.
 
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth

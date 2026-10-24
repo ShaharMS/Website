@@ -26,12 +26,10 @@
     #section-3 .content ul { padding-right: 16px; }
 
     #section-4, #section-6 {
-        height: 100vh;
-        height: 100dvh;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        overscroll-behavior-y: auto;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: clip;
     }
     #section-4 {
         --little-flow-layout: 1;

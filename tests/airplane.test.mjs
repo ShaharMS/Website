@@ -21,9 +21,9 @@ test('the airplane alternates complete passes with a readable trailing banner', 
     const context = vm.createContext({performance: {now: () => 0},
         requestAnimationFrame: frame => frames.push(frame), plane});
     vm.runInContext(source.slice(0, source.indexOf('let planes')) + '\nrunPlane(plane, 30);', context);
-    assert.equal(plane.dataset.direction, 'right');
-    assert.equal(plane.style.flexDirection, 'row-reverse');
-    assert.equal(graphic.style.transform, 'scaleX(-1)');
+    assert.equal(plane.dataset.direction, 'left');
+    assert.equal(plane.style.flexDirection, 'row');
+    assert.equal(graphic.style.transform, 'none');
     assert.match(parts.map(p => p.textContent).join(' '), /Welcome to my Website!/);
     let now = 0;
     const until = direction => {
@@ -34,12 +34,12 @@ test('the airplane alternates complete passes with a readable trailing banner', 
         }
         assert.fail('Plane did not complete its pass');
     };
-    until('left');
-    assert.equal(plane.style.flexDirection, 'row');
-    assert.equal(graphic.style.transform, 'none');
-    assert.ok(Number.parseFloat(plane.style.left) >= 800, 'return starts offscreen');
-    assert.match(parts.map(p => p.textContent).join(' '), /Enjoy your Stay :D/);
     until('right');
-    assert.ok(Number.parseFloat(plane.style.left) <= -300, 'next pass starts offscreen');
+    assert.equal(plane.style.flexDirection, 'row-reverse');
+    assert.equal(graphic.style.transform, 'scaleX(-1)');
+    assert.ok(Number.parseFloat(plane.style.left) <= -300, 'return starts offscreen');
+    assert.match(parts.map(p => p.textContent).join(' '), /Enjoy your Stay :D/);
+    until('left');
+    assert.ok(Number.parseFloat(plane.style.left) >= 800, 'next pass starts offscreen');
     assert.match(parts.map(p => p.textContent).join(' '), /Welcome to my Website!/);
 });

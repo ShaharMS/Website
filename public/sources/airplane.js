@@ -9,8 +9,8 @@ const runPlane = (plane, velocity) => {
     const section = plane.closest('section');
     const graphic = plane.querySelector('img');
     const parts = plane.querySelectorAll('.title span');
-    let direction = 1;
-    let x = -plane.getBoundingClientRect().width - 40;
+    let direction = -1;
+    let x = section.clientWidth + 40;
     let previous = performance.now();
     plane.style.right = 'auto';
     plane.style.transformOrigin = 'left center';
@@ -19,7 +19,7 @@ const runPlane = (plane, velocity) => {
         // Only flip the aircraft: the trailing banner always reads normally.
         plane.style.flexDirection = direction === 1 ? 'row-reverse' : 'row';
         graphic.style.transform = direction === 1 ? 'scaleX(-1)' : 'none';
-        const words = direction === 1 ? [' Welcome', 'to my', 'Website!  '] : [' Enjoy', 'your', 'Stay :D  '];
+        const words = direction === -1 ? [' Welcome', 'to my', 'Website!  '] : [' Enjoy', 'your', 'Stay :D  '];
         parts.forEach((part, index) => { part.textContent = words[index]; });
     }
     orient();
@@ -55,7 +55,7 @@ for (const plane of planes) {
 	const stop = parseFloat(plane.getAttribute("distance") ?? -1);
 
 	let graphic = document.createElement("img");
-	graphic.src = "../assets/plane-demo.svg";
+	graphic.src = "./assets/plane-demo.svg?v=20261024-propeller";
 	graphic.style.padding = "0";
 	graphic.style.margin = "0";
 	// remove all children
