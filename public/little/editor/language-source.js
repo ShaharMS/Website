@@ -5,7 +5,7 @@ import {keywordDefinitions, supportedFields} from './keywords.mjs';
 const rules = grammar.repository;
 const words = name => rules[name].patterns[0].match.match(/\(([^()]+)\)/)[1].split('|');
 const number = new RegExp('^(?:' + rules.numbers.patterns[0].match + ')');
-export function createLanguage(keywords, profile='classic') {
+export function createLanguage(keywords, profile='functional') {
     const styles = new Map();
     for (const [group, style] of [['keywords','keyword'],['keywords2','definitionKeyword'],['types','typeName']]) {
         words(group).forEach(word => styles.set(word, style));
@@ -26,7 +26,7 @@ export function createLanguage(keywords, profile='classic') {
             if (!/^[\p{L}_]/u.test(keywords.PROPERTY_ACCESS_SIGN) && stream.match(keywords.PROPERTY_ACCESS_SIGN)) return 'operator';
             if (stream.match(number)) return 'number';
             for(const sign of operators) if(stream.match(sign)) return 'operator';
-            const word = stream.match(/[\p{L}_][\p{L}\p{N}_]*/u);
+            const word = stream.match(/[\p{L}_][\p{L}\p{N}\p{M}_]*/u);
             if (word) return (stream.string.slice(0,stream.start).trimEnd().endsWith(keywords.PROPERTY_ACCESS_SIGN) ? members.get(word[0]) : styles.get(word[0])) || (/^\s*\(/.test(stream.string.slice(stream.pos)) ? 'variableName.function' : 'variableName');
             if (stream.match(/[+*=<>!&|%\/-]+/)) return 'operator';
             stream.next(); return null;

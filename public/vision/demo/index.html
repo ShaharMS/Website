@@ -1,27 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="icon" href="data:,">
-
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vision Haxelib Demo</title>
-</head>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Vision Demo | Shahar</title><link rel="stylesheet" href="./demo.css"></head>
 <body>
-    <div style="display: flex; flex-direction: row; ">
-        <div>
-            Before:
-            <img src="/vision/docs/valve-original.png" alt="Image of Valve">
-        </div>
-        <div>
-            <select name="Effect Name" id="effects"></select>
-        </div>
-        <div>
-            After:
-            <img src="/vision/docs/valve-original.png" alt="Image of Valve">
-        </div>
-    </div>
+<header class="file-bar"><strong>Vision</strong><label class="button">Open image<input id="open-image" type="file" accept="image/*" hidden></label><label class="button">Open reference<input id="open-reference" type="file" accept="image/*" hidden></label><button id="new-image">Blank image</button><select id="sample" aria-label="Sample image"><option value="chart">Test chart</option><option value="photo">Valve sample</option></select><select id="working-size" aria-label="Working image limit"><option value="512">512 px</option><option value="1024" selected>1024 px</option><option value="2048">2048 px</option><option value="0">Full size</option></select><span class="spacer"></span><select id="save-format" aria-label="Save format"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select><button id="save">Save image</button></header>
+<main class="workspace">
+ <aside class="controls">
+  <label>Operation filter<input id="operation-filter" type="search" placeholder="Find an operation"></label>
+  <label>Operation<select id="operation"></select></label>
+  <a id="api-reference" href="../" target="_blank" rel="noopener"><code id="api-call"></code></a>
+  <form id="parameters"></form>
+  <label>Apply to<select id="base"><option value="current">Current result</option><option value="original">Original source</option></select></label>
+  <div class="actions"><button id="apply">Apply</button><button id="stop" disabled>Stop</button><button id="undo" disabled>Undo</button><button id="reset">Reset</button></div>
+  <hr>
+  <label>Draw on result<select id="draw-tool"><option value="view">View / scroll</option><option value="brush">Brush</option><option value="drawLine">Line</option><option value="drawRect">Rectangle</option><option value="fillRect">Filled rectangle</option><option value="drawCircle">Circle</option><option value="fillCircle">Filled circle</option><option value="drawEllipse">Ellipse</option><option value="fillEllipse">Filled ellipse</option><option value="fillColor">Flood fill</option><option value="erase">Erase</option></select></label>
+  <div class="two"><label>Color<input id="draw-color" type="color" value="#ff5555"></label><label>Brush radius<input id="brush-radius" type="number" min="1" max="50" value="3"></label></div>
+  <hr>
+  <p class="note">Images stay in your browser. Operations run through Vision 2.2.0; drawing uses Image.</p>
+  <details><summary>Operation data</summary><pre id="metadata">{}</pre></details>
+  <ol id="history" aria-label="Operation history"></ol>
+ </aside>
+ <section class="images" aria-label="Image comparison">
+  <div class="image-toolbar"><span id="image-info"></span><label>Zoom<select id="zoom"><option value="fit">Fit</option><option value="1">100%</option><option value="2">200%</option></select></label></div>
+  <div class="comparison"><figure><figcaption>Source <span id="source-name"></span></figcaption><div class="canvas-scroll"><canvas id="source"></canvas></div></figure><figure><figcaption>Result <span id="result-info"></span></figcaption><div class="canvas-scroll"><canvas id="result" data-tool="view" aria-label="Editable result image"></canvas></div></figure></div>
+  <p id="status" role="status">Loading Vision…</p><p id="reference-info">Reference: original source</p>
+ </section>
+</main><script type="module" src="./demo.mjs"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"3d9e2f7ead2a4e07ad8644dfcd7ce66f"}'></script>
-</body>
-</html>
+</body></html>

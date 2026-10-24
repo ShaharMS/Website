@@ -32,6 +32,6 @@ class BrowserRuntime {
    final ast = PrettyPrinter.printInterpreterAst(tokens);
    Interpreter.run(tokens);
    return {output:Little.runtime.stdout.output,error:Little.runtime.errorThrown,ast:ast};
-  } catch(e:Dynamic) {return {output:Little.runtime.stdout.output,error:true,message:Std.string(e)};}
+  } catch(e:Dynamic) {return {output:Little.runtime.stdout.output,error:true,message:Little.runtime.errorThrown && Little.runtime.stdout.output.length>0 ? null : Std.string(e)};}
  }
 }

@@ -13,8 +13,10 @@ the description on narrow layouts, and uses 16px code text on small screens.
 The same bundled Little interpreter used by /little/demo is retained. The build
 replaces only its DOM-demo entrypoint with a worker API and plain output formatter.
 Each execution gets a fresh worker; Stop and the three-second timeout terminate
-that worker. Output is capped at 100,000 characters. Classic remains the default; an explicitly selected functional-branch preview
-is also bundled. See tools/little-editor/functional/README.md for pins and limits.
+that worker. Output is capped at 100,000 characters. Functional is now the default for both entry points. Loops, conditionals, object/array methods, reactive conditions,
+and raw memory operations have runtime regressions. Classic is an optional
+compatibility profile. The JS condition wildcard-map bug and stdlib signature
+alias handling are patched reproducibly. See tools/little-editor/functional/README.md for pins and limits.
 
 Syntax highlighting adapts the grammar from ShaharMS/Little:
 - Branch: branch/functional-programming

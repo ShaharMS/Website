@@ -20,7 +20,7 @@ export function keywordChanges(source, before, after, definitions) {
         }
         const number = source.slice(i).match(/^\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/);
         if (number) {i += number[0].length; add('number', start); continue;}
-        const word = source.slice(i).match(/^[\p{L}_][\p{L}\p{N}_]*/u);
+        const word = source.slice(i).match(/^[\p{L}_][\p{L}\p{N}\p{M}_]*/u);
         if (word) {i += word[0].length; add('word', start); continue;}
         const signs = source.slice(i).match(/^[.+*=<>!&|%\/:?~-]+/);
         i += signs ? signs[0].length : 1;

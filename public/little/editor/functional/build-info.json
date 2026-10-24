@@ -14,5 +14,12 @@
     ]
   },
   "compiler": "4.3.7",
-  "settings": 87
+  "settings": 87,
+  "compatibilityPatches": [
+    "js-condition-wildcard-map",
+    "stdlib-signature-keyword-aliases",
+    "memory-allocation-zero-fill",
+    "memory-byte-array-writes",
+    "object-conversion-fields"
+  ]
 }

@@ -33,14 +33,14 @@ export const functionalFieldNames = new Set(functionalFields.map(row=>row[0]));
 const combined = new Map([...originalDefinitions,...classicExtra].map(row=>[row[0],row]));
 for (const row of functionalFields) if (!combined.has(row[0])) combined.set(row[0],row);
 export const keywordDefinitions = [...combined.values()].map(row=>[...row.slice(0,4), row[4] || (row[3] === 'operator' ? 'operator' : 'global')]);
-export function supportedFields(profile='classic') {return profile === 'functional' ? functionalFieldNames : classicFieldNames;}
+export function supportedFields(profile='functional') {return profile === 'functional' ? functionalFieldNames : classicFieldNames;}
 export const defaultKeywords = Object.fromEntries(keywordDefinitions.map(([key, value]) => [key, value]));
 export function normalizeKeywords(overrides = {}, definitions = keywordDefinitions) {
     const values = {};
     for (const [key, fallback, label, kind, scope='global'] of definitions) {
         const value = String(overrides[key] ?? '').trim() || fallback;
         const operator = kind === 'operator';
-        if (operator ? /[\s\p{L}\p{N}_"(){}\[\];,]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}_]*$/u.test(value)) {
+        if (operator ? /[\s\p{L}\p{N}_"(){}\[\];,]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}\p{M}_]*$/u.test(value)) {
             return {values, error: `${label}: use ${operator ? 'an operator symbol without spaces' : 'one word without spaces'}.`, field: key};
         }
         if (scope === 'global') {
@@ -68,14 +68,20 @@ export function exampleForKeyword(field, k) {
         PRINT_FUNCTION_NAME: `${print}("Hello!")`
     };
     if (samples[field]) return samples[field];
+    if (field==='TYPE_ARRAY') return `${define} items = ${k.TYPE_ARRAY}${k.PROPERTY_ACCESS_SIGN}${k.INSTANTIATE_FUNCTION_NAME}(${k.TYPE_INT}, 3)`;
+    if (field==='TYPE_OBJECT') return `${define} object = ${k.TYPE_OBJECT}${k.PROPERTY_ACCESS_SIGN}${k.INSTANTIATE_FUNCTION_NAME}()`;
+    if (field==='TYPE_MEMORY') return `${print}(${k.TYPE_MEMORY}${k.PROPERTY_ACCESS_SIGN}${k.STDLIB__MEMORY_size})`;
+    if (['TYPE_FUNCTION','TYPE_CONDITION','TYPE_UNKNOWN','TYPE_VOID'].includes(field)) return `${define} value ${as} ${k[field]}`;
+    if (['CONDITION__AFTER','CONDITION__WHENEVER'].includes(field)) return `${define} value = 0\n${k[field]} (value > 1) { ${print}(value) }\nvalue = 2`;
+
     if (field === 'CONDITION__WHILE_LOOP') return `${define} i = 0\n${k[field]} (i < 3) { ${print}(i)\n i = i + 1 }`;
     if (['AND_SIGN','OR_SIGN','XOR_SIGN'].includes(field)) return `${print}(${k.TRUE_VALUE} ${k[field]} ${k.FALSE_VALUE})`;
     if (field === 'FACTORIAL_SIGN') return `${print}(3${k[field]})`;
     if (field === 'NOT_SIGN') return `${print}(${k[field]}${k.TRUE_VALUE})`;
     if (['NEGATE_SIGN','POSITIVE_SIGN','SQRT_SIGN'].includes(field)) return `${print}(${k[field]}9)`;
     if (field.startsWith('STDLIB__')) {
-        const group=field.split('__')[1], name=field.split('__')[2];
-        const args={toLowerCase:'()',toUpperCase:'()',trim:'()',substring:'(0, 2)',charAt:'(0)',split:'(",")',replace:'("a", "b")',remove:'("a")',contains:'("a")',indexOf:'("a")',lastIndexOf:'("a")',startsWith:'("a")',endsWith:'("a")',fromCharCode:'(65)',get:'(0)',set:'(0, 7)',allocate:'(16)',free:'(address)',read:'(address, 4)',write:'(address, bytes)'};
+        const [group,...member]=field.slice('STDLIB__'.length).split('_'), name=member.join('_');
+        const args={toLowerCase:'()',toUpperCase:'()',trim:'()',substring:'(0, 2)',charAt:'(0)',split:'(",")',replace:'("a", "b")',remove:'("a")',contains:'("a")',indexOf:'("a")',lastIndexOf:'("a")',startsWith:'("a")',endsWith:'("a")',fromCharCode:'(65)',get:'(0)',set:'(0, 7)',allocate:'(16)',free:'(address, 4)',read:`(address, ${k.TYPE_INT})`,write:'(address, bytes)'};
         return `${group==='STRING'?(name==='fromCharCode'?k.TYPE_STRING:'"hello"'):group==='ARRAY'?'items':group==='MEMORY'?k.TYPE_MEMORY:'8.5'}${k.PROPERTY_ACCESS_SIGN}${k[field]}${args[name]||''}`;
     }
     if (field==='INSTANTIATE_FUNCTION_NAME') return `${k.TYPE_ARRAY}${k.PROPERTY_ACCESS_SIGN}${k[field]}(${k.TYPE_INT}, 3)`;

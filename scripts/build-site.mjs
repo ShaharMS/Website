@@ -17,6 +17,7 @@ export async function buildSite(source, destination) {
     const files=(await filesUnder(source)).filter(name=>!name.startsWith('_assets/'));
     const contents=new Map(await Promise.all(files.map(async name=>[name,await readFile(path.join(source,name))])));
     const digest=createHash('sha256');
+    digest.update(await readFile(new URL(import.meta.url))); // Packaging changes must also invalidate immutable assets.
     for(const [name,bytes] of contents) digest.update(name).update('\0').update(bytes).update('\0');
     const version=digest.digest('hex').slice(0,16);
     destination=destination||await mkdtemp(path.join(os.tmpdir(),'shahar-site-build-'));
@@ -64,7 +65,7 @@ export async function buildSite(source, destination) {
     const directories=[...new Set(files.filter(name=>name.includes('/')).map(name=>name.split('/')[0]))];
     const paths=['/','/*.html',...directories.map(name=>'/'+name+'/*'),...files.filter(name=>!name.includes('/')&&assetPattern.test(name)).map(name=>'/'+name)];
     const cacheHeaders=paths.map(url=>url+'\n  Cache-Control: no-cache, must-revalidate').join('\n');
-    outputs.set('_headers',Buffer.from(headers+'\n'+cacheHeaders+'\n/_assets/*\n  Cache-Control: public, max-age=31536000, immutable\n'));
+    outputs.set('_headers',Buffer.from(headers+'\n'+cacheHeaders+'\n/*.mjs\n  Content-Type: application/javascript\n/_assets/*\n  Cache-Control: public, max-age=31536000, immutable\n'));
     outputs.set('_asset-manifest.json',Buffer.from(JSON.stringify({version,assets:Object.fromEntries(assets)},null,2)));
     for(const [name,bytes] of outputs) {const file=path.join(destination,name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,bytes);}
     return {directory:destination,version,assets:assets.size};

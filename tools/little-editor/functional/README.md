@@ -1,4 +1,4 @@
-# Functional-runtime preview
+# Functional browser runtime
 
 The compiled runtime and its 87 String-valued KeywordConfig fields come from
 ShaharMS/Little branch/functional-programming at
@@ -18,14 +18,18 @@ It does not install or change global haxelib libraries. The second command
 bundles the editor and rebuilds the classic adapter. Both runtime files are
 checked in, so normal site deployment needs neither Haxe nor source downloads.
 
-The default profile remains Classic (45 supported controls). The optional
-functional profile exposes 87 settings including arrays, objects, memory APIs,
-conditions, operators, casts and standard-library names. It is explicitly a
-preview: upstream behavior is not entirely compatible with the bundled classic
-engine, including some loop behavior. It is not silently substituted for classic.
-Verified preview examples include Array.create/get/set, string methods, renamed
-standard-library methods, custom type/constructor names and basic arithmetic.
-The worker timeout and output cap apply to both engines.
+Functional is the default in both the homepage preview and Try Online, exposing
+all 87 String-valued configuration fields. Classic remains an optional compatibility
+profile. The JS-target condition bug is fixed by the reproducible patch in
+patch-runtime.mjs: null wildcard keys in Haxe ObjectMap become empty-array wildcard
+keys, and condition matching recognizes that representation. This repairs loops,
+for, if/else, and return propagation without replacing the language with a shim.
+Additional compatibility patches zero-fill raw allocations, repair numeric
+byte-array writes and preserve object field names during conversion. Regression
+tests execute compact expressions, while/for, if/else, function returns, after/
+whenever watchers, object fields, arrays, methods, memory round-trips, aliases and
+parser failures. The timeout/output cap
+remain active for runaway programs.
 
 The adapter keeps the upstream engine intact except for a plain output formatter
 and a preparation compatibility shim: upstream standard-library signature strings

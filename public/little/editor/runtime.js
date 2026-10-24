@@ -8553,7 +8553,7 @@ var normalizeEditorKeywords = function normalizeKeywords(overrides = {}, definit
     for (const [key, fallback, label, kind, scope='global'] of definitions) {
         const value = String(overrides[key] ?? '').trim() || fallback;
         const operator = kind === 'operator';
-        if (operator ? /[\s\p{L}\p{N}_"(){}\[\];,]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}_]*$/u.test(value)) {
+        if (operator ? /[\s\p{L}\p{N}_"(){}\[\];,]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}\p{M}_]*$/u.test(value)) {
             return {values, error: `${label}: use ${operator ? 'an operator symbol without spaces' : 'one word without spaces'}.`, field: key};
         }
         if (scope === 'global') {

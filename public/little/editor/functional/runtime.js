@@ -62,7 +62,7 @@ BrowserRuntime.run = function(code,overrides) {
 		return { output : little_Little.runtime.stdout.output, error : little_Little.runtime.errorThrown, ast : ast};
 	} catch( _g ) {
 		var e = haxe_Exception.caught(_g).unwrap();
-		return { output : little_Little.runtime.stdout.output, error : true, message : Std.string(e)};
+		return { output : little_Little.runtime.stdout.output, error : true, message : little_Little.runtime.errorThrown && little_Little.runtime.stdout.output.length > 0 ? null : Std.string(e)};
 	}
 };
 var EReg = function(r,opt) {
@@ -4032,7 +4032,7 @@ little_interpreter_memory_Storage.prototype = {
 		var _g1 = size;
 		while(_g < _g1) {
 			var j = _g++;
-			this.storage.b[i + j] = j > b.length ? 0 : b.b[j];
+			this.storage.b[i + j] = b == null || j >= b.length ? 0 : b.b[j];
 			this.reserved.b[i + j] = 1;
 		}
 		return little_interpreter_memory_MemoryPointer.fromInt(i);
@@ -6529,7 +6529,7 @@ little_tools_Plugins.prototype = {
 		var object = ($_=this.memory.externs,$_.createPathFor.apply($_,[this.memory.externs.globalProperties].concat(conditionPath)));
 		object.getter = function(_,_1) {
 			var _g = new haxe_ds_ObjectMap();
-			_g.set(null,little_interpreter_InterpTokens.Block([little_interpreter_InterpTokens.HaxeExtern(function() {
+			_g.set([],little_interpreter_InterpTokens.Block([little_interpreter_InterpTokens.HaxeExtern(function() {
 				return callback(little_interpreter_Interpreter.convert.apply(null,little_parser_Parser.parse(little_lexer_Lexer.lex(Type.enumParameters(_gthis.memory.read(little_Little.keywords.CONDITION_PATTERN_PARAMETER_NAME).objectValue)[0]))).slice(1),little_interpreter_Interpreter.convert.apply(null,little_parser_Parser.parse(little_lexer_Lexer.lex(Type.enumParameters(_gthis.memory.read(little_Little.keywords.CONDITION_BODY_PARAMETER_NAME).objectValue)[0]))));
 			})],null));
 			return { objectValue : little_interpreter_InterpTokens.ConditionCode(_g), objectAddress : _gthis.memory.constants.EXTERN};
@@ -7541,7 +7541,7 @@ little_interpreter_Interpreter.condition = function(name,pattern,body) {
 		var _g_key = key;
 		var _pattern = _g_key;
 		var caller = _g_value;
-		if(_pattern == null || fit(givenPattern,_pattern)) {
+		if(_pattern == null || _pattern.length == 0 || fit(givenPattern,_pattern)) {
 			var conditionRunner = Type.enumParameters(caller)[0];
 			var params = [little_interpreter_InterpTokens.Write([little_interpreter_InterpTokens.VariableDeclaration(little_interpreter_InterpTokens.Identifier(little_Little.keywords.CONDITION_PATTERN_PARAMETER_NAME),little_interpreter_InterpTokens.Identifier(little_Little.keywords.TYPE_STRING),null)],little_interpreter_InterpTokens.Characters(patternString)),little_interpreter_InterpTokens.Write([little_interpreter_InterpTokens.VariableDeclaration(little_interpreter_InterpTokens.Identifier(little_Little.keywords.CONDITION_BODY_PARAMETER_NAME),little_interpreter_InterpTokens.Identifier(little_Little.keywords.TYPE_STRING),null)],little_interpreter_InterpTokens.Characters(bodyString))];
 			var _g = 0;
@@ -11424,7 +11424,7 @@ little_tools_Conversion.toHaxeValue = function(val) {
 			if(key1 == little_Little.keywords.TYPE_CAST_FUNCTION_PREFIX + little_Little.keywords.TYPE_STRING) {
 				continue;
 			}
-			obj.key = little_tools_Conversion.toHaxeValue(value.value);
+			obj[key1] = little_tools_Conversion.toHaxeValue(value.value);
 		}
 		return obj;
 	case 27:
@@ -11865,10 +11865,10 @@ little_tools_PrepareRun.addTypes = function() {
 		return little_tools_Extensions.extractValue(little_interpreter_memory_MemoryPointer.fromInt(Type.enumParameters(params[0])[0]),little_tools_Conversion.toHaxeValue(params[1]));
 	};
 	_g.h["static " + little_Little.keywords.TYPE_DYNAMIC + " " + little_Little.keywords.STDLIB__MEMORY_write + " (define address as " + little_Little.keywords.TYPE_INT + ", define bytes as " + little_Little.keywords.TYPE_ARRAY + ")"] = function(params) {
-		var arrayRef = little_tools_Conversion.toHaxeValue(params[1]).parameter(0);
-		var arrayPointer = little_interpreter_memory_MemoryPointer.fromInt(arrayRef.get("__p").value.parameter(0));
-		var arrayType = arrayRef.get("__t").value.parameter(0);
-		if(little_interpreter_memory_MemoryPointer.fromInt(arrayType) != little_Little.memory.constants.INT || little_interpreter_memory_MemoryPointer.fromInt(arrayType) != little_Little.memory.constants.FLOAT || little_interpreter_memory_MemoryPointer.fromInt(arrayType) != little_Little.memory.constants.BOOL) {
+		var arrayRef = Type.enumParameters(params[1])[0];
+		var arrayPointer = little_interpreter_memory_MemoryPointer.fromInt(Type.enumParameters(arrayRef.h["__p"].value)[0]);
+		var arrayType = Type.enumParameters(arrayRef.h["__t"].value)[0];
+		if(arrayType != little_Little.memory.constants.INT && arrayType != little_Little.memory.constants.FLOAT && arrayType != little_Little.memory.constants.BOOL) {
 			little_Little.runtime.throwError(little_interpreter_InterpTokens.ErrorMessage("" + little_Little.keywords.STDLIB__MEMORY_write + " only supports  " + little_Little.keywords.TYPE_INT + ", " + little_Little.keywords.TYPE_FLOAT + " or " + little_Little.keywords.TYPE_BOOLEAN + " arrays, as they're the only ones able to meaningfully represent bytes."));
 		}
 		var array = little_Little.memory.storage.readArray(arrayPointer);
@@ -11880,7 +11880,8 @@ little_tools_PrepareRun.addTypes = function() {
 		var _g1 = array.length;
 		while(_g < _g1) {
 			var i = _g++;
-			byteArray.b[i] = array[i].b[i];
+			var v = arrayType == little_Little.memory.constants.INT ? array[i].getInt32(0) : arrayType == little_Little.memory.constants.FLOAT ? array[i].getDouble(0) | 0 : array[i].b[0];
+			byteArray.b[i] = v;
 		}
 		little_Little.memory.storage.setBytes(little_tools_Conversion.toHaxeValue(params[0]),byteArray);
 		return little_interpreter_InterpTokens.NullValue;

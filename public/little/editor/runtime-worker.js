@@ -1,7 +1,7 @@
 // Fresh interpreter per run; Stop and timeout terminate this worker.
 let loadedProfile;
 self.onmessage = event => {
-    const {code, keywords, profile='classic'} = event.data;
+    const {code, keywords, profile='functional'} = event.data;
     if(!loadedProfile) {
         importScripts(profile==='functional' ? './functional/runtime.js' : './runtime.js');
         loadedProfile=profile;

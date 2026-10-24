@@ -1,3 +1,4 @@
+import {patchLittleRuntime} from './functional/patch-runtime.mjs';
 import {execFileSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,access} from 'node:fs/promises';
 import path from 'node:path';
@@ -20,6 +21,7 @@ for(const [name,[repo,ref]] of Object.entries(pins)) {
  execFileSync('git',['-C',folder,'checkout','--detach',ref],{stdio:'inherit'});
  sources[name]=folder;
 }
+await patchLittleRuntime(sources.little);
 const output=path.join(root,'public/little/editor/functional');await mkdir(output,{recursive:true});
 execFileSync('haxe',['-cp',path.join(sources.little,'src'),'-cp',path.join(sources.vision,'src'),'-cp',path.join(sources.hash,'src'),'-cp',path.join(root,'tools/little-editor/functional'),'-main','BrowserRuntime','-js',path.join(output,'runtime.js')],{stdio:'inherit'});
 const config=await readFile(path.join(sources.little,'src/little/KeywordConfig.hx'),'utf8');const fields=[];
@@ -36,5 +38,5 @@ for(const [name,folder]of Object.entries(sources)) {
  if(!license) throw new Error('Missing '+name+' license');notices+='\n'+name+'\n'+license+'\n';
 }
 await writeFile(path.join(output,'LICENSES.txt'),notices.trimEnd()+'\n');
-await writeFile(path.join(output,'build-info.json'),JSON.stringify({sources:pins,compiler:execFileSync('haxe',['--version'],{encoding:'utf8'}).trim(),settings:fields.length},null,2)+'\n');
-console.log('Built functional preview with '+fields.length+' configurable fields.');
+await writeFile(path.join(output,'build-info.json'),JSON.stringify({sources:pins,compiler:execFileSync('haxe',['--version'],{encoding:'utf8'}).trim(),settings:fields.length,compatibilityPatches:['js-condition-wildcard-map','stdlib-signature-keyword-aliases','memory-allocation-zero-fill','memory-byte-array-writes','object-conversion-fields']},null,2)+'\n');
+console.log('Built functional runtime with '+fields.length+' configurable fields.');

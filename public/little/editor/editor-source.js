@@ -9,7 +9,7 @@ import {initializePaneResizing} from './pane-resize.mjs';
 import {keywordChanges, applyKeywordChanges} from './keyword-rewrite.mjs';
 import {keywordDefinitions, defaultKeywords, normalizeKeywords, exampleForKeyword, makeExample, supportedFields} from './keywords.mjs';
 
-let profile = 'classic';
+let profile = 'functional';
 let keywords = {...defaultKeywords};
 const activeDefinitions = () => keywordDefinitions.filter(row=>supportedFields(profile).has(row[0]));
 let language = createLanguage(keywords, profile);
@@ -142,10 +142,10 @@ if (table) {
     }
     filter?.addEventListener('input',filterRows);
     function setProfile() {
-        profile=select?.value || 'classic';
+        profile=select?.value || 'functional';
         filterRows();
         const note=document.getElementById('runtime-note');
-        if(note) note.textContent=profile==='functional' ? 'Functional branch preview · '+supportedFields(profile).size+' settings. Newer upstream features may differ from classic syntax.' : 'Classic runtime · '+supportedFields(profile).size+' settings. Renaming updates code and highlighting; strings and comments stay unchanged.';
+        if(note) note.textContent=profile==='functional' ? 'Functional runtime · '+supportedFields(profile).size+' settings. Keywords, operators, types and standard-library names are configurable.' : 'Classic runtime · '+supportedFields(profile).size+' settings. Renaming updates code and highlighting; strings and comments stay unchanged.';
         updateKeywords();
     }
     select?.addEventListener('change',setProfile);
