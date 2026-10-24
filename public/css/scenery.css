@@ -55,3 +55,11 @@
 @media (prefers-reduced-motion: reduce) {
     #section-3 .butterfly { display: none; }
 }
+
+/* Trees intersecting the board belong to the smaller, more distant hill layer. */
+#section-3 .tree.behind-sign {
+    top: auto; bottom: 32%; left: auto; right: 18%; scale: .26;
+    transform-origin: center bottom; z-index: 1; background: #638864;
+}
+#section-3 .tree2.behind-sign { right: 34%; bottom: 26%; scale: .3; }
+#section-3 .tree5.behind-sign { right: 6%; bottom: 34%; scale: .22; }

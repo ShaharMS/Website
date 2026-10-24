@@ -8,6 +8,31 @@
         copy.setAttribute('aria-hidden', 'true');
         section.appendChild(copy);
     });
+    const sign = section.querySelector('.content');
+    const foregroundTrees = [...section.querySelectorAll('.tree1, .tree2, .tree5')];
+    let placementPending = false;
+    function placeTrees() {
+        placementPending = false;
+        // Measure their original foreground positions, then relocate only trees
+        // whose crowns would intersect the readable sign board at this size.
+        foregroundTrees.forEach(tree => tree.classList.remove('behind-sign'));
+        const board = sign.getBoundingClientRect();
+        foregroundTrees.forEach(tree => {
+            const crown = tree.getBoundingClientRect();
+            if (crown.left < board.right && crown.right > board.left &&
+                crown.top < board.bottom && crown.bottom > board.top) {
+                tree.classList.add('behind-sign');
+            }
+        });
+    }
+    const scheduleTrees = () => {
+        if (!placementPending) { placementPending = true; requestAnimationFrame(placeTrees); }
+    };
+    const treeLayout = new ResizeObserver(scheduleTrees);
+    treeLayout.observe(section);
+    treeLayout.observe(sign);
+    document.fonts?.ready.then(scheduleTrees);
+    scheduleTrees();
     const picnic = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     picnic.setAttribute('viewBox', '0 0 120 75');
     picnic.setAttribute('class', 'distant-picnic');
