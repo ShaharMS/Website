@@ -55,7 +55,7 @@ for (const plane of planes) {
 	const stop = parseFloat(plane.getAttribute("distance") ?? -1);
 
 	let graphic = document.createElement("img");
-	graphic.src = "./assets/plane-demo.svg?v=20261024-propeller";
+	graphic.src = "./assets/plane-demo.svg?v=20261024-propeller-front";
 	graphic.style.padding = "0";
 	graphic.style.margin = "0";
 	// remove all children

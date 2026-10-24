@@ -96,44 +96,66 @@ function patternRandom() {
         return seed / 0x100000000;
     };
 }
+// Poisson-disc placement uses one distance in every direction, without rows.
+function scatterPositions(width, height, pitch, random) {
+    const distance = pitch * .8;
+    const cell = distance / Math.SQRT2;
+    const minX = -28, minY = -21, maxX = width + 28, maxY = height + 21;
+    const grid = new Map(), points = [], active = [];
+    const cellAt = point => [Math.floor((point.x - minX) / cell), Math.floor((point.y - minY) / cell)];
+    function add(point) {
+        const [x, y] = cellAt(point);
+        grid.set(`${x}:${y}`, point);
+        points.push(point);
+        active.push(point);
+    }
+    function clear(point) {
+        const [x, y] = cellAt(point);
+        for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) {
+            const other = grid.get(`${x + dx}:${y + dy}`);
+            if (other && Math.hypot(point.x - other.x, point.y - other.y) < distance) return false;
+        }
+        return true;
+    }
+    add({x: random() * width, y: random() * height});
+    while (active.length) {
+        const index = Math.floor(random() * active.length);
+        const origin = active[index];
+        let found = false;
+        for (let attempt = 0; attempt < 30; attempt++) {
+            const angle = random() * Math.PI * 2;
+            const radius = distance * Math.sqrt(1 + random() * 3);
+            const point = {x: origin.x + Math.cos(angle) * radius, y: origin.y + Math.sin(angle) * radius};
+            if (point.x < minX || point.x > maxX || point.y < minY || point.y > maxY || !clear(point)) continue;
+            add(point);
+            found = true;
+            break;
+        }
+        if (!found) active.splice(index, 1);
+    }
+    // Type assignment walks spatially, rather than following growth clusters.
+    return points.sort((a, b) => a.y - b.y || a.x - b.x);
+}
 function init() {
-	w = wrapper.clientWidth;
-	h = wrapper.clientHeight;
-	spacing = w < 600 ? 105 : w < 1000 ? 125 : 140;
-	while (wrapper.firstChild) {
-		wrapper.removeChild(wrapper.firstChild);
-	}
+    w = wrapper.clientWidth;
+    h = wrapper.clientHeight;
+    spacing = w < 600 ? 105 : w < 1000 ? 125 : 140;
+    while (wrapper.firstChild) wrapper.removeChild(wrapper.firstChild);
     const random = patternRandom();
     let bag = [];
-    const placed = new Map();
-	// Fit complete rows to the actual section, then overscan every edge. Integer
-	// row/column parity also remains reliable with fractional responsive spacing.
-	const columns = Math.max(1, Math.ceil(w / spacing));
-	const rows = Math.max(1, Math.ceil(h / spacing));
-	const stepX = w / columns;
-	const stepY = h / rows;
-	for (let row = 0; row <= rows + 1; row++) {
-		for (let column = -1; column <= columns; column++) {
-            // A shuffled bag balances every type without the old repeating sequence.
-            // Avoid the immediate horizontal and vertical neighbors across bags too.
-            if (!bag.length) bag = images.slice();
-            const neighbors = [placed.get(`${row}:${column - 1}`),
-                placed.get(`${row - 1}:${column}`), placed.get(`${row - 1}:${column + 1}`)];
-            const choices = bag.filter(image => !neighbors.includes(image));
-            const pool = choices.length ? choices : bag;
-            const image = pool[Math.floor(random() * pool.length)];
-            bag.splice(bag.indexOf(image), 1);
-            placed.set(`${row}:${column}`, image);
-            // Modest jitter softens the grid without shrinking artwork or opening
-            // gaps at the outer rows, which still reach the black section borders.
-            const jitterX = column > 0 && column < columns ? (random() - .5) * stepX * .24 : 0;
-            const jitterY = row > 0 && row < rows ? (random() - .5) * stepY * .24 : 0;
-            const x = column * stepX + (row % 2 ? stepX / 2 : 0) - 28 + jitterX;
-            const y = row * stepY - 21 + jitterY;
-            draw(image, x, y, random());
-		}
-	}
+    const placed = [];
+    for (const point of scatterPositions(w, h, spacing, random)) {
+        if (!bag.length) bag = images.slice();
+        const neighbors = placed.filter(other => Math.hypot(point.x - other.x, point.y - other.y) < spacing * 1.5);
+        const choices = bag.filter(image => !neighbors.some(other => other.image === image));
+        const pool = choices.length ? choices : bag;
+        const image = pool[Math.floor(random() * pool.length)];
+        bag.splice(bag.indexOf(image), 1);
+        placed.push({...point, image});
+        draw(image, point.x - 28, point.y - 21, random());
+    }
 }
+
 function draw(image, x, y, random) {
     const el = new El(image, x, y, Math.floor(random * 2));
     el.attach();

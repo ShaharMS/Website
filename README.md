@@ -180,6 +180,9 @@ cannot invalidate script integrity hashes on checkout.
 - The SVG wrapper has no inset clipping boundary; the section's black border is
   the clipping edge. The pattern fits rows to its container, overscans every edge,
   and rebuilds on container resize. Icon viewports are 56 by 42 (70% of 80 by 60).
+  Placement uses randomized Poisson-disc sampling with equal clearance in every
+  direction, balanced icon types and no fixed rows. The seeded layout remains
+  stable across repeated layout updates. Tests check clearance and section coverage.
 - The Monster can is replaced by the complete sourced claw outline, without lettering
   or a cropping mask, with padding and a gentle wiggle.
   New line-art strokes increase from 0.65 to 0.85 SVG units.
@@ -206,7 +209,7 @@ cannot invalidate script integrity hashes on checkout.
 - The airplane starts right-to-left with Welcome / to my / Website!, then returns
   left-to-right with Enjoy / your / Stay :D. Only the aircraft mirrors, keeping its
   trailing banner readable. The original aircraft SVG now has a spinning propeller
-  projected along its nose axis. `npm test` verifies both complete flight cycles.
+  projected along its nose axis, ahead of the front engine block. `npm test` verifies both complete flight cycles.
 
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth
