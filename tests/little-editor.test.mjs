@@ -28,3 +28,36 @@ test('nonterminating Little code runs off-thread and can be cancelled', async ()
         assert.equal(exit, 1);
     } finally {await worker.terminate();}
 });
+import {normalizeKeywords, defaultKeywords} from '../public/little/editor/keywords.mjs';
+
+test('custom Little keyword names change real execution and preserve syntax-tree output', () => {
+    const configured = vm.createContext({});
+    vm.runInContext(source, configured);
+    const result = configured.little.runEditor('let answer as Integer = 6 * 7\nsay(answer)', {
+        VARIABLE_DECLARATION: 'let', TYPE_INT: 'Integer', PRINT_FUNCTION_NAME: 'say'
+    });
+    assert.equal(result.output, '42\n');
+    assert.equal(result.error, false);
+    assert.match(result.ast, /Variable Creation/);
+    assert.match(result.ast, /say/);
+});
+
+test('keyword customization preserves blank defaults and validates conflicts', () => {
+    assert.deepEqual(normalizeKeywords({PRINT_FUNCTION_NAME: ''}).values, defaultKeywords);
+    assert.equal(normalizeKeywords({VARIABLE_DECLARATION: 'let value'}).field, 'VARIABLE_DECLARATION');
+    assert.equal(normalizeKeywords({PRINT_FUNCTION_NAME: 'define'}).field, 'PRINT_FUNCTION_NAME');
+    assert.equal(normalizeKeywords({VARIABLE_DECLARATION: '\u05d4\u05d2\u05d3\u05e8'}).error, null);
+    assert.equal(normalizeKeywords({PROPERTY_ACCESS_SIGN: '::'}).values.PROPERTY_ACCESS_SIGN, '::');
+    const bad = run('define x =');
+    assert.equal(bad.error, true);
+    assert.doesNotMatch(bad.output, /Cannot read properties/);
+});
+
+test('custom multicharacter property access reaches the interpreter lexer', () => {
+    const configured = vm.createContext({});
+    vm.runInContext(source, configured);
+    const result = configured.little.runEditor('print(8::type)', {PROPERTY_ACCESS_SIGN: '::'});
+    assert.equal(result.error, false);
+    assert.equal(result.output, 'Number\n');
+    assert.match(result.ast, /Property Access/);
+});

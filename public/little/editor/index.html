@@ -5,20 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="data:,">
 <title>Little interactive editor</title>
-<link rel="stylesheet" href="./editor.css?v=2">
+<link rel="stylesheet" href="./editor.css?v=3">
 </head>
 <body>
 <main class="playground" aria-label="Little playground">
-    <header class="toolbar">
-        <span class="language">Little</span>
-        <div class="actions"><button type="button" id="run">Run</button><button type="button" id="stop" disabled>Stop</button><button type="button" id="reset">Reset</button></div>
-    </header>
     <div id="editor" aria-label="Source code"></div>
+    <div class="toolbar" aria-label="Execution controls">
+        <div class="actions"><button type="button" id="run">Run</button><button type="button" id="stop" disabled>Stop</button><button type="button" id="reset">Reset</button></div>
+    </div>
     <section class="result" aria-label="Program output">
         <header><span>Output</span><span id="status" role="status">Loading editor…</span></header>
         <pre id="output" aria-label="Output" tabindex="0"></pre>
     </section>
 </main>
-<script type="module" src="./editor.js?v=2"></script>
+<script type="module" src="./editor.js?v=3"></script>
 </body>
 </html>

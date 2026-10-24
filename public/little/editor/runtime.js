@@ -8545,10 +8545,28 @@ little_interpreter_Runtime.print = function(item) {
     little_interpreter_Runtime.stdout += text.slice(0, remaining);
     if (text.length > remaining) throw new Error('Output limit reached.');
 };
-$hx_exports.little.runEditor = function(code) {
+var keywordDefinitions = [["VARIABLE_DECLARATION","define","Variable declaration","definitionKeyword"],["FUNCTION_DECLARATION","action","Function declaration","definitionKeyword"],["NULL_VALUE","nothing","Null value","definitionKeyword"],["RUN_CODE_FUNCTION_NAME","run","Run code function","variableName.function"],["TYPE_DECL_OR_CAST","as","Type declaration or cast","keyword"],["TYPE_FLOAT","Decimal","Decimal type","typeName"],["TYPE_BOOLEAN","Boolean","Boolean type","typeName"],["TYPE_STRING","Characters","String type","typeName"],["TYPE_MODULE","Type","Module type","typeName"],["FUNCTION_RETURN","return","Function return","keyword"],["READ_FUNCTION_NAME","read","Read function","variableName.function"],["TYPE_DYNAMIC","Anything","Dynamic type","typeName"],["PROPERTY_ACCESS_SIGN",".","Property access","operator"],["TRUE_VALUE","true","True value","definitionKeyword"],["TYPE_INT","Number","Integer type","typeName"],["FALSE_VALUE","false","False value","definitionKeyword"],["RAISE_ERROR_FUNCTION_NAME","error","Raise error function","variableName.function"],["TYPE_SIGN","Sign","Sign type","typeName"],["PRINT_FUNCTION_NAME","print","Print function","variableName.function"]];
+var normalizeEditorKeywords = function normalizeKeywords(overrides = {}) {
+    const values = {};
+    for (const [key, fallback, label] of keywordDefinitions) {
+        const value = String(overrides[key] ?? '').trim() || fallback;
+        if (key === 'PROPERTY_ACCESS_SIGN' ? /\s|["(){}]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}_]*$/u.test(value)) {
+            return {values, error: `${label}: use ${key === 'PROPERTY_ACCESS_SIGN' ? 'a single delimiter without spaces' : 'one word without spaces'}.`, field: key};
+        }
+        if (Object.values(values).includes(value)) return {values, error: `${label}: this name is already used by another keyword.`, field: key};
+        values[key] = value;
+    }
+    return {values, error: null};
+};
+$hx_exports.little.runEditor = function(code, keywords) {
     try {
+        var config = normalizeEditorKeywords(keywords);
+        if (config.error) return {output: '', error: true, message: config.error};
+        Object.keys(config.values).forEach(function(key) {little_Keywords[key] = config.values[key];});
+        little_Keywords.SPECIAL_OR_MULTICHAR_SIGNS.push(config.values.PROPERTY_ACCESS_SIGN);
+        little_interpreter_Runtime.exitCode = 0;
         little_Little.run(code, false);
-        return {output: little_interpreter_Runtime.stdout, error: little_interpreter_Interpreter.errorThrown};
+        return {output: little_interpreter_Runtime.stdout, error: little_interpreter_Interpreter.errorThrown, ast: little_interpreter_Interpreter.errorThrown ? '' : little_tools_PrettyPrinter.printParserAst(little_parser_Parser.parse(little_lexer_Lexer.lex(code)))};
     } catch (error) {
         return {output: little_interpreter_Runtime.stdout, error: true, message: little_interpreter_Interpreter.errorThrown ? '' : String(error.message || error)};
     }

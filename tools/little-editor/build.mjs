@@ -2,6 +2,7 @@ import {build} from 'esbuild';
 import {readFile, writeFile, mkdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {keywordDefinitions, normalizeKeywords} from '../../public/little/editor/keywords.mjs';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const editor = path.join(root, 'public/little/editor');
 await build({entryPoints: [path.join(editor, 'editor-source.js')], outfile: path.join(editor, 'editor.js'), bundle: true, nodePaths: [path.join(root,'tools/little-editor/node_modules')], minify: true, format: 'esm', target: ['es2020'], legalComments: 'eof'});
@@ -16,10 +17,17 @@ little_interpreter_Runtime.print = function(item) {
     little_interpreter_Runtime.stdout += text.slice(0, remaining);
     if (text.length > remaining) throw new Error('Output limit reached.');
 };
-$hx_exports.little.runEditor = function(code) {
+var keywordDefinitions = ${JSON.stringify(keywordDefinitions)};
+var normalizeEditorKeywords = ${normalizeKeywords.toString()};
+$hx_exports.little.runEditor = function(code, keywords) {
     try {
+        var config = normalizeEditorKeywords(keywords);
+        if (config.error) return {output: '', error: true, message: config.error};
+        Object.keys(config.values).forEach(function(key) {little_Keywords[key] = config.values[key];});
+        little_Keywords.SPECIAL_OR_MULTICHAR_SIGNS.push(config.values.PROPERTY_ACCESS_SIGN);
+        little_interpreter_Runtime.exitCode = 0;
         little_Little.run(code, false);
-        return {output: little_interpreter_Runtime.stdout, error: little_interpreter_Interpreter.errorThrown};
+        return {output: little_interpreter_Runtime.stdout, error: little_interpreter_Interpreter.errorThrown, ast: little_interpreter_Interpreter.errorThrown ? '' : little_tools_PrettyPrinter.printParserAst(little_parser_Parser.parse(little_lexer_Lexer.lex(code)))};
     } catch (error) {
         return {output: little_interpreter_Runtime.stdout, error: true, message: little_interpreter_Interpreter.errorThrown ? '' : String(error.message || error)};
     }

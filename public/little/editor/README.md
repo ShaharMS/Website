@@ -1,8 +1,13 @@
 # Little embedded editor
 
 The homepage uses this DOM-based CodeMirror 6 editor instead of the old OpenFL
-canvas demo. It includes highlighted Little source, output, Run, Stop, Reset,
-Ctrl/Cmd+Enter and undo/redo. The editor stays visible on phones, stacks below
+canvas demo. Try Online at /little/demo/ uses the same editor. It includes
+highlighted Little source, output, Run, Stop, Reset,
+Ctrl/Cmd+Enter and undo/redo. There is no preview title bar: execution controls
+sit at the bottom right of the code pane, immediately above output. Source edits
+automatically run after a 400ms pause, including keyword edits on Try Online.
+Manual Run is re-enabled after completion; Stop cancels both execution and pending
+automatic runs. A new edit terminates the previous worker, preventing stale output. The editor stays visible on phones, stacks below
 the description on narrow layouts, and uses 16px code text on small screens.
 
 The same bundled Little interpreter used by /little/demo is retained. The build
@@ -31,3 +36,13 @@ The pinned dependency lock and build source live in tools/little-editor. The
 bundled editor.js and runtime.js are checked in, so normal Pages deployment
 requires no additional build step or external CDN. No legacy playground or docs
 are removed by this change.
+
+Try Online preserves all 19 keyword customization fields, live highlighted usage
+examples, navigation to guides/docs, and the expandable Abstract Syntax Tree.
+Keyword names reconfigure CodeMirror and are applied to the fresh interpreter
+worker before execution. Former names lose their keyword coloring; new names gain
+it. Reset restores a working source example using the current keyword names;
+Reset keywords restores the default names. Blank fields use defaults, conflicting
+or invalid names are flagged, and configuration errors appear in the output.
+The standalone editor/output remain alongside customization on desktop, then
+stack above it on mobile. No external CDN is required by either editor page.

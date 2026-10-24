@@ -1,9 +1,8 @@
 :root { color-scheme: dark; font-family: Consolas, monospace; color: #ddd; background: #1e1e1e; }
 * { box-sizing: border-box; }
 html, body { margin: 0; width: 100%; height: 100%; }
-.playground { height: 100%; display: grid; grid-template-rows: auto minmax(160px, 1fr) minmax(100px, .38fr); min-width: 0; }
-.toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #444; }
-.language { font-size: 14px; font-weight: bold; }
+.playground { height: 100%; display: grid; grid-template-rows: minmax(160px, 1fr) auto minmax(100px, .38fr); min-width: 0; }
+.toolbar { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; padding: 8px 10px;  }
 .actions { display: flex; gap: 6px; }
 button { font: inherit; color: #ddd; background: transparent; border: 1px solid #858585; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 button:disabled { opacity: .4; cursor: default; }
@@ -16,3 +15,32 @@ button:hover:not(:disabled) { background: #ffffff18; }
 #output { flex: 1; min-height: 0; margin: 0; padding: 4px 12px 12px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.5 Consolas, monospace; }
 #output.error { color: #ff5e00; }
 @media (max-width: 600px) { .playground .cm-editor { font-size: 16px !important; } button { min-height: 40px; } #output { font-size: 16px; } }
+
+.standalone { height: auto; min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 1fr); align-items: start; gap: 24px; padding: 16px; }
+.standalone > .playground { position: sticky; top: 16px; height: calc(100dvh - 32px); min-height: 460px; border: 1px solid #444; }
+.customization { min-width: 0; font: 14px/1.5 Consolas, monospace; }
+.customization nav { margin-bottom: 16px; }
+.customization a { color: #8dc9ff; }
+.customization summary { cursor: pointer; padding: 10px 0; font-weight: bold; }
+.customization p { color: #ddd; }
+#keywords { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 16px; }
+#keywords th, #keywords td { text-align: left; padding: 10px 6px; vertical-align: top; border-bottom: 1px solid #444; overflow-wrap: anywhere; }
+#keywords th { font-weight: normal; }
+#keywords thead th { font-weight: bold; }
+#keywords th:nth-child(1) { width: 25%; }
+#keywords th:nth-child(2) { width: 30%; }
+#keywords input { width: 100%; min-width: 0; padding: 6px; font: inherit; color: #ddd; background: #1e1e1e; border: 1px solid #858585; border-radius: 4px; }
+#keywords input[aria-invalid="true"] { border-color: #ff5e00; }
+#keywords code { white-space: pre-wrap; font: inherit; }
+#ast { max-height: 400px; overflow: auto; white-space: pre; font: 13px/1.5 Consolas, monospace; }
+@media (max-width: 900px) {
+    .standalone { display: flex; flex-direction: column; gap: 20px; padding: 12px; }
+    .standalone > .playground { position: static; width: 100%; height: max(520px, 75dvh); min-height: 0; }
+    .customization { width: 100%; font-size: 16px; }
+    #keywords input { font-size: 16px; min-height: 44px; }
+    #keywords thead { display: none; }
+    #keywords, #k-table-body { display: block; }
+    #keywords tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-bottom: 1px solid #444; padding-block: 8px; }
+    #keywords th, #keywords td { border: 0; width: auto !important; }
+    #keywords td:last-child { grid-column: 1 / -1; }
+}

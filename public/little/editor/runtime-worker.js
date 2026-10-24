@@ -1,3 +1,6 @@
 // A fresh worker per run gives Stop and timeout a hard cancellation boundary.
-importScripts('./runtime.js?v=1');
-self.onmessage = event => self.postMessage(self.little.runEditor(String(event.data)));
+importScripts('./runtime.js?v=2');
+self.onmessage = event => {
+    const {code, keywords} = event.data;
+    self.postMessage(self.little.runEditor(String(code), keywords));
+};
