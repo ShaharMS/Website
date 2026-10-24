@@ -86,18 +86,26 @@ El.prototype.attach = function () {
 		"s;"
 	);
 };
-let spacing = 170;
-const yOffset = 15;
-let i, s;
+let spacing = 140;
+// Keep a fresh arrangement per visit, but stable across layout/viewport updates.
+const patternSeed = Math.floor(Math.random() * 0x100000000);
+function patternRandom() {
+    let seed = patternSeed;
+    return () => {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return seed / 0x100000000;
+    };
+}
 function init() {
 	w = wrapper.clientWidth;
 	h = wrapper.clientHeight;
-	spacing = w < 600 ? 130 : w < 1000 ? 150 : 170;
+	spacing = w < 600 ? 105 : w < 1000 ? 125 : 140;
 	while (wrapper.firstChild) {
 		wrapper.removeChild(wrapper.firstChild);
 	}
-	i = 0;
-	s = 0;
+    const random = patternRandom();
+    let bag = [];
+    const placed = new Map();
 	// Fit complete rows to the actual section, then overscan every edge. Integer
 	// row/column parity also remains reliable with fractional responsive spacing.
 	const columns = Math.max(1, Math.ceil(w / spacing));
@@ -106,24 +114,31 @@ function init() {
 	const stepY = h / rows;
 	for (let row = 0; row <= rows + 1; row++) {
 		for (let column = -1; column <= columns; column++) {
-			const x = column * stepX + (row % 2 ? stepX / 2 : 0) - 28;
-			const y = row * stepY - 21 + ((row + column) % 2 ? yOffset : -yOffset);
-			draw(x, y);
+            // A shuffled bag balances every type without the old repeating sequence.
+            // Avoid the immediate horizontal and vertical neighbors across bags too.
+            if (!bag.length) bag = images.slice();
+            const neighbors = [placed.get(`${row}:${column - 1}`),
+                placed.get(`${row - 1}:${column}`), placed.get(`${row - 1}:${column + 1}`)];
+            const choices = bag.filter(image => !neighbors.includes(image));
+            const pool = choices.length ? choices : bag;
+            const image = pool[Math.floor(random() * pool.length)];
+            bag.splice(bag.indexOf(image), 1);
+            placed.set(`${row}:${column}`, image);
+            // Modest jitter softens the grid without shrinking artwork or opening
+            // gaps at the outer rows, which still reach the black section borders.
+            const jitterX = column > 0 && column < columns ? (random() - .5) * stepX * .24 : 0;
+            const jitterY = row > 0 && row < rows ? (random() - .5) * stepY * .24 : 0;
+            const x = column * stepX + (row % 2 ? stepX / 2 : 0) - 28 + jitterX;
+            const y = row * stepY - 21 + jitterY;
+            draw(image, x, y, random());
 		}
 	}
 }
-function draw(x, y) {
-	const image = images[i];
-	const delay = Math.floor(Math.random() * 2);
-	const el = new El(image, x, y, delay);
-	if (i === images.length - 1) {
-		i = 0;
-	} else {
-		i++;
-	}
-	el.attach();
-	el.svg.appendChild(el.use);
-	wrapper.appendChild(el.svg);
+function draw(image, x, y, random) {
+    const el = new El(image, x, y, Math.floor(random * 2));
+    el.attach();
+    el.svg.appendChild(el.use);
+    wrapper.appendChild(el.svg);
 }
 
 init();
