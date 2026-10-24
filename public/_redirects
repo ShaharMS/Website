@@ -5,3 +5,5 @@
 /little/doc/ /haxe/ 301
 /little/doc/index.html /haxe/ 301
 /little/doc/pages/index.html /haxe/ 301
+/vision/docs/2.0.0-beta /vision/docs/2.2.0/ 301
+/vision/docs/2.0.0-beta/* /vision/docs/2.2.0/:splat 301

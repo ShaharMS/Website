@@ -1,0 +1,12 @@
+.vision-version { display:inline-block; margin:0 16px 0 0; vertical-align:middle; }
+.vision-version select { width:auto; max-width:100%; margin:0 0 0 6px; }
+.doc { overflow-wrap:break-word; }
+.doc img { max-width:100%; height:auto; }
+.field > h3, pre { overflow-x:auto; }
+@media (max-width:767px) {
+  .navbar .container { width:auto; padding:0 12px; }
+  .vision-version { display:block; margin:8px 0; }
+  .main-content { padding:0 12px; }
+  .span9 { min-width:0; }
+  table { display:block; overflow-x:auto; }
+}
