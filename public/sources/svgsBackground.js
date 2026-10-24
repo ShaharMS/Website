@@ -86,7 +86,7 @@ El.prototype.attach = function () {
 		"s;"
 	);
 };
-let spacing = 140;
+let spacing = 118;
 // Keep a fresh arrangement per visit, but stable across layout/viewport updates.
 const patternSeed = Math.floor(Math.random() * 0x100000000);
 function patternRandom() {
@@ -139,7 +139,7 @@ function scatterPositions(width, height, pitch, random) {
 function init() {
     w = wrapper.clientWidth;
     h = wrapper.clientHeight;
-    spacing = w < 600 ? 105 : w < 1000 ? 125 : 140;
+    spacing = w < 600 ? 90 : w < 1000 ? 105 : 118;
     while (wrapper.firstChild) wrapper.removeChild(wrapper.firstChild);
     const random = patternRandom();
     let bag = [];

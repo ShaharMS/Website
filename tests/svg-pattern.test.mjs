@@ -8,7 +8,7 @@ const context = vm.createContext({});
 vm.runInContext(source.slice(source.indexOf('function scatterPositions('), source.indexOf('function init()')), context);
 
 test('randomized icon positions use equal clearance in every direction and cover the section', () => {
-    for (const [width, height, pitch] of [[390, 844, 105], [768, 1024, 125], [1280, 720, 140]]) {
+    for (const [width, height, pitch] of [[390, 844, 90], [768, 1024, 105], [1280, 720, 118]]) {
         for (let seed = 1; seed <= 8; seed++) {
             let state = seed;
             const random = () => ((state = (Math.imul(state, 1664525) + 1013904223) >>> 0) / 0x100000000);
