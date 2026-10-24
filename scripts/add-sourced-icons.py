@@ -15,32 +15,25 @@ def children(name):
 def symbol(name, art, view_box='0 0 24 24'):
     return f'<symbol id="{name}" viewBox="{view_box}" overflow="visible"><g class="icon-art" fill="none" stroke="#000" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round">{art}</g></symbol>'
 
-symbols = [symbol(name, children(name)) for name in ('shirt', 'hanger', 'steering-wheel')]
+line_icons = ('shirt', 'hanger', 'steering-wheel', 'puzzle', 'puzzle-2',
+              'chart-candle', 'chart-line', 'coins', 'wallet', 'cash')
+symbols = [symbol(name, children(name)) for name in line_icons]
 car = list(ET.parse(assets / 'car.svg').getroot())
 wheels = ''
 for index, wheel in enumerate(car[:2]):
     center = 7 if index == 0 else 17
-    spokes = f'<path d="M{center - 1.25} 17h2.5M{center} 15.75v2.5" stroke-width=".5"/>'
+    spokes = f'<circle cx="{center}" cy="17" r=".55" stroke-width=".5"/><path d="M{center - 1.8} 17h1.25m1.1 0h1.25M{center} 15.2v1.25m0 1.1v1.25" stroke-width=".5"/>'
     wheels += '<g class="car-wheel">' + ET.tostring(wheel, encoding='unicode') + spokes + '</g>'
 chassis = '<g class="car-chassis">' + ''.join(ET.tostring(part, encoding='unicode') for part in car[2:]) + '</g>'
-road = '<path class="car-road" d="M1 22h22" stroke-dasharray="3 3"/>'
+road = '<path d="M0 20h24M0 25h24" stroke-width=".55"/><path class="car-road" d="M0 22.5h24" stroke-width=".6" stroke-dasharray="3 3"/>'
 symbols.append(symbol('car', road + chassis + wheels))
-logo = ET.parse(assets / 'monster-logo-alt.svg').getroot()
-claw = next(item for item in logo if item.get('fill') == '#0f0')
-claw.set('fill', '#000')
-claw.set('stroke', 'none')
-# The downloaded green compound path also contains lettering to the right of the
-# claw. Isolate the original mark without redrawing or importing the wordmark.
-claw_art = '<defs><clipPath id="monster-claw-only"><rect x="60" y="70" width="3500" height="5700" fill="#fff" stroke="none"/></clipPath></defs><g clip-path="url(#monster-claw-only)">' + ET.tostring(claw, encoding='unicode') + '</g>'
-symbols.append(symbol('monster', claw_art, '60 70 3500 5700'))
-milk = ET.parse(assets / 'milk.svg').getroot()
-body = ''.join(ET.tostring(item, encoding='unicode') for item in list(milk)[:2])
-chocolate = '<g class="chocolate-label" transform="translate(8.4 10.5) scale(.3)" stroke-width="2.2">' + children('chocolate') + '</g>'
-symbols.append(symbol('chocolate-milk', body + chocolate))
+# Derived from the complete claw subpath, normalized with generous padding.
+# It contains no lettering or clipping; inherit the same outline as the line icons.
+symbols.append(symbol('monster', children('monster-claw')))
 
 path = root / 'public/index.html'
 text = path.read_text(encoding='utf-8')
-for name in ('shirt', 'hanger', 'car', 'steering-wheel', 'monster', 'monster-can', 'chocolate-milk'):
+for name in (*line_icons, 'car', 'monster', 'monster-can', 'chocolate-milk'):
     text = re.sub(r'<symbol id="' + name + r'".*?</symbol>', '', text, flags=re.S)
 text = text.replace('\n\t\t<!-- Web-sourced artwork; see assets/icons/SOURCES.md. -->\n', '')
 marker = '\n\t\t</svg>'
@@ -54,4 +47,4 @@ for unused in ('beer.svg', 'can.svg', 'monster-logo.svg', 'soda-can.svg', 'milk-
     path = assets / unused
     if path.exists():
         path.unlink()
-print('Updated six sourced symbols: Monster logo, shirt, hanger, chocolate milk, driving car, steering wheel')
+print('Updated sourced outline symbols: clothing, driving, Monster, finance and jigsaw puzzles')

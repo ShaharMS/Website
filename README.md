@@ -115,8 +115,9 @@ copied unchanged from the original source. The section 2 CSS only removes accide
 inherited transforms and allows animated symbols to overflow their own viewports.
 
 - Existing icon animations target artwork groups rather than SVG symbol viewports.
-- Six web-sourced icons were added: Monster claw, shirt, hanger, chocolate milk,
-  car, and steering wheel. Source artwork and attribution
+- Web-sourced icons include Monster claw, shirt, hanger, car, steering wheel,
+  two jigsaw designs, candlesticks, a line chart, coins, wallet, and banknotes.
+  Chocolate milk was removed. Source artwork and attribution
   are in `public/assets/icons/SOURCES.md`.
 - Clouds replenish every 2.5 seconds while below capacity, keeping the original
   cloud size, shape, opacity, and hover behavior.
@@ -177,10 +178,13 @@ cannot invalidate script integrity hashes on checkout.
 ### Input and icon refinements
 
 - The SVG wrapper has no inset clipping boundary; the section's black border is
-  the clipping edge. The pattern overscans its bottom row for moving artwork.
-- The Monster can is replaced by the original sourced claw mark, without lettering.
+  the clipping edge. The pattern fits rows to its container, overscans every edge,
+  and rebuilds on container resize. Icon viewports are 56 by 42 (70% of 80 by 60).
+- The Monster can is replaced by the complete sourced claw outline, without lettering
+  or a cropping mask, with padding and a gentle wiggle.
   New line-art strokes increase from 0.65 to 0.85 SVG units.
-- The sourced car has an endless passing road, rolling wheels, and suspension motion.
+- The sourced car has an endless passing road with edges and left-moving lane marks,
+  rolling tires with hubs and spokes, and suspension motion.
 - Starfield touch listeners are passive and do not call `preventDefault`; the canvas
   explicitly permits vertical panning and pinch zoom.
 - `npm test` runs the touch-scroll regression against the actual starfield script.

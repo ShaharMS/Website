@@ -48,7 +48,8 @@ const images = [
 		name: "galaxy"
 	}
 ];
-const extraIcons = ['monster', 'shirt', 'hanger', 'chocolate-milk', 'car', 'steering-wheel'];
+const extraIcons = ['monster', 'shirt', 'hanger', 'car', 'steering-wheel',
+    'puzzle', 'puzzle-2', 'chart-candle', 'chart-line', 'coins', 'wallet', 'cash'];
 extraIcons.forEach(name => images.push({id: '#' + name, name}));
 document.querySelectorAll('#main symbol').forEach(symbol => symbol.setAttribute('overflow', 'visible'));
 checkBox.addEventListener("change", checkStatus);
@@ -97,24 +98,17 @@ function init() {
 	}
 	i = 0;
 	s = 0;
-	// Overscan the last row so animated artwork can reach the section's black border.
-	for (let y = 0; y <= h + spacing; y += spacing) {
-		if (y % (spacing * 2) === 0) {
-			for (let x = 0; x <= w; x += spacing) {
-				if (x % (spacing * 2) === 0) {
-					draw(x, y + yOffset);
-				} else {
-					draw(x, y - yOffset);
-				}
-			}
-		} else {
-			for (let x = -(spacing / 2); x <= w; x += spacing) {
-				if ((x + spacing / 2) % (2 * spacing) === 0) {
-					draw(x, y + yOffset);
-				} else {
-					draw(x, y - yOffset);
-				}
-			}
+	// Fit complete rows to the actual section, then overscan every edge. Integer
+	// row/column parity also remains reliable with fractional responsive spacing.
+	const columns = Math.max(1, Math.ceil(w / spacing));
+	const rows = Math.max(1, Math.ceil(h / spacing));
+	const stepX = w / columns;
+	const stepY = h / rows;
+	for (let row = 0; row <= rows + 1; row++) {
+		for (let column = -1; column <= columns; column++) {
+			const x = column * stepX + (row % 2 ? stepX / 2 : 0) - 28;
+			const y = row * stepY - 21 + ((row + column) % 2 ? yOffset : -yOffset);
+			draw(x, y);
 		}
 	}
 }
@@ -133,6 +127,9 @@ function draw(x, y) {
 }
 
 init();
+// Font/layout completion and mobile viewport changes can resize the section
+// independently of a window resize (including the bottom row).
+new ResizeObserver(init).observe(wrapper);
 
 // Animation functions
 const keyboard = document.querySelector("symbol#keyboard > g");
@@ -342,9 +339,13 @@ function stopAnimation() {
 // Small gestures keep the sourced line art alive without changing the pattern's size or placement.
 const extraMotion = [];
 for (const [name, rotation, x, y, duration] of [
+    ['monster', 5, 0, .2, 2],
     ['shirt', 3, 0, .2, 1.9],
-    ['hanger', 9, 0, 0, 2.2], ['chocolate-milk', 6, 0, .3, 1.8],
-    ['steering-wheel', 24, 0, 0, 2.1]
+    ['hanger', 9, 0, 0, 2.2],
+    ['steering-wheel', 24, 0, 0, 2.1],
+    ['puzzle', 7, .2, 0, 2.1], ['puzzle-2', 4, 0, .25, 1.8],
+    ['chart-candle', 3, 0, .15, 2.4], ['chart-line', 3, 0, .15, 2.2],
+    ['coins', 5, 0, .2, 1.9], ['wallet', 4, 0, .15, 2.3], ['cash', 6, .2, 0, 2]
 ]) {
     const artwork = document.querySelector('symbol#' + name + ' > g');
     const motion = gsap.timeline({repeat: -1, yoyo: true});
@@ -355,7 +356,7 @@ for (const [name, rotation, x, y, duration] of [
 
 // A continuous miniature drive: the road passes beneath rolling wheels.
 extraMotion.push(gsap.fromTo(document.querySelector('#car .car-road'),
-    {strokeDashoffset: 0}, {strokeDashoffset: -6, duration: .55, repeat: -1, ease: 'none'}));
+    {strokeDashoffset: 0}, {strokeDashoffset: 6, duration: .55, repeat: -1, ease: 'none'}));
 document.querySelectorAll('#car .car-wheel').forEach(wheel => {
     extraMotion.push(gsap.to(wheel, {rotation: 360, transformOrigin: '50% 50%', duration: .85, repeat: -1, ease: 'none'}));
 });
