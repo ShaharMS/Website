@@ -1,0 +1,46 @@
+/* The newer editor/table styling with the original right-side Quickstart placement. */
+.blended { height: auto; min-height: 100dvh; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; gap: 24px; padding: 16px; background: #181a1b; }
+.blended > .playground { position: sticky; top: 16px; height: calc(100dvh - 32px); min-height: 520px; border: 1px solid #444; background: #1e1e1e; grid-template-rows: minmax(180px, 1fr) auto auto minmax(110px, .4fr); }
+.blended .toolbar { justify-content: space-between; }
+.blended .customization { min-width: 0; font: 14px/1.5 Consolas, monospace; }
+.blended .customization nav { margin-bottom: 12px; }
+.blended a { color: #8dc9ff; }
+.blended .keyword-panel { display: flex; flex-direction: column; height: max(300px, 50dvh); min-height: 0; }
+.blended .keyword-panel > header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.blended .keyword-panel h2 { font-size: 16px; margin: 0; }
+.blended .keyword-panel > p { margin: 8px 0; font-size: 12px; }
+.blended .keyword-scroll { flex: 1; min-height: 0; overflow: auto; }
+.blended #keywords { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.blended #keywords th, .blended #keywords td { text-align: left; padding: 10px 6px; vertical-align: top; border-bottom: 1px solid #444; overflow-wrap: anywhere; }
+.blended #keywords th { font-weight: normal; }
+.blended #keywords thead { position: sticky; top: 0; background: #181a1b; z-index: 1; }
+.blended #keywords thead th { font-weight: bold; }
+.blended #keywords thead th:nth-child(1) { width: 25%; }
+.blended #keywords thead th:nth-child(2) { width: 30%; }
+.blended #keywords input { width: 100%; min-width: 0; padding: 6px; font: inherit; color: #ddd; background: #1e1e1e; border: 1px solid #858585; border-radius: 4px; }
+.blended #keywords input[aria-invalid="true"] { border-color: #ff5e00; }
+.blended #keywords code { white-space: pre-wrap; font: inherit; }
+.blended .ast-panel { min-width: 0; border-top: 1px solid #444; border-bottom: 1px solid #444; }
+.blended .ast-panel[open] { height: clamp(130px, 22dvh, 190px); overflow: hidden; }
+.blended .ast-panel summary { cursor: pointer; padding: 8px 12px; font-size: 13px; }
+.blended #ast { height: calc(clamp(130px, 22dvh, 190px) - 38px); min-height: 0; margin: 0; padding: 0 12px 10px; overflow: auto; white-space: pre; font: 13px/1.45 Consolas, monospace; direction: ltr !important; text-align: left !important; }
+.blended #guide { overflow-wrap: anywhere; border-top: 1px solid #616161; margin-top: 24px; padding-top: 12px; }
+.blended #guide h1 { font-size: 24px; text-align: center; margin: 4px 0 16px; }
+.blended #guide h2 { font-size: 16px; margin: 22px 0 8px; }
+.blended #guide pre { margin: 8px 0; padding: 12px; overflow: auto; border: 1px solid #444; background: #1e1e1e; }
+.blended #guide code { font-family: Consolas, monospace; }
+@media (max-width: 900px), (max-height: 600px) {
+    .blended { display: flex; flex-direction: column; padding: 12px; gap: 20px; }
+    .blended > .playground { position: static; width: 100%; height: max(640px, 85dvh); min-height: 0; }
+    .blended .customization { width: 100%; display: flex; flex-direction: column; font-size: 16px; }
+    .blended .customization nav { order: 0; }
+    .blended #guide { order: 1; margin-top: 0; margin-bottom: 24px; }
+    .blended .keyword-panel { order: 2; height: auto; }
+    .blended .keyword-scroll { flex: none; overflow: visible; }
+    .blended #keywords thead { display: none; }
+    .blended #keywords, .blended #k-table-body { display: block; }
+    .blended #keywords tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-bottom: 1px solid #444; padding-block: 8px; }
+    .blended #keywords th, .blended #keywords td { border: 0; width: auto; }
+    .blended #keywords td:last-child { grid-column: 1 / -1; }
+    .blended #keywords input { min-height: 44px; font-size: 16px; }
+}

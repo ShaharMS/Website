@@ -1,290 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="data:,">
-
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Playground | Shahar</title>
+<title>Little Playground | Shahar</title>
+<link rel="stylesheet" href="../editor/editor.css?v=3">
+<link rel="stylesheet" href="/css/little-playground.css?v=2">
 </head>
-
-
-
-<body class="dedicated">
-
-    <style>
-        p {
-            color: #DDD;
-        }
-
-        p .ident {
-            color: #9cdcfe
-        }
-
-        p .nums {
-            color: #b5cea8
-        }
-
-        p .type {
-            color: #44c9b0
-        }
-
-        p .kwd {
-            color: #c586c0
-        }
-
-        p .kwd1 {
-            color: #569cd6
-        }
-
-        p .func {
-            color: #dcdcaa
-        }
-
-        p .str,
-        p .str .ident,
-        p .str .kwd,
-        p .str .kwd1,
-        p .str .type,
-        p .str .nums,
-        p .str .func {
-            color: #ff5e00
-        }
-
-        p .cmt,
-        p .cmt .ident,
-        p .cmt .kwd,
-        p .cmt .kwd1,
-        p .cmt .nums,
-        p .cmt .str,
-        p .cmt .type,
-        p .cmt .func {
-            color: #5e5e5e
-        }
-
-        p .last-modified {
-            color: #666
-        }
-    </style>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #fefefe;
-        }
-
-        hr {
-            color: #616161;
-            background-color: #616161;
-            height: 4px;
-            border-radius: 2px;
-        }
-
-        textarea {
-            background-color: #2b2a33;
-            border-color: #75747a;
-        }
-
-        button, input {
-            background-color: #2b2a33;
-            border: solid 1px;
-            border-radius: 2px;
-            border-color: #a1a1a9;
-            padding: 1px;
-        }
-
-        body {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            background-color: #181a1b;
-        }
-
-        #code-row {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        #ast:not(.collapsed),
-        #output:not(.collapsed) {
-            overflow-x: scroll;
-        }
-
-        div .collapsible {
-            height: 100%;
-            min-height: 5%;
-            width: 40vw;
-            resize: none;
-        }
-
-        div .collapsed {
-            height: 5%;
-            width: 40vw;
-            overflow-x: hidden;
-        }
-
-        #second-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            margin: 10px;
-            gap: 30px;
-        }
-
-        #keywords {
-            border-collapse: collapse;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        #k-table-body {
-            display: block;
-            height: 50vh;
-            overflow-y: auto;
-            width: -moz-fit-content;
-            width: fit-content;
-            padding-right: 20px;
-        }
-
-        #keywords td {
-            border-top: 2px solid #616161;
-            padding: 8px;
-            padding-block: 12px;
-            margin: 0px;
-            height: 5vh;
-            text-align: center;
-        }
-
-        #keywords th {
-            padding: 8px;
-            margin: 0px;
-        }
-
-        #keywords p {
-            white-space: pre-wrap;
-            overflow-y: hidden;
-            overflow-x: auto;
-            text-align: initial;
-            border-style: solid;
-            border-width: 1px;
-            padding: 2px;
-            padding-inline: 4px;
-            font-family: monospace;
-        }
-
-        #keywords input {
-            width: 100%;
-            text-align: center;
-        }
-
-        @media screen and (max-width: 700px) {
-            body {
-                display: flex;
-                flex-direction: column;
-            }
-            #code-row {
-                width: 100vw;
-                height: 50vh;
-            }
-
-            div .collapsible {
-                width: 90vw;
-                margin-inline: auto;
-            }
-            div .collapsed {
-                height: 13%;
-            }
-
-            #k-table-body {
-                display: block;
-                height: max-content;
-            }
-
-            #second-container {
-                width: 90vw;
-                margin-inline: auto;
-                height: max-content;
-                display: flex;
-                flex-direction: column-reverse;
-            }
-        }
-
-        @media screen and (max-width: 400px) {
-            #code-row {
-                width: 100vw;
-                height: 96vh;
-                margin-block: 2vh;
-            }
-            #ast {
-                display: none;
-            }
-            #second-container {
-                display: none;
-            }
-            button {
-                display: none;
-            }
-        }
-
-        #guide {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #guide h1 {
-            align-self: center;
-            padding-bottom: 20px;
-        }
-    </style>
-
-    <link rel="stylesheet" href="/css/playground-responsive.css">
-    <link rel="stylesheet" href="/css/little-playground-editor.css?v=2">
-    <div id="code-row">
-        <div id="input" class="collapsible" title="Code"><div id="editor" aria-label="Source code"></div></div>
-        <script id="initial-code" type="text/plain">define x = 3, x = x + 3
+<body class="dedicated blended">
+<main class="playground" aria-label="Little playground">
+    <div id="editor" aria-label="Source code"></div>
+    <script id="initial-code" type="text/plain">define x = 3, x = x + 3
 print(x)</script>
-        <textarea readonly dir="ltr" id="ast" class="collapsible" title="Abstract Syntax Tree" wrap="off" placeholder="
-Ast
-├─..."></textarea>
-        <div class="execution-controls" aria-label="Execution controls">
-            <button type="button" id="direction-toggle" title="Switch code and output direction">LTR</button>
-            <span id="status" role="status">Loading editor…</span>
-            <div class="actions"><button type="button" id="run">Run</button><button type="button" id="stop" disabled>Stop</button><button type="button" id="reset">Reset</button></div>
-        </div>
-        <textarea readonly dir="ltr" id="output" class="collapsible" title="Output" placeholder="INTERPRETER: Module Main, Line..."
-            wrap="off">
-        </textarea>
+    <details class="ast-panel" open>
+        <summary>Abstract Syntax Tree</summary>
+        <pre id="ast" dir="ltr" tabindex="0" aria-label="Abstract Syntax Tree"></pre>
+    </details>
+    <div class="toolbar" aria-label="Execution controls">
+        <button type="button" id="direction-toggle" title="Switch code and output direction">LTR</button>
+        <div class="actions"><button type="button" id="run">Run</button><button type="button" id="stop" disabled>Stop</button><button type="button" id="reset">Reset</button></div>
     </div>
-
-    <div id="second-container">
-        <table id="keywords">
-            <tbody id="k-table-body">
-                <tr>
-                <th>Usage</th>
-                <th>Keyword/Name</th>
-                <th>In Code</th>
-                </tr>
-            </tbody>
-        </table>
-        <hr>
-        <div id="guide">
-            <h1>Quickstart</h1>
-            <p><a href="/little/guides/" style="color:#8dc9ff">Read the getting-started guide ↗</a> · <a href="/" style="color:#8dc9ff">Home</a></p>
-        </div>
-    </div>
-
-    <script src="/sources/playgroundLayout.js?v=ast-visible"></script>
-    <script type="module" src="../editor/editor.js?v=4"></script>
+    <section class="result" aria-label="Program output">
+        <header><span>Output</span><span id="status" role="status">Loading editor…</span></header>
+        <pre id="output" dir="ltr" aria-label="Output" tabindex="0"></pre>
+    </section>
+</main>
+<aside id="second-container" class="customization">
+    <nav aria-label="Playground navigation"><a href="/">Home</a> · <a href="/little/guides/">Guides</a> · <a href="/little/doc/">Documentation</a></nav>
+    <section class="keyword-panel" aria-labelledby="keyword-heading">
+        <header><h2 id="keyword-heading">Customize keywords</h2><button type="button" id="reset-keywords">Reset keywords</button></header>
+        <p>Blank uses the default. Renaming a keyword updates your code and highlighting.</p>
+        <div class="keyword-scroll"><table id="keywords"><thead><tr><th>Usage</th><th>Keyword/Name</th><th>In Code</th></tr></thead><tbody id="k-table-body"></tbody></table></div>
+    </section>
+    <section id="guide" aria-labelledby="quickstart-heading">
+        <h1 id="quickstart-heading">Quickstart</h1>
+        <p><a href="/little/guides/">Read the getting-started guide ↗</a> · <a href="/">Home</a></p>
+        <h2>Variables and output</h2>
+        <pre><code>define x = 3
+x = x + 3
+print(x)</code></pre>
+        <p>This prints <code>6</code>. Use <code data-keyword="VARIABLE_DECLARATION">define</code> to declare a variable and <code data-keyword="PRINT_FUNCTION_NAME">print</code> to write output.</p>
+        <h2>Actions</h2>
+        <pre><code>action getNumber() = {
+    return 5
+}
+print(getNumber())</code></pre>
+        <p>Use <code data-keyword="FUNCTION_DECLARATION">action</code> to declare a function and <code data-keyword="FUNCTION_RETURN">return</code> to return its result.</p>
+        <h2>Loops</h2>
+        <pre><code>define i = 0
+while (i &lt;= 10) {
+    print(i)
+    i = i + 2
+}</code></pre>
+        <h2>Language reference</h2>
+        <p><code data-keyword="TYPE_DECL_OR_CAST">as</code> specifies a type, <code data-keyword="NULL_VALUE">nothing</code> is the null value, and <code data-keyword="TRUE_VALUE">true</code> and <code data-keyword="FALSE_VALUE">false</code> are boolean values. Built-in types include <code data-keyword="TYPE_INT">Number</code>, <code data-keyword="TYPE_FLOAT">Decimal</code>, <code data-keyword="TYPE_BOOLEAN">Boolean</code>, and <code data-keyword="TYPE_STRING">Characters</code>.</p>
+    </section>
+</aside>
+<script type="module" src="../editor/editor.js?v=5"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"3d9e2f7ead2a4e07ad8644dfcd7ce66f"}'></script>
 </body>
-
 </html>

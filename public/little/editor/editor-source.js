@@ -21,10 +21,10 @@ const highlight = HighlightStyle.define([
     {tag: tags.string, color: '#ff5e00'}, {tag: tags.comment, color: '#858585', fontStyle: 'italic'}
 ]);
 const theme = EditorView.theme({
-    '&': {backgroundColor: dedicated ? '#2b2a33' : '#1e1e1e', color: '#ddd', height: '100%', fontSize: '14px'},
+    '&': {backgroundColor: '#1e1e1e', color: '#ddd', height: '100%', fontSize: '14px'},
     '.cm-content': {fontFamily: 'Consolas, monospace', padding: '12px 0', caretColor: '#fff'},
     '.cm-line': {padding: '0 12px'}, '.cm-scroller': {fontFamily: 'Consolas, monospace', overflow: 'auto'},
-    '.cm-gutters': {backgroundColor: dedicated ? '#2b2a33' : '#1e1e1e', color: '#858585', border: 'none'},
+    '.cm-gutters': {backgroundColor: '#1e1e1e', color: '#858585', border: 'none'},
     '.cm-activeLine, .cm-activeLineGutter': {backgroundColor: '#ffffff08'},
     '&.cm-focused .cm-cursor': {borderLeftColor: '#fff'},
     '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {backgroundColor: '#ffffff28'},
@@ -40,6 +40,7 @@ const status = document.getElementById('status');
 const runButton = document.getElementById('run');
 const stopButton = document.getElementById('stop');
 const keywordInputs = new Map(), exampleNodes = new Map();
+const guideExamples = new Map([...document.querySelectorAll('#guide pre code')].map(node => [node, node.textContent]));
 let worker = null, timer = null, typingTimer = null;
 function finish(label) {
     clearTimeout(timer);
@@ -107,6 +108,8 @@ function updateKeywords() {
         language = createLanguage(keywords);
         view.dispatch({changes, effects: languageSlot.reconfigure(language)});
         exampleNodes.forEach((node, key) => renderExample(node, exampleForKeyword(key, keywords)));
+        guideExamples.forEach((code, node) => renderExample(node, applyKeywordChanges(code, keywordChanges(code, defaultKeywords, keywords, keywordDefinitions))));
+        document.querySelectorAll('#guide code[data-keyword]').forEach(node => {node.textContent = keywords[node.dataset.keyword];});
     }
     scheduleRun();
 }
@@ -114,15 +117,15 @@ const table = document.getElementById('k-table-body');
 if (table) {
     for (const [key, fallback, label] of keywordDefinitions) {
         const row = document.createElement('tr');
-        const nameCell = document.createElement(dedicated ? 'td' : 'th'); if (!dedicated) nameCell.scope = 'row';
+        const nameCell = document.createElement('th'); nameCell.scope = 'row';
         const name = document.createElement('label'); name.htmlFor = key;
-        name.textContent = dedicated ? key.toLowerCase().split('_').map(word => word[0].toUpperCase() + word.slice(1)).join(' ') : label;
+        name.textContent = label;
         nameCell.append(name);
         const inputCell = document.createElement('td'); const input = document.createElement('input');
         input.id = key; input.placeholder = fallback; input.autocomplete = 'off'; input.spellcheck = false;
         input.setAttribute('autocapitalize','off'); input.setAttribute('autocorrect','off'); input.addEventListener('input', updateKeywords);
         inputCell.append(input); keywordInputs.set(key, input);
-        const sampleCell = document.createElement('td'); const sample = document.createElement(dedicated ? 'p' : 'code'); sampleCell.append(sample); exampleNodes.set(key, sample);
+        const sampleCell = document.createElement('td'); const sample = document.createElement('code'); sampleCell.append(sample); exampleNodes.set(key, sample);
         row.append(nameCell, inputCell, sampleCell); table.append(row);
     }
     updateKeywords();

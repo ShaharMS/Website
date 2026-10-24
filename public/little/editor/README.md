@@ -37,12 +37,19 @@ bundled editor.js and runtime.js are checked in, so normal Pages deployment
 requires no additional build step or external CDN. No legacy playground or docs
 are removed by this change.
 
-Try Online restores the original shell, palette, keyword table, Quickstart and
-three collapsible Code / Abstract Syntax Tree / Output panes. Only the code input
-uses CodeMirror. The AST is a visible textarea (including on phones), remains LTR,
-and is populated on each completed run. Dedicated-page controls include an LTR/RTL
-button on the left; it switches code and output together, never the AST. The
-homepage preview has no direction button and retains its existing controls.
+Try Online blends the newer editor/table styling with the original information
+layout. Code, a visible collapsible AST, bottom execution controls and Output share
+the left working pane. The modern keyword table stays at the upper right in a
+bounded scrolling region; the Quickstart manual stays below it, with the existing
+getting-started examples available directly in the page. The editor remains sticky
+while reading the manual on desktop. On phones, editor/AST/output stack above the
+right-side content, with Quickstart ahead of the keyword form as in the old mobile
+layout. There is no horizontal document overflow.
+
+The AST remains LTR. The dedicated-page LTR/RTL button switches code and output
+together, never the AST. The homepage preview has no direction button and retains
+its existing controls. Quickstart code examples and inline keyword names follow
+the configured aliases using the same token-aware rewrite and highlighter.
 
 All 19 keyword customization fields drive execution, highlighting and highlighted
 usage examples. Changing a keyword also rewrites complete code tokens using the
