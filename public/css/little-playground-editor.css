@@ -1,0 +1,17 @@
+/* Keep the original playground shell; fit CodeMirror into the former code box. */
+.dedicated #input { background: #2b2a33; border: 1px solid #75747a; }
+.dedicated #editor { width: 100%; height: 100%; min-height: 0; }
+.dedicated #editor .cm-editor { height: 100%; }
+.dedicated #editor .cm-content { color: #fefefe; }
+.dedicated #editor .cm-gutters { background: #2b2a33; }
+.dedicated .execution-controls { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 8px; }
+.dedicated .execution-controls .actions { display: flex; gap: 6px; margin-left: auto; }
+.dedicated .execution-controls button { display: inline-block; min-height: 28px; padding: 4px 8px; }
+.dedicated #status { font: 12px monospace; }
+.dedicated #ast { direction: ltr !important; text-align: left !important; }
+.dedicated #keywords input[aria-invalid="true"] { outline: 1px solid #ff5e00; }
+@media (max-width: 900px), (max-height: 600px) {
+    .dedicated #editor .cm-editor { font-size: 16px !important; }
+    .dedicated .execution-controls button { min-height: 40px; }
+    .dedicated #status { max-width: 90px; overflow-wrap: anywhere; }
+}

@@ -10,7 +10,7 @@
         toggle.className = 'pane-toggle';
         toggle.setAttribute('aria-controls', box.id);
         const label = box.title || box.id;
-        let collapsed = box.id === 'ast' && matchMedia('(max-width:600px)').matches;
+        let collapsed = false;
         function render() {
             box.classList.toggle('collapsed', collapsed);
             pane.classList.toggle('is-collapsed', collapsed);

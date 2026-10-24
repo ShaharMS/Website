@@ -37,12 +37,18 @@ bundled editor.js and runtime.js are checked in, so normal Pages deployment
 requires no additional build step or external CDN. No legacy playground or docs
 are removed by this change.
 
-Try Online preserves all 19 keyword customization fields, live highlighted usage
-examples, navigation to guides/docs, and the expandable Abstract Syntax Tree.
-Keyword names reconfigure CodeMirror and are applied to the fresh interpreter
-worker before execution. Former names lose their keyword coloring; new names gain
-it. Reset restores a working source example using the current keyword names;
-Reset keywords restores the default names. Blank fields use defaults, conflicting
-or invalid names are flagged, and configuration errors appear in the output.
-The standalone editor/output remain alongside customization on desktop, then
-stack above it on mobile. No external CDN is required by either editor page.
+Try Online restores the original shell, palette, keyword table, Quickstart and
+three collapsible Code / Abstract Syntax Tree / Output panes. Only the code input
+uses CodeMirror. The AST is a visible textarea (including on phones), remains LTR,
+and is populated on each completed run. Dedicated-page controls include an LTR/RTL
+button on the left; it switches code and output together, never the AST. The
+homepage preview has no direction button and retains its existing controls.
+
+All 19 keyword customization fields drive execution, highlighting and highlighted
+usage examples. Changing a keyword also rewrites complete code tokens using the
+previous keyword set. Quoted strings, documentation/comments, longer identifiers,
+member names and declarations of user-defined names are protected. Changes are
+applied simultaneously through a CodeMirror transaction, retaining editor selection
+mapping and undo history. Blank fields return to defaults and rewrite aliases back.
+Reset restores the initial example using the current keyword names. Invalid or
+conflicting names are flagged before execution.
