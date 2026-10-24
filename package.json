@@ -5,11 +5,13 @@
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "check": "python scripts/check-links.py",
-    "dev": "wrangler pages dev public",
+    "dev": "node scripts/dev-server.mjs",
+    "dev:wrangler": "wrangler pages dev public",
     "build": "node scripts/build-site.mjs",
     "deploy": "node scripts/deploy-site.mjs"
   },
   "devDependencies": {
+    "parse5": "^8.0.1",
     "wrangler": "4.152.0"
   }
 }

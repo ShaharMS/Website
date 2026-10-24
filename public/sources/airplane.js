@@ -8,7 +8,6 @@ const runPlane = (plane, velocity) => {
     plane.setAttribute('ran', 'true');
     const section = plane.closest('section');
     const graphic = plane.querySelector('img');
-    const parts = plane.querySelectorAll('.title span');
     let direction = -1;
     let x = section.clientWidth + 40;
     let previous = performance.now();
@@ -19,13 +18,19 @@ const runPlane = (plane, velocity) => {
         // Only flip the aircraft: the trailing banner always reads normally.
         plane.style.flexDirection = direction === 1 ? 'row-reverse' : 'row';
         graphic.style.transform = direction === 1 ? 'scaleX(-1)' : 'none';
-        const words = direction === -1 ? [' Welcome', 'to my', 'Website!  '] : [' Enjoy', 'your', 'Stay :D  '];
-        parts.forEach((part, index) => { part.textContent = words[index]; });
+        const title = plane.querySelector('.title');
+        const key = direction === -1 ? 'left' : 'right';
+        title.innerHTML = window.websiteCopy.airplane[key];
+        window.__localTextEditor?.bind(title, 'airplane.' + key);
     }
     orient();
     function frame(now) {
         const elapsed = Math.min(now - previous, 50) / (1000 / 60);
         previous = now;
+        if (window.__localTextEditor && plane.matches(':hover, :focus-within')) {
+            requestAnimationFrame(frame);
+            return;
+        }
         x += direction * velocity * elapsed;
         const width = plane.getBoundingClientRect().width;
         if (direction === 1 && x > section.clientWidth + 40) {

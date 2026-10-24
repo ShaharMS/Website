@@ -20,6 +20,39 @@ This is a Direct Upload project; GitHub pushes do not automatically deploy it.
 Cloudflare does not support converting a Direct Upload project to native Git
 integration; a future GitHub Actions workflow can run `npm run deploy` instead.
 
+### Edit text locally
+
+`npm run dev` starts a loopback-only server at http://localhost:8788. Open
+http://localhost:8788/ to click and edit homepage copy in place. Editing is on by default. Changes
+auto-save into the source after a short pause or when leaving a text region.
+Ctrl+S saves immediately; Enter adds a line break; native undo/redo, selection,
+cut/copy, and plain-text paste work inside each region. Esc saves and opens the
+normal preview (`?preview`). Other local HTML pages are editable by default too;
+embedded iframe documents keep their own controls. `?edit` links still work.
+If port 8788 is busy, it selects the next available port and prints the URLs.
+Set the `PORT` environment variable to require a specific port instead.
+
+Fonts, existing inline styling, and page geometry are retained; longer copy and
+new lines naturally reflow. A small fixed `Website editable` indicator sits outside
+document flow; hover text for a text cursor, then click to place the caret.
+Typewriter copy is displayed in full while editing. Both airplane messages,
+all rotating cloud messages, and the sun's secret countdown are editable.
+Moving text pauses under the pointer or while focused, only in editing mode.
+Static copy saves into its HTML region; animation copy saves into
+`public/sources/page-copy.js`, which the regular production animations also read.
+The cloud `{years}` placeholder keeps its automatic year calculation.
+Embedded playgrounds keep their own code editing controls; canvas artwork is
+not treated as website copy.
+
+Review source changes with Git before deploying. If another tab or editor changes
+the same file, saving stops with an error: copy your pending text and reload.
+Unsaved edits trigger a navigation warning. Undo history lasts for the current
+page session, like native browser editing; Git can restore older saved versions.
+
+The editor and save endpoint live in `scripts/`, outside the deployed `public/`
+folder. Production has no editing controls or write endpoint. `npm run dev:wrangler`
+still runs the original Wrangler preview when Pages behavior needs testing.
+
 ## Cloudflare resources
 
 - Project: `shahar-ms`
@@ -151,6 +184,20 @@ Run `npm run check` to validate local HTML/CSS references against actual files.
 The check does not mistake a homepage fallback for a successful asset response.
 Browser verification also covers interpreter output, the embedded canvas, article
 image loading, and Vision navigation/search.
+
+### Blustone revival panel
+
+Blustone follows Vision as one homepage panel with three horizontal snap slides.
+The cyan introduction, orange story, and cream repository overview share an orange
+navigation bar. Buttons, arrow keys, and native touch/trackpad swipes change slides;
+vertical gestures keep scrolling the homepage. Hidden slides are inert, reduced
+motion is respected, and resizing preserves the selected chapter. Narrow displays
+use a taller panel with ordinary document scrolling so text remains readable.
+
+The six-image gallery is manual and lazy-loads its first image. Game-only captures
+and their provenance are under `public/images/blustone/`; emulator chrome and ads
+are excluded. Styles are scoped to `#blustone`, and dynamic controls are excluded
+from the local text editor while project copy remains editable.
 
 ### Responsive layouts
 

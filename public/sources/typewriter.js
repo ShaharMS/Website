@@ -45,7 +45,23 @@ function observerCallback(entries, observer) {
     });
 };
 
-document.querySelectorAll(".highlight").forEach((e) => {
+document.querySelectorAll(".highlight, [data-typewriter]").forEach((e) => {
     e.dataset.fullText = e.innerText;
+    if (e.hasAttribute('data-typewriter')) {
+        // Reserve the completed heading's footprint while its letters appear.
+        const reserve = () => {
+            const probe = e.cloneNode(false);
+            probe.removeAttribute('data-typewriter');
+            probe.setAttribute('aria-hidden', 'true');
+            probe.textContent = e.dataset.fullText + ' |';
+            probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${e.getBoundingClientRect().width}px;min-height:0;white-space:pre-line`;
+            e.parentElement.append(probe);
+            e.style.minHeight = Math.ceil(probe.getBoundingClientRect().height) + 'px';
+            probe.remove();
+        };
+        reserve();
+        window.addEventListener('resize', reserve);
+        document.fonts?.ready.then(reserve);
+    }
     observer.observe(e);
 });

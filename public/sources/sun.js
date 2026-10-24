@@ -26,6 +26,7 @@ console.log(window.innerWidth);
 sun.insertAdjacentElement("afterend", secretContainer);
 
 section3.addEventListener("mousemove", (e) => {
+    if (window.__localTextEditor && secretContainer.matches(':hover, :focus-within')) return;
 	// if the mousepoint overlaps the sun, dispatch its hovering css & js events
 	let mx = e.clientX;
 	let my = e.clientY;
@@ -46,26 +47,32 @@ section3.addEventListener("mousemove", (e) => {
 });
 
 let secretCounter = document.getElementById("secret-counter");
+function showSecret(key) {
+    if (window.__localTextEditor && secretCounter.matches(':hover, :focus-within')) return;
+    secretCounter.innerHTML = window.websiteCopy.sun[key];
+    window.__localTextEditor?.bind(secretCounter, 'sun.' + key);
+}
+showSecret('waiting');
 let t1, t2, t3, t4;
 sun.addEventListener("mouseenter", (e) => {
 	sun.classList.add("hover");
 
 	t1 = setTimeout(() => {
-		secretCounter.innerHTML = "Secret In&hellip;&nbsp; 3";
+		showSecret('three');
 	}, 1000)
 	t2 = setTimeout(() => {
-		secretCounter.innerHTML = "Secret In&hellip;&nbsp; 2";
+		showSecret('two');
 	}, 2000)
 	t3 = setTimeout(() => {
-		secretCounter.innerHTML = "Secret In&hellip;&nbsp; 1";
+		showSecret('one');
 	}, 3000)
 	t4 = setTimeout(() => {
-		secretCounter.innerHTML = "Nice!";
+		showSecret('done');
 		//Animation
 	}, 4000)
 });
 sun.addEventListener("mouseout", () => {
 	sun.classList.remove("hover");
 	clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); 
-	secretCounter.innerHTML = "Secret In&hellip;&nbsp; ";
+	showSecret('waiting');
 });

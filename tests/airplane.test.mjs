@@ -7,24 +7,27 @@ test('the airplane alternates complete passes with a readable trailing banner', 
     const source = readFileSync(new URL('../public/sources/airplane.js', import.meta.url), 'utf8');
     const frames = [];
     const graphic = {style: {}};
-    const parts = [{}, {}, {}];
+    const title = {innerHTML: ''};
+    const window = {};
+    vm.runInNewContext(readFileSync(new URL('../public/sources/page-copy.js', import.meta.url), 'utf8'), {window});
     const attributes = new Map();
+    let hovering = false;
     const plane = {
         style: {}, dataset: {},
         getAttribute: key => attributes.get(key),
         setAttribute: (key, value) => attributes.set(key, value),
         closest: () => ({clientWidth: 800}),
-        querySelector: () => graphic,
-        querySelectorAll: () => parts,
-        getBoundingClientRect: () => ({width: 300})
+        querySelector: selector => selector === '.title' ? title : graphic,
+        getBoundingClientRect: () => ({width: 300}),
+        matches: () => hovering
     };
     const context = vm.createContext({performance: {now: () => 0},
-        requestAnimationFrame: frame => frames.push(frame), plane});
+        requestAnimationFrame: frame => frames.push(frame), plane, window});
     vm.runInContext(source.slice(0, source.indexOf('let planes')) + '\nrunPlane(plane, 30);', context);
     assert.equal(plane.dataset.direction, 'left');
     assert.equal(plane.style.flexDirection, 'row');
     assert.equal(graphic.style.transform, 'none');
-    assert.match(parts.map(p => p.textContent).join(' '), /Welcome to my Website!/);
+    assert.match(title.innerHTML, /Welcome/);
     let now = 0;
     const until = direction => {
         for (let i = 0; i < 300; i++) {
@@ -38,8 +41,19 @@ test('the airplane alternates complete passes with a readable trailing banner', 
     assert.equal(plane.style.flexDirection, 'row-reverse');
     assert.equal(graphic.style.transform, 'scaleX(-1)');
     assert.ok(Number.parseFloat(plane.style.left) <= -300, 'return starts offscreen');
-    assert.match(parts.map(p => p.textContent).join(' '), /Enjoy your Stay :D/);
+    assert.match(title.innerHTML, /Enjoy/);
     until('left');
     assert.ok(Number.parseFloat(plane.style.left) >= 800, 'next pass starts offscreen');
-    assert.match(parts.map(p => p.textContent).join(' '), /Welcome to my Website!/);
+    assert.match(title.innerHTML, /Welcome/);
+    const bindings = [];
+    window.__localTextEditor = {bind: (element,key) => bindings.push(key)};
+    hovering = true;
+    const pausedX = plane.style.left;
+    now += 16; frames.shift()(now);
+    assert.equal(plane.style.left, pausedX, 'editing hover pauses flight');
+    hovering = false;
+    now += 16; frames.shift()(now);
+    assert.notEqual(plane.style.left, pausedX, 'flight resumes after editing');
+    until('right');
+    assert.ok(bindings.includes('airplane.right'));
 });
