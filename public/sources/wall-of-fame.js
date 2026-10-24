@@ -21,7 +21,8 @@
     function safe(entry, point) {
         const origin = homes.get(entry).getBoundingClientRect();
         const bounds = board.getBoundingClientRect();
-        const width = Math.min(540, bounds.width), height = entry.scrollHeight;
+        const scale = matrix(getComputedStyle(entry).transform).scale;
+        const width = Math.min(540, bounds.width)*scale, height = entry.scrollHeight*scale;
         const display = {left:bounds.left+(bounds.width-width)/2, right:bounds.left+(bounds.width+width)/2,
             top:bounds.top+(bounds.height-height)/2, bottom:bounds.top+(bounds.height+height)/2};
         return distanceToRect(point, origin) <= gap || distanceToRect(point, display) <= gap || distanceToRoute(point, origin, display) <= gap;
@@ -36,22 +37,23 @@
         const rect = trigger.getBoundingClientRect();
         const local = matrix(getComputedStyle(motion.get(entry)).transform);
         const outer = matrix(getComputedStyle(entry).transform);
-        return {x:(rect.left+rect.right)/2,y:(rect.top+rect.bottom)/2,width:trigger.offsetWidth*local.scale,angle:outer.angle+local.angle};
+        return {x:(rect.left+rect.right)/2,y:(rect.top+rect.bottom)/2,width:trigger.offsetWidth*local.scale*outer.scale,angle:outer.angle+local.angle};
     }
     function fly(entry, from, opening) {
         const layer = motion.get(entry);
         flights.get(entry)?.cancel();
         const trigger = entry.querySelector('.wall-trigger');
         const rect = trigger.getBoundingClientRect();
-        const angle = matrix(getComputedStyle(entry).transform).angle;
+        const outer = matrix(getComputedStyle(entry).transform);
+        const angle = outer.angle;
         const dx = from.x-(rect.left+rect.right)/2, dy = from.y-(rect.top+rect.bottom)/2;
         // Express the flight in the destination seal's coordinates. The pivot is
         // the seal's center, so the wax never stretches as the description appears.
         layer.style.transformOrigin = `50% ${trigger.offsetHeight/2}px`;
-        const x = dx*Math.cos(angle)+dy*Math.sin(angle), y = -dx*Math.sin(angle)+dy*Math.cos(angle);
+        const x = (dx*Math.cos(angle)+dy*Math.sin(angle))/outer.scale, y = (-dx*Math.sin(angle)+dy*Math.cos(angle))/outer.scale;
         const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const animation = layer.animate([
-            {transform:`translate(${x}px, ${y}px) rotate(${from.angle-angle}rad) scale(${from.width/trigger.offsetWidth})`},
+            {transform:`translate(${x}px, ${y}px) rotate(${from.angle-angle}rad) scale(${from.width/trigger.offsetWidth/outer.scale})`},
             {transform:'translate(0, 0) rotate(0rad) scale(1)'}
         ], {duration:reduced ? 0 : opening ? 288 : 224,easing:'cubic-bezier(.4, 0, .2, 1)'});
         flights.set(entry,animation);
@@ -68,7 +70,7 @@
         const ghost = details.cloneNode(true);
         ghost.removeAttribute('id'); ghost.setAttribute('aria-hidden','true'); ghost.inert = true;
         ghost.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
-        ghost.style.cssText = `position:absolute;box-sizing:border-box;pointer-events:none;z-index:3;margin:0;left:${rect.left-bounds.left}px;top:${rect.top-bounds.top}px;width:${rect.width}px`;
+        ghost.style.cssText = `position:absolute;box-sizing:border-box;pointer-events:none;z-index:3;margin:0;left:${rect.left-bounds.left}px;top:${rect.top-bounds.top}px;width:${details.offsetWidth}px;transform-origin:top left;transform:scale(${rect.width/details.offsetWidth})`;
         board.append(ghost);
         const animation = ghost.animate([
             {opacity:appearance.opacity,filter:appearance.filter},
@@ -77,8 +79,10 @@
         animation.finished.catch(() => {}).then(() => ghost.remove());
     }
     function fitDetails() {
-        // Reserve the largest panel before interaction, including its hidden copy.
-        // Opening and closing must never resize the board or move its center.
+        // Keep the wall fixed to the visible viewport; fit content into its board.
+        // Measure full panels without changing the board's height on open or close.
+        const bounds = board.getBoundingClientRect();
+        wall.style.setProperty('--wall-rest-size', Math.min(matchMedia('(max-width:600px)').matches ? 130 : 160, bounds.height*.27) + 'px');
         let height = 0;
         for (const entry of entries) {
             const probe = entry.cloneNode(true);
@@ -88,10 +92,10 @@
             probe.querySelector('.wall-details').hidden = false;
             probe.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
             board.append(probe);
-            height = Math.max(height, probe.scrollHeight + 64);
+            height = Math.max(height, probe.scrollHeight);
             probe.remove();
         }
-        wall.style.setProperty('--wall-panel-height', height + 'px');
+        wall.style.setProperty('--wall-panel-scale', String(Math.max(0, Math.min(1, (bounds.height-16)/Math.max(1,height), (bounds.width-16)/Math.min(540,bounds.width)))));
     }
     function reveal(entry) {
         const from = capture(entry);
