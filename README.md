@@ -189,6 +189,21 @@ cannot invalidate script integrity hashes on checkout.
   explicitly permits vertical panning and pinch zoom.
 - `npm test` runs the touch-scroll regression against the actual starfield script.
 
+### Section, light and scenery geometry
+
+- Every section occupies 100dvh, with the existing 16px black separator painted
+  outside it and spaced between sections. Longer phone/tablet copy scrolls inside
+  its section, retaining readable type and access to all links.
+- Vision beams widen from the actual lens edges and continue beyond their target;
+  fixture rotation and canvas geometry share coordinates. Pointer and keyboard
+  focus aim the lamps, with passive scroll tracking and readable touch layouts.
+- The sign's shorter posts meet the raised hill. Three additional copies of the
+  original tree, a distant picnic pair and occasional butterflies use the existing
+  scenery palette. Decorative additions are noninteractive and hidden from AT.
+- Airplane passes alternate directions. Only the aircraft mirrors; banner text
+  stays readable and switches from Welcome / to my / Website! to Enjoy / your /
+  Stay :D. `npm test` verifies complete direction cycles and banner placement.
+
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth
 is `public/`. Deployment needs only `npm ci` and `npm run deploy`.

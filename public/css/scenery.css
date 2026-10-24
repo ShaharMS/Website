@@ -1,0 +1,45 @@
+/* Match the original flat scenery, using only its existing colors and shapes. */
+#section-3 .grass-hill { top: calc(66% - 50px); }
+#section-3 .tree3 { top: calc(66% - 50px - 150px); }
+#section-3 .tree4 { top: calc(67% - 50px - 150px); }
+#section-3 .content { z-index: 3; }
+#section-3 .content-stick1, #section-3 .content-stick2 { z-index: 2; }
+#section-3 .distant-tree { transform-origin: center bottom; background: #638864; }
+#section-3 .tree5 { top: auto; bottom: 12%; left: 15%; scale: .35; }
+#section-3 .tree6 { top: auto; bottom: 24%; left: auto; right: 25%; scale: .28; }
+#section-3 .tree7 { top: auto; bottom: 27%; left: auto; right: 6%; scale: .3; }
+#section-3 .distant-picnic {
+    position: absolute; right: 4%; bottom: 19%; width: clamp(76px, 10vw, 120px);
+    height: auto; pointer-events: none;
+}
+#section-3 .butterfly {
+    position: absolute; left: 18%; bottom: 9%; width: 12px; height: 8px;
+    pointer-events: none; z-index: 4; opacity: 0;
+    animation: butterfly-flight 23s linear infinite;
+}
+#section-3 .butterfly-1 { left: 75%; bottom: 18%; animation-delay: -8s; animation-duration: 29s; }
+#section-3 .butterfly-2 { left: 38%; bottom: 6%; animation-delay: -17s; animation-duration: 31s; }
+#section-3 .butterfly i {
+    position: absolute; width: 6px; height: 8px; border-radius: 70% 70% 40% 50%;
+    background: #ffee00; border: 1px solid #374544; transform-origin: right center;
+    animation: butterfly-wings .22s ease-in-out infinite alternate;
+}
+#section-3 .butterfly i + i { left: 6px; transform-origin: left center; }
+@keyframes butterfly-wings { to { transform: scaleX(.25); } }
+@keyframes butterfly-flight {
+    0%, 65% { opacity: 0; transform: translate(0, 0); }
+    68% { opacity: 1; transform: translate(6px, -8px); }
+    75% { transform: translate(40px, -34px); }
+    82% { transform: translate(80px, -18px); }
+    89% { opacity: 1; transform: translate(114px, -60px); }
+    95%, 100% { opacity: 0; transform: translate(150px, -84px); }
+}
+@media (max-width: 700px) {
+    #section-3 .distant-picnic { right: 2%; bottom: 13%; }
+    #section-3 .tree5 { left: 5%; bottom: 9%; scale: .25; }
+    #section-3 .tree6 { right: 4%; bottom: 22%; scale: .2; }
+    #section-3 .tree7 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #section-3 .butterfly { display: none; }
+}

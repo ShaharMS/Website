@@ -6,6 +6,9 @@
     height: 100vh;
     height: 100dvh;
     overflow: clip;
+    border: 0;
+    margin-bottom: 16px;
+    box-shadow: 0 16px 0 #000;
 }
 
 #section-1 h1 { top: 50%; }
@@ -17,10 +20,10 @@
 #section-3 .airplane, #section-3 .airplane-aftermath { top: 16%; }
 #section-3 .sun-icon { top: calc(0px - var(--sun-radius)); }
 #section-3 .sun-icon.hover { top: calc(0px - var(--sun-radius) * 1.25); }
-#section-3 .content, #section-3 .content:hover { top: 60%; left: 50%; }
+#section-3 .content, #section-3 .content:hover { top: 62%; left: 50%; }
 #section-3 .content-stick1, #section-3 .content-stick2 {
-    top: 60%;
-    height: 40%;
+    top: 62%;
+    height: 23%;
 }
 #section-3 .grass-bottom { top: calc(100% - 50px); }
 #section-3 .grass-hill { top: calc(80% - 50px); }
@@ -95,4 +98,13 @@
         width: 100%;
     }
     #section-6 .links.column a { margin-block: 6px; }
+}
+
+/* The lamp casing and its lens share the same unmirrored local coordinates. */
+#section-6 .searchlight { transform-origin: center; z-index: 20002; }
+#section-6 .searchlight.mirror { transform: none; }
+#section-6 .searchlight-stick { z-index: 20003; }
+#section-6 .searchlight::after {
+    content: ""; position: absolute; bottom: -2px; left: 4px; right: 4px;
+    height: 4px; background: white; border: 2px solid black;
 }
