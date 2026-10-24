@@ -29,3 +29,14 @@ test('property delimiter renaming preserves decimal numbers and quoted text', ()
     assert.equal(rewrite('print(8.type)\ndefine pi = 3.14\nprint("8.type")', {PROPERTY_ACCESS_SIGN:'::'}),
         'print(8::type)\ndefine pi = 3.14\nprint("8.type")');
 });
+
+test('standard-library member renaming distinguishes string and array receivers', () => {
+    const code='define text = "abc"\ndefine items = Array.create(Number, 3)\nprint(text.length)\nprint(items.length)';
+    const after={...defaultKeywords,STDLIB__STRING_length:'characters'};
+    const result=rewrite(code,after);
+    assert.match(result,/text\.characters/);assert.match(result,/items\.length/);
+});
+
+test('type cast method prefixes and type names are rewritten together', () => {
+    assert.equal(rewrite('print(8.toCharacters())',{TYPE_CAST_FUNCTION_PREFIX:'convert',TYPE_STRING:'Text'}),'print(8.convertText())');
+});

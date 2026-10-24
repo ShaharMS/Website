@@ -2,15 +2,18 @@ import {build} from 'esbuild';
 import {readFile, writeFile, mkdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {keywordDefinitions, normalizeKeywords} from '../../public/little/editor/keywords.mjs';
+import {keywordDefinitions, normalizeKeywords, classicOperators, classicFieldNames} from '../../public/little/editor/keywords.mjs';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const editor = path.join(root, 'public/little/editor');
 await build({entryPoints: [path.join(editor, 'editor-source.js')], outfile: path.join(editor, 'editor.js'), bundle: true, nodePaths: [path.join(root,'tools/little-editor/node_modules')], minify: true, format: 'esm', target: ['es2020'], legalComments: 'eof'});
-const original = await readFile(path.join(root, 'public/little/demo/interp.js'), 'utf8');
+let original = await readFile(path.join(root, 'public/little/demo/interp.js'), 'utf8');
+for (const [sign,field] of Object.entries(classicOperators)) original = original.split('registerSign(' + JSON.stringify(sign) + ',').join('registerSign(little_Keywords.' + field + ',');
+for (const [word,field] of Object.entries({while:'CONDITION__WHILE_LOOP', for:'CONDITION__FOR_LOOP', if:'CONDITION__IF', else:'CONDITION__ELSE', from:'FOR_LOOP_FROM', to:'FOR_LOOP_TO', jump:'FOR_LOOP_JUMP'})) original=original.split(JSON.stringify(word)).join('little_Keywords.'+field);
 if (original.split('Main.main();').length !== 2) throw new Error('Interpreter entrypoint changed');
 const bridge = `
 // Replace only the old DOM demo entrypoint; retain the existing Little engine.
 haxe_Log.trace = function() {};
+little_interpreter_Runtime.onErrorThrown.push(function() {throw new Error('Execution stopped after a Little error.');});
 little_interpreter_Runtime.print = function(item) {
     var text = String(item) + String.fromCharCode(10);
     var remaining = 100000 - little_interpreter_Runtime.stdout.length;
@@ -18,12 +21,14 @@ little_interpreter_Runtime.print = function(item) {
     if (text.length > remaining) throw new Error('Output limit reached.');
 };
 var keywordDefinitions = ${JSON.stringify(keywordDefinitions)};
+var classicEditorFields = ${JSON.stringify([...classicFieldNames])};
 var normalizeEditorKeywords = ${normalizeKeywords.toString()};
 $hx_exports.little.runEditor = function(code, keywords) {
     try {
-        var config = normalizeEditorKeywords(keywords);
+        var config = normalizeEditorKeywords(keywords, keywordDefinitions.filter(function(row) {return classicEditorFields.indexOf(row[0]) !== -1;}));
         if (config.error) return {output: '', error: true, message: config.error};
         Object.keys(config.values).forEach(function(key) {little_Keywords[key] = config.values[key];});
+        little_Keywords.FOR_LOOP_IDENTIFIERS = {FROM: config.values.FOR_LOOP_FROM, TO: config.values.FOR_LOOP_TO, JUMP: config.values.FOR_LOOP_JUMP};
         little_Keywords.SPECIAL_OR_MULTICHAR_SIGNS.push(config.values.PROPERTY_ACCESS_SIGN);
         little_interpreter_Runtime.exitCode = 0;
         little_Little.run(code, false);

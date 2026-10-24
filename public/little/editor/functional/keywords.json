@@ -1,0 +1,611 @@
+[
+  [
+    "VARIABLE_DECLARATION",
+    "define",
+    "Variable declaration",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "FUNCTION_DECLARATION",
+    "action",
+    "Function declaration",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "TYPE_DECL_OR_CAST",
+    "as",
+    "Type decl or cast",
+    "keyword",
+    "global"
+  ],
+  [
+    "FUNCTION_RETURN",
+    "return",
+    "Function return",
+    "keyword",
+    "global"
+  ],
+  [
+    "NULL_VALUE",
+    "nothing",
+    "Null value",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "TRUE_VALUE",
+    "true",
+    "True value",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "FALSE_VALUE",
+    "false",
+    "False value",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "TYPE_DYNAMIC",
+    "Anything",
+    "Type dynamic",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_INT",
+    "Number",
+    "Type int",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_FLOAT",
+    "Decimal",
+    "Type float",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_BOOLEAN",
+    "Boolean",
+    "Type boolean",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_STRING",
+    "Characters",
+    "Type string",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_OBJECT",
+    "Object",
+    "Type object",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_MEMORY",
+    "Memory",
+    "Type memory",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_ARRAY",
+    "Array",
+    "Type array",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_FUNCTION",
+    "Action",
+    "Type function",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_CONDITION",
+    "Condition",
+    "Type condition",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_MODULE",
+    "Type",
+    "Type module",
+    "typeName",
+    "global"
+  ],
+  [
+    "TYPE_SIGN",
+    "Sign",
+    "Type sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "MAIN_MODULE_NAME",
+    "Main",
+    "Main module name",
+    "definitionKeyword",
+    "global"
+  ],
+  [
+    "OBJECT_TYPE_PROPERTY_NAME",
+    "type",
+    "Object type property name",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "OBJECT_ADDRESS_PROPERTY_NAME",
+    "address",
+    "Object address property name",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "PRINT_FUNCTION_NAME",
+    "print",
+    "Print function name",
+    "variableName.function",
+    "global"
+  ],
+  [
+    "RAISE_ERROR_FUNCTION_NAME",
+    "error",
+    "Raise error function name",
+    "variableName.function",
+    "global"
+  ],
+  [
+    "READ_FUNCTION_NAME",
+    "read",
+    "Read function name",
+    "variableName.function",
+    "global"
+  ],
+  [
+    "RUN_CODE_FUNCTION_NAME",
+    "run",
+    "Run code function name",
+    "variableName.function",
+    "global"
+  ],
+  [
+    "CONDITION_PATTERN_PARAMETER_NAME",
+    "pattern",
+    "Condition pattern parameter name",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION_BODY_PARAMETER_NAME",
+    "code",
+    "Condition body parameter name",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__FOR_LOOP",
+    "for",
+    "Condition: for loop",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__WHILE_LOOP",
+    "while",
+    "Condition: while loop",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__IF",
+    "if",
+    "Condition: if",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__ELSE",
+    "else",
+    "Condition: else",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__WHENEVER",
+    "whenever",
+    "Condition: whenever",
+    "keyword",
+    "global"
+  ],
+  [
+    "CONDITION__AFTER",
+    "after",
+    "Condition: after",
+    "keyword",
+    "global"
+  ],
+  [
+    "TYPE_UNKNOWN",
+    "Unknown",
+    "Type unknown",
+    "typeName",
+    "global"
+  ],
+  [
+    "PROPERTY_ACCESS_SIGN",
+    ".",
+    "Property access sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "EQUALS_SIGN",
+    "==",
+    "Equals sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "NOT_EQUALS_SIGN",
+    "!=",
+    "Not equals sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "LARGER_SIGN",
+    ">",
+    "Larger sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "SMALLER_SIGN",
+    "<",
+    "Smaller sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "LARGER_EQUALS_SIGN",
+    ">=",
+    "Larger equals sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "SMALLER_EQUALS_SIGN",
+    "<=",
+    "Smaller equals sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "XOR_SIGN",
+    "^^",
+    "Xor sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "OR_SIGN",
+    "||",
+    "Or sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "AND_SIGN",
+    "&&",
+    "And sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "NOT_SIGN",
+    "!",
+    "Not sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "ADD_SIGN",
+    "+",
+    "Add sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "SUBTRACT_SIGN",
+    "-",
+    "Subtract sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "MULTIPLY_SIGN",
+    "*",
+    "Multiply sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "DIVIDE_SIGN",
+    "/",
+    "Divide sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "MOD_SIGN",
+    "%",
+    "Mod sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "POW_SIGN",
+    "^",
+    "Pow sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "FACTORIAL_SIGN",
+    "!",
+    "Factorial sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "SQRT_SIGN",
+    "√",
+    "Sqrt sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "NEGATE_SIGN",
+    "-",
+    "Negate sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "POSITIVE_SIGN",
+    "+",
+    "Positive sign",
+    "operator",
+    "operator"
+  ],
+  [
+    "STDLIB__FLOAT_isWhole",
+    "isWhole",
+    "Float iswhole",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_length",
+    "length",
+    "String length",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_toLowerCase",
+    "toLowerCase",
+    "String tolowercase",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_toUpperCase",
+    "toUpperCase",
+    "String touppercase",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_trim",
+    "trim",
+    "String trim",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_substring",
+    "substring",
+    "String substring",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_charAt",
+    "charAt",
+    "String charat",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_split",
+    "split",
+    "String split",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_replace",
+    "replace",
+    "String replace",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_remove",
+    "remove",
+    "String remove",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_contains",
+    "contains",
+    "String contains",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_indexOf",
+    "indexOf",
+    "String indexof",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_lastIndexOf",
+    "lastIndexOf",
+    "String lastindexof",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_startsWith",
+    "startsWith",
+    "String startswith",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_endsWith",
+    "endsWith",
+    "String endswith",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__STRING_fromCharCode",
+    "fromCharCode",
+    "String fromcharcode",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__ARRAY_length",
+    "length",
+    "Array length",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__ARRAY_elementType",
+    "elementType",
+    "Array elementtype",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__ARRAY_get",
+    "get",
+    "Array get",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__ARRAY_set",
+    "set",
+    "Array set",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_allocate",
+    "allocate",
+    "Memory allocate",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_free",
+    "free",
+    "Memory free",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_read",
+    "read",
+    "Memory read",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_write",
+    "write",
+    "Memory write",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_size",
+    "size",
+    "Memory size",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "STDLIB__MEMORY_maxSize",
+    "maxSize",
+    "Memory maxsize",
+    "variableName.function",
+    "member"
+  ],
+  [
+    "FOR_LOOP_FROM",
+    "from",
+    "For loop from",
+    "keyword",
+    "global"
+  ],
+  [
+    "FOR_LOOP_TO",
+    "to",
+    "For loop to",
+    "keyword",
+    "global"
+  ],
+  [
+    "FOR_LOOP_JUMP",
+    "jump",
+    "For loop jump",
+    "keyword",
+    "global"
+  ],
+  [
+    "TYPE_CAST_FUNCTION_PREFIX",
+    "to",
+    "Type cast function prefix",
+    "keyword",
+    "global"
+  ],
+  [
+    "INSTANTIATE_FUNCTION_NAME",
+    "create",
+    "Instantiate function name",
+    "variableName.function",
+    "member"
+  ]
+]

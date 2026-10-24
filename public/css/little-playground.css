@@ -59,3 +59,9 @@
 }
 
 .blended .resizable-panes > .toolbar { align-self: start; }
+
+.blended #keywords tr[hidden] { display: none !important; }
+.blended #runtime-profile { max-width: 180px; min-width: 0; background: #1e1e1e; color: #ddd; border: 1px solid #858585; padding: 6px; font: inherit; }
+.blended .keyword-panel > header { flex-wrap: wrap; }
+
+.blended #keyword-filter { width: 100%; margin-top: 8px; background: #1e1e1e; color: #ddd; border: 1px solid #858585; padding: 6px; font: inherit; border-radius: 4px; }

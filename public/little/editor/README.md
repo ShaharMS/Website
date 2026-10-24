@@ -13,8 +13,8 @@ the description on narrow layouts, and uses 16px code text on small screens.
 The same bundled Little interpreter used by /little/demo is retained. The build
 replaces only its DOM-demo entrypoint with a worker API and plain output formatter.
 Each execution gets a fresh worker; Stop and the three-second timeout terminate
-that worker. Output is capped at 100,000 characters. This does not upgrade the language
-runtime to the newer functional-programming branch.
+that worker. Output is capped at 100,000 characters. Classic remains the default; an explicitly selected functional-branch preview
+is also bundled. See tools/little-editor/functional/README.md for pins and limits.
 
 Syntax highlighting adapts the grammar from ShaharMS/Little:
 - Branch: branch/functional-programming
@@ -50,7 +50,7 @@ together, never the AST. The homepage preview has no direction button and retain
 its existing controls. Quickstart code examples and inline keyword names follow
 the configured aliases using the same token-aware rewrite and highlighter.
 
-All 19 keyword customization fields drive execution, highlighting and highlighted
+All applicable keyword customization fields (45 classic, 87 functional preview) drive execution, highlighting and highlighted
 usage examples. Changing a keyword also rewrites complete code tokens using the
 previous keyword set. Quoted strings, documentation/comments, longer identifiers,
 member names and declarations of user-defined names are protected. Changes are
@@ -73,3 +73,13 @@ separate /little/guides page has been removed. Haxe articles live at /haxe/,
 with old /little/doc entry points redirected for existing bookmarks; the Haxe area
 contains no Little landing page or playground cross-links. Little's homepage
 Documentation button points to the actual repository reference.
+
+Runtime selection filters the table to supported fields. The settings filter
+searches names and default values. New controls include condition/loop names,
+operator symbols, internal type/module names, and—in the functional preview—the
+array/object/memory types, standard-library member names and cast/constructor
+names. Highlighting, usage examples, Quickstart and safe rewriting follow the
+active profile. Member rewriting distinguishes inferable string/array receivers;
+ambiguous member names remain unchanged instead of altering unrelated fields.
+Site deployment automatically versions this editor, both workers/runtimes and all
+CSS dependencies through scripts/build-site.mjs; manual ?v= bumps are unnecessary.

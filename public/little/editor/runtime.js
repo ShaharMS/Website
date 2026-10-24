@@ -1141,7 +1141,7 @@ js_Boot.__resolveNativeClass = function(name) {
 	return $global[name];
 };
 var little_interpreter_KeywordConfig = function(VARIABLE_DECLARATION,FUNCTION_DECLARATION,TYPE_DECL_OR_CAST,FUNCTION_RETURN,NULL_VALUE,TRUE_VALUE,FALSE_VALUE,TYPE_DYNAMIC,TYPE_VOID,TYPE_INT,TYPE_FLOAT,TYPE_BOOLEAN,TYPE_STRING,TYPE_MODULE,TYPE_SIGN,MAIN_MODULE_NAME,REGISTERED_MODULE_NAME,PRINT_FUNCTION_NAME,RAISE_ERROR_FUNCTION_NAME,READ_FUNCTION_NAME,RUN_CODE_FUNCTION_NAME,TYPE_UNKNOWN,CONDITION_TYPES,SPECIAL_OR_MULTICHAR_SIGNS,PROPERTY_ACCESS_SIGN,EQUALS_SIGN,NOT_EQUALS_SIGN,XOR_SIGN,OR_SIGN,AND_SIGN,FOR_LOOP_IDENTIFIERS) {
-	this.FOR_LOOP_IDENTIFIERS = { FROM : "from", TO : "to", JUMP : "jump"};
+	this.FOR_LOOP_IDENTIFIERS = { FROM : little_Keywords.FOR_LOOP_FROM, TO : little_Keywords.FOR_LOOP_TO, JUMP : little_Keywords.FOR_LOOP_JUMP};
 	this.AND_SIGN = "&&";
 	this.OR_SIGN = "||";
 	this.XOR_SIGN = "^^";
@@ -5427,7 +5427,7 @@ little_parser_Parser.mergeElses = function(pre) {
 					little_interpreter_Runtime.throwError(little_parser_ParserTokens.ErrorMessage("`" + little_Keywords.ELSE + "` condition has no body, body cut off by a line split, or does not exist"),"Parser");
 					return null;
 				default:
-					post.push(little_parser_ParserTokens.Condition(little_parser_ParserTokens.Identifier("if"),exp1,body1,type4));
+					post.push(little_parser_ParserTokens.Condition(little_parser_ParserTokens.Identifier(little_Keywords.CONDITION__IF),exp1,body1,type4));
 				}
 			} else {
 				post.push(token);
@@ -5664,31 +5664,31 @@ little_tools_PrepareRun.addFunctions = function() {
 };
 little_tools_PrepareRun.addSigns = function() {
 	little_Little.operators.isUserDefined = false;
-	little_Little.plugin.registerSign("+",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
+	little_Little.plugin.registerSign(little_Keywords.ADD_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(r) == "number" && ((r | 0) === r)) {
 			return little_parser_ParserTokens.Number(r + "");
 		}
 		return little_parser_ParserTokens.Decimal(r + "");
 	}});
-	little_Little.plugin.registerSign("-",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SUBTRACT_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(r) == "number" && ((r | 0) === r)) {
 			return little_parser_ParserTokens.Number(-r + "");
 		}
 		return little_parser_ParserTokens.Decimal(-r + "");
 	}});
-	little_Little.plugin.registerSign("√",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SQRT_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.RHS_ONLY, singleSidedOperatorCallback : function(rhs) {
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		return little_parser_ParserTokens.Decimal(Math.sqrt(r) + "");
 	}});
 	little_Little.operators.HIGH_PRIORITY.push("√");
-	little_Little.plugin.registerSign("!",{ lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.LHS_ONLY, singleSidedOperatorCallback : function(lhs) {
+	little_Little.plugin.registerSign(little_Keywords.FACTORIAL_SIGN,{ lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], operatorType : little_interpreter_OperatorType.LHS_ONLY, singleSidedOperatorCallback : function(lhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		return little_parser_ParserTokens.Decimal(vision_tools_MathTools.factorial(l) + "");
 	}});
 	little_Little.operators.HIGH_PRIORITY.push("!");
-	little_Little.plugin.registerSign("+",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT,little_Keywords.TYPE_STRING], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT,little_Keywords.TYPE_STRING], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.ADD_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT,little_Keywords.TYPE_STRING], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT,little_Keywords.TYPE_STRING], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string" || typeof(r) == "string") {
@@ -5699,7 +5699,7 @@ little_tools_PrepareRun.addSigns = function() {
 		}
 		return little_parser_ParserTokens.Decimal(l + r + "");
 	}});
-	little_Little.plugin.registerSign("-",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SUBTRACT_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5710,7 +5710,7 @@ little_tools_PrepareRun.addSigns = function() {
 		}
 		return little_parser_ParserTokens.Decimal(l - r + "");
 	}});
-	little_Little.plugin.registerSign("*",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_INT}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.MULTIPLY_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_INT}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5721,7 +5721,7 @@ little_tools_PrepareRun.addSigns = function() {
 		}
 		return little_parser_ParserTokens.Decimal(l * r + "");
 	}});
-	little_Little.plugin.registerSign("/",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.DIVIDE_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(r == 0) {
@@ -5729,7 +5729,7 @@ little_tools_PrepareRun.addSigns = function() {
 		}
 		return little_parser_ParserTokens.Decimal(l / r + "");
 	}});
-	little_Little.plugin.registerSign("^",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.POW_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "number" && ((l | 0) === l) && (typeof(r) == "number" && ((r | 0) === r))) {
@@ -5738,7 +5738,7 @@ little_tools_PrepareRun.addSigns = function() {
 		return little_parser_ParserTokens.Decimal(Math.pow(l,r) + "");
 	}});
 	little_Little.operators.HIGH_PRIORITY.push("^");
-	little_Little.plugin.registerSign("√",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SQRT_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		var lPositive = l >= 0;
@@ -5748,42 +5748,42 @@ little_tools_PrepareRun.addSigns = function() {
 		}
 		return little_parser_ParserTokens.Decimal(Math.pow(l * (!lPositive && oddN ? -1 : 1),1 / r) + "");
 	}});
-	little_Little.plugin.registerSign("&&",{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.AND_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
 		if(little_tools_Conversion.toHaxeValue(lhs) && little_tools_Conversion.toHaxeValue(rhs)) {
 			return little_parser_ParserTokens.TrueValue;
 		} else {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("||",{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.OR_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
 		if(little_tools_Conversion.toHaxeValue(lhs) || little_tools_Conversion.toHaxeValue(rhs)) {
 			return little_parser_ParserTokens.TrueValue;
 		} else {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("==",{ callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.EQUALS_SIGN,{ callback : function(lhs,rhs) {
 		if(little_tools_Conversion.toHaxeValue(lhs) == little_tools_Conversion.toHaxeValue(rhs)) {
 			return little_parser_ParserTokens.TrueValue;
 		} else {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("!=",{ callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.NOT_EQUALS_SIGN,{ callback : function(lhs,rhs) {
 		if(little_tools_Conversion.toHaxeValue(lhs) != little_tools_Conversion.toHaxeValue(rhs)) {
 			return little_parser_ParserTokens.TrueValue;
 		} else {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("^^",{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.XOR_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], lhsAllowedTypes : [little_Keywords.TYPE_BOOLEAN], callback : function(lhs,rhs) {
 		if(little_tools_Conversion.toHaxeValue(lhs) != little_tools_Conversion.toHaxeValue(rhs)) {
 			return little_parser_ParserTokens.TrueValue;
 		} else {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign(">",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.LARGER_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5799,7 +5799,7 @@ little_tools_PrepareRun.addSigns = function() {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign(">=",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.LARGER_EQUALS_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5815,7 +5815,7 @@ little_tools_PrepareRun.addSigns = function() {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("<",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SMALLER_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5831,7 +5831,7 @@ little_tools_PrepareRun.addSigns = function() {
 			return little_parser_ParserTokens.FalseValue;
 		}
 	}});
-	little_Little.plugin.registerSign("<=",{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
+	little_Little.plugin.registerSign(little_Keywords.SMALLER_EQUALS_SIGN,{ rhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], lhsAllowedTypes : [little_Keywords.TYPE_FLOAT,little_Keywords.TYPE_INT], allowedTypeCombos : [{ lhs : little_Keywords.TYPE_STRING, rhs : little_Keywords.TYPE_STRING}], callback : function(lhs,rhs) {
 		var l = little_tools_Conversion.toHaxeValue(lhs);
 		var r = little_tools_Conversion.toHaxeValue(rhs);
 		if(typeof(l) == "string") {
@@ -5850,7 +5850,7 @@ little_tools_PrepareRun.addSigns = function() {
 	little_Little.operators.isUserDefined = true;
 };
 little_tools_PrepareRun.addConditions = function() {
-	little_Little.plugin.registerCondition("while",[little_parser_ParserTokens.Variable(little_parser_ParserTokens.Identifier("rule"),little_parser_ParserTokens.Identifier(little_Keywords.TYPE_BOOLEAN))],function(params,body) {
+	little_Little.plugin.registerCondition(little_Keywords.CONDITION__WHILE_LOOP,[little_parser_ParserTokens.Variable(little_parser_ParserTokens.Identifier("rule"),little_parser_ParserTokens.Identifier(little_Keywords.TYPE_BOOLEAN))],function(params,body) {
 		var val = little_parser_ParserTokens.NullValue;
 		var safetyNet = 0;
 		while(little_tools_Conversion.toHaxeValue(little_interpreter_Interpreter.evaluateExpressionParts(params)) && safetyNet < 500000) {
@@ -5862,7 +5862,7 @@ little_tools_PrepareRun.addConditions = function() {
 		}
 		return val;
 	});
-	little_Little.plugin.registerCondition("if",[little_parser_ParserTokens.Variable(little_parser_ParserTokens.Identifier("rule"),little_parser_ParserTokens.Identifier(little_Keywords.TYPE_BOOLEAN))],function(params,body) {
+	little_Little.plugin.registerCondition(little_Keywords.CONDITION__IF,[little_parser_ParserTokens.Variable(little_parser_ParserTokens.Identifier("rule"),little_parser_ParserTokens.Identifier(little_Keywords.TYPE_BOOLEAN))],function(params,body) {
 		var val = little_parser_ParserTokens.NullValue;
 		haxe_Log.trace(params,{ fileName : "src/little/tools/PrepareRun.hx", lineNumber : 344, className : "little.tools.PrepareRun", methodName : "addConditions", customParams : [body]});
 		if(little_tools_Conversion.toHaxeValue(little_interpreter_Interpreter.evaluateExpressionParts(params))) {
@@ -5870,7 +5870,7 @@ little_tools_PrepareRun.addConditions = function() {
 		}
 		return val;
 	});
-	little_Little.plugin.registerCondition("for",null,function(params,body) {
+	little_Little.plugin.registerCondition(little_Keywords.CONDITION__FOR_LOOP,null,function(params,body) {
 		var val = little_parser_ParserTokens.NullValue;
 		var fp = [];
 		var _g = 0;
@@ -8489,7 +8489,7 @@ little_Keywords.READ_FUNCTION_NAME = "read";
 little_Keywords.RUN_CODE_FUNCTION_NAME = "run";
 little_Keywords.TYPE_UNKNOWN = "Unknown";
 little_Keywords.CONDITION_TYPES = [];
-little_Keywords.ELSE = "else";
+little_Keywords.ELSE = little_Keywords.CONDITION__ELSE;
 little_Keywords.SPECIAL_OR_MULTICHAR_SIGNS = ["++","--","**","+=","-=",">=","<=","==","&&","||","^^","!="];
 little_Keywords.PROPERTY_ACCESS_SIGN = ".";
 little_Keywords.EQUALS_SIGN = "==";
@@ -8497,9 +8497,9 @@ little_Keywords.NOT_EQUALS_SIGN = "!=";
 little_Keywords.XOR_SIGN = "^^";
 little_Keywords.OR_SIGN = "||";
 little_Keywords.AND_SIGN = "&&";
-little_Keywords.FOR_LOOP_IDENTIFIERS = { FROM : "from", TO : "to", JUMP : "jump"};
-little_Keywords.TO = "to";
-little_Keywords.defaultKeywordSet = new little_interpreter_KeywordConfig("define","action","as","return","nothing","true","false","Anything","Void","Number","Decimal","Boolean","Characters","Type","Sign","Main","Registered","print","error","read","run","Unknown",null,["++","--","**","+=","-=",">=","<=","==","&&","||","^^","!="],".","==","!=","^^","||","&&",{ FROM : "from", TO : "to", JUMP : "jump"});
+little_Keywords.FOR_LOOP_IDENTIFIERS = { FROM : little_Keywords.FOR_LOOP_FROM, TO : little_Keywords.FOR_LOOP_TO, JUMP : little_Keywords.FOR_LOOP_JUMP};
+little_Keywords.TO = little_Keywords.FOR_LOOP_TO;
+little_Keywords.defaultKeywordSet = new little_interpreter_KeywordConfig("define","action","as","return","nothing","true","false","Anything","Void","Number","Decimal","Boolean","Characters","Type","Sign","Main","Registered","print","error","read","run","Unknown",null,["++","--","**","+=","-=",">=","<=","==","&&","||","^^","!="],".","==","!=","^^","||","&&",{ FROM : little_Keywords.FOR_LOOP_FROM, TO : little_Keywords.FOR_LOOP_TO, JUMP : little_Keywords.FOR_LOOP_JUMP});
 little_interpreter_Operators.isUserDefined = true;
 little_interpreter_Operators.USER_DEFINED = [];
 little_interpreter_Operators.HIGH_PRIORITY = [];
@@ -8539,30 +8539,37 @@ little_tools_PrepareRun.prepared = false;
 
 // Replace only the old DOM demo entrypoint; retain the existing Little engine.
 haxe_Log.trace = function() {};
+little_interpreter_Runtime.onErrorThrown.push(function() {throw new Error('Execution stopped after a Little error.');});
 little_interpreter_Runtime.print = function(item) {
     var text = String(item) + String.fromCharCode(10);
     var remaining = 100000 - little_interpreter_Runtime.stdout.length;
     little_interpreter_Runtime.stdout += text.slice(0, remaining);
     if (text.length > remaining) throw new Error('Output limit reached.');
 };
-var keywordDefinitions = [["VARIABLE_DECLARATION","define","Variable declaration","definitionKeyword"],["FUNCTION_DECLARATION","action","Function declaration","definitionKeyword"],["NULL_VALUE","nothing","Null value","definitionKeyword"],["RUN_CODE_FUNCTION_NAME","run","Run code function","variableName.function"],["TYPE_DECL_OR_CAST","as","Type declaration or cast","keyword"],["TYPE_FLOAT","Decimal","Decimal type","typeName"],["TYPE_BOOLEAN","Boolean","Boolean type","typeName"],["TYPE_STRING","Characters","String type","typeName"],["TYPE_MODULE","Type","Module type","typeName"],["FUNCTION_RETURN","return","Function return","keyword"],["READ_FUNCTION_NAME","read","Read function","variableName.function"],["TYPE_DYNAMIC","Anything","Dynamic type","typeName"],["PROPERTY_ACCESS_SIGN",".","Property access","operator"],["TRUE_VALUE","true","True value","definitionKeyword"],["TYPE_INT","Number","Integer type","typeName"],["FALSE_VALUE","false","False value","definitionKeyword"],["RAISE_ERROR_FUNCTION_NAME","error","Raise error function","variableName.function"],["TYPE_SIGN","Sign","Sign type","typeName"],["PRINT_FUNCTION_NAME","print","Print function","variableName.function"]];
-var normalizeEditorKeywords = function normalizeKeywords(overrides = {}) {
+var keywordDefinitions = [["VARIABLE_DECLARATION","define","Variable declaration","definitionKeyword","global"],["FUNCTION_DECLARATION","action","Function declaration","definitionKeyword","global"],["NULL_VALUE","nothing","Null value","definitionKeyword","global"],["RUN_CODE_FUNCTION_NAME","run","Run code function","variableName.function","global"],["TYPE_DECL_OR_CAST","as","Type declaration or cast","keyword","global"],["TYPE_FLOAT","Decimal","Decimal type","typeName","global"],["TYPE_BOOLEAN","Boolean","Boolean type","typeName","global"],["TYPE_STRING","Characters","String type","typeName","global"],["TYPE_MODULE","Type","Module type","typeName","global"],["FUNCTION_RETURN","return","Function return","keyword","global"],["READ_FUNCTION_NAME","read","Read function","variableName.function","global"],["TYPE_DYNAMIC","Anything","Dynamic type","typeName","global"],["PROPERTY_ACCESS_SIGN",".","Property access","operator","operator"],["TRUE_VALUE","true","True value","definitionKeyword","global"],["TYPE_INT","Number","Integer type","typeName","global"],["FALSE_VALUE","false","False value","definitionKeyword","global"],["RAISE_ERROR_FUNCTION_NAME","error","Raise error function","variableName.function","global"],["TYPE_SIGN","Sign","Sign type","typeName","global"],["PRINT_FUNCTION_NAME","print","Print function","variableName.function","global"],["TYPE_VOID","Void","Void type","typeName","global"],["TYPE_UNKNOWN","Unknown","Unknown type","typeName","global"],["MAIN_MODULE_NAME","Main","Main module name","definitionKeyword","global"],["REGISTERED_MODULE_NAME","Registered","Registered module name","definitionKeyword","global"],["CONDITION__WHILE_LOOP","while","While loop","keyword","global"],["CONDITION__FOR_LOOP","for","For loop","keyword","global"],["CONDITION__IF","if","If condition","keyword","global"],["FOR_LOOP_FROM","from","For: from","keyword","global"],["FOR_LOOP_TO","to","For: to","keyword","global"],["FOR_LOOP_JUMP","jump","For: step","keyword","global"],["TYPE_OBJECT","Object","Type object","typeName","global"],["TYPE_MEMORY","Memory","Type memory","typeName","global"],["TYPE_ARRAY","Array","Type array","typeName","global"],["TYPE_FUNCTION","Action","Type function","typeName","global"],["TYPE_CONDITION","Condition","Type condition","typeName","global"],["OBJECT_TYPE_PROPERTY_NAME","type","Object type property name","variableName.function","member"],["OBJECT_ADDRESS_PROPERTY_NAME","address","Object address property name","variableName.function","member"],["CONDITION_PATTERN_PARAMETER_NAME","pattern","Condition pattern parameter name","keyword","global"],["CONDITION_BODY_PARAMETER_NAME","code","Condition body parameter name","keyword","global"],["CONDITION__ELSE","else","Condition: else","keyword","global"],["CONDITION__WHENEVER","whenever","Condition: whenever","keyword","global"],["CONDITION__AFTER","after","Condition: after","keyword","global"],["EQUALS_SIGN","==","Equals sign","operator","operator"],["NOT_EQUALS_SIGN","!=","Not equals sign","operator","operator"],["LARGER_SIGN",">","Larger sign","operator","operator"],["SMALLER_SIGN","<","Smaller sign","operator","operator"],["LARGER_EQUALS_SIGN",">=","Larger equals sign","operator","operator"],["SMALLER_EQUALS_SIGN","<=","Smaller equals sign","operator","operator"],["XOR_SIGN","^^","Xor sign","operator","operator"],["OR_SIGN","||","Or sign","operator","operator"],["AND_SIGN","&&","And sign","operator","operator"],["NOT_SIGN","!","Not sign","operator","operator"],["ADD_SIGN","+","Add sign","operator","operator"],["SUBTRACT_SIGN","-","Subtract sign","operator","operator"],["MULTIPLY_SIGN","*","Multiply sign","operator","operator"],["DIVIDE_SIGN","/","Divide sign","operator","operator"],["MOD_SIGN","%","Mod sign","operator","operator"],["POW_SIGN","^","Pow sign","operator","operator"],["FACTORIAL_SIGN","!","Factorial sign","operator","operator"],["SQRT_SIGN","√","Sqrt sign","operator","operator"],["NEGATE_SIGN","-","Negate sign","operator","operator"],["POSITIVE_SIGN","+","Positive sign","operator","operator"],["STDLIB__FLOAT_isWhole","isWhole","Float iswhole","variableName.function","member"],["STDLIB__STRING_length","length","String length","variableName.function","member"],["STDLIB__STRING_toLowerCase","toLowerCase","String tolowercase","variableName.function","member"],["STDLIB__STRING_toUpperCase","toUpperCase","String touppercase","variableName.function","member"],["STDLIB__STRING_trim","trim","String trim","variableName.function","member"],["STDLIB__STRING_substring","substring","String substring","variableName.function","member"],["STDLIB__STRING_charAt","charAt","String charat","variableName.function","member"],["STDLIB__STRING_split","split","String split","variableName.function","member"],["STDLIB__STRING_replace","replace","String replace","variableName.function","member"],["STDLIB__STRING_remove","remove","String remove","variableName.function","member"],["STDLIB__STRING_contains","contains","String contains","variableName.function","member"],["STDLIB__STRING_indexOf","indexOf","String indexof","variableName.function","member"],["STDLIB__STRING_lastIndexOf","lastIndexOf","String lastindexof","variableName.function","member"],["STDLIB__STRING_startsWith","startsWith","String startswith","variableName.function","member"],["STDLIB__STRING_endsWith","endsWith","String endswith","variableName.function","member"],["STDLIB__STRING_fromCharCode","fromCharCode","String fromcharcode","variableName.function","member"],["STDLIB__ARRAY_length","length","Array length","variableName.function","member"],["STDLIB__ARRAY_elementType","elementType","Array elementtype","variableName.function","member"],["STDLIB__ARRAY_get","get","Array get","variableName.function","member"],["STDLIB__ARRAY_set","set","Array set","variableName.function","member"],["STDLIB__MEMORY_allocate","allocate","Memory allocate","variableName.function","member"],["STDLIB__MEMORY_free","free","Memory free","variableName.function","member"],["STDLIB__MEMORY_read","read","Memory read","variableName.function","member"],["STDLIB__MEMORY_write","write","Memory write","variableName.function","member"],["STDLIB__MEMORY_size","size","Memory size","variableName.function","member"],["STDLIB__MEMORY_maxSize","maxSize","Memory maxsize","variableName.function","member"],["TYPE_CAST_FUNCTION_PREFIX","to","Type cast function prefix","keyword","global"],["INSTANTIATE_FUNCTION_NAME","create","Instantiate function name","variableName.function","member"]];
+var classicEditorFields = ["VARIABLE_DECLARATION","FUNCTION_DECLARATION","NULL_VALUE","RUN_CODE_FUNCTION_NAME","TYPE_DECL_OR_CAST","TYPE_FLOAT","TYPE_BOOLEAN","TYPE_STRING","TYPE_MODULE","FUNCTION_RETURN","READ_FUNCTION_NAME","TYPE_DYNAMIC","PROPERTY_ACCESS_SIGN","TRUE_VALUE","TYPE_INT","FALSE_VALUE","RAISE_ERROR_FUNCTION_NAME","TYPE_SIGN","PRINT_FUNCTION_NAME","TYPE_VOID","TYPE_UNKNOWN","MAIN_MODULE_NAME","REGISTERED_MODULE_NAME","CONDITION__WHILE_LOOP","CONDITION__FOR_LOOP","CONDITION__IF","FOR_LOOP_FROM","FOR_LOOP_TO","FOR_LOOP_JUMP","ADD_SIGN","SUBTRACT_SIGN","MULTIPLY_SIGN","DIVIDE_SIGN","POW_SIGN","SQRT_SIGN","FACTORIAL_SIGN","AND_SIGN","OR_SIGN","XOR_SIGN","EQUALS_SIGN","NOT_EQUALS_SIGN","LARGER_SIGN","SMALLER_SIGN","LARGER_EQUALS_SIGN","SMALLER_EQUALS_SIGN"];
+var normalizeEditorKeywords = function normalizeKeywords(overrides = {}, definitions = keywordDefinitions) {
     const values = {};
-    for (const [key, fallback, label] of keywordDefinitions) {
+    for (const [key, fallback, label, kind, scope='global'] of definitions) {
         const value = String(overrides[key] ?? '').trim() || fallback;
-        if (key === 'PROPERTY_ACCESS_SIGN' ? /\s|["(){}]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}_]*$/u.test(value)) {
-            return {values, error: `${label}: use ${key === 'PROPERTY_ACCESS_SIGN' ? 'a single delimiter without spaces' : 'one word without spaces'}.`, field: key};
+        const operator = kind === 'operator';
+        if (operator ? /[\s\p{L}\p{N}_"(){}\[\];,]/u.test(value) : !/^[\p{L}_][\p{L}\p{N}_]*$/u.test(value)) {
+            return {values, error: `${label}: use ${operator ? 'an operator symbol without spaces' : 'one word without spaces'}.`, field: key};
         }
-        if (Object.values(values).includes(value)) return {values, error: `${label}: this name is already used by another keyword.`, field: key};
+        if (scope === 'global') {
+            const conflict = definitions.find(([other, original, , , otherScope='global']) => other !== key && values[other] === value && otherScope === 'global' && original !== fallback);
+            if (conflict) return {values, error: `${label}: this name is already used by another keyword.`, field: key};
+        }
         values[key] = value;
     }
     return {values, error: null};
 };
 $hx_exports.little.runEditor = function(code, keywords) {
     try {
-        var config = normalizeEditorKeywords(keywords);
+        var config = normalizeEditorKeywords(keywords, keywordDefinitions.filter(function(row) {return classicEditorFields.indexOf(row[0]) !== -1;}));
         if (config.error) return {output: '', error: true, message: config.error};
         Object.keys(config.values).forEach(function(key) {little_Keywords[key] = config.values[key];});
+        little_Keywords.FOR_LOOP_IDENTIFIERS = {FROM: config.values.FOR_LOOP_FROM, TO: config.values.FOR_LOOP_TO, JUMP: config.values.FOR_LOOP_JUMP};
         little_Keywords.SPECIAL_OR_MULTICHAR_SIGNS.push(config.values.PROPERTY_ACCESS_SIGN);
         little_interpreter_Runtime.exitCode = 0;
         little_Little.run(code, false);

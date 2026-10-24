@@ -1,0 +1,18 @@
+{
+  "sources": {
+    "little": [
+      "https://github.com/ShaharMS/Little.git",
+      "91a66626119da16935fb5ef1fb05a2fc506b776a"
+    ],
+    "vision": [
+      "https://github.com/ShaharMS/Vision.git",
+      "c02cd10ad15b1204248ff7c938989b8d8402edb9"
+    ],
+    "hash": [
+      "https://github.com/flashultra/hash.git",
+      "bd127faf476c1bc63826f95e8f2fbb6e36b84304"
+    ]
+  },
+  "compiler": "4.3.7",
+  "settings": 87
+}

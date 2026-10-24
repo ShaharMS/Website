@@ -7,10 +7,12 @@ import {tags, highlightTree} from '@lezer/highlight';
 import {createLanguage} from './language-source.js';
 import {initializePaneResizing} from './pane-resize.mjs';
 import {keywordChanges, applyKeywordChanges} from './keyword-rewrite.mjs';
-import {keywordDefinitions, defaultKeywords, normalizeKeywords, exampleForKeyword, makeExample} from './keywords.mjs';
+import {keywordDefinitions, defaultKeywords, normalizeKeywords, exampleForKeyword, makeExample, supportedFields} from './keywords.mjs';
 
+let profile = 'classic';
 let keywords = {...defaultKeywords};
-let language = createLanguage(keywords);
+const activeDefinitions = () => keywordDefinitions.filter(row=>supportedFields(profile).has(row[0]));
+let language = createLanguage(keywords, profile);
 const languageSlot = new Compartment();
 const directionSlot = new Compartment();
 const dedicated = document.body.classList.contains('dedicated');
@@ -50,7 +52,7 @@ function finish(label) {
     status.textContent = label;
 }
 function configuration() {
-    return normalizeKeywords(Object.fromEntries([...keywordInputs].map(([key, input]) => [key, input.value])));
+    return normalizeKeywords(Object.fromEntries([...keywordInputs].map(([key, input]) => [key, input.value])), activeDefinitions());
 }
 function run() {
     clearTimeout(typingTimer);
@@ -70,7 +72,7 @@ function run() {
         finish(result.error ? 'Error' : 'Finished');
     };
     executing.onerror = () => {if (worker !== executing) return; write(output, 'The interpreter could not start. Try Run again.'); output.classList.add('error'); finish('Error');};
-    executing.postMessage({code: view.state.doc.toString(), keywords: config.values});
+    executing.postMessage({code: view.state.doc.toString(), keywords: config.values, profile});
     timer = setTimeout(() => {write(output, 'Stopped after 3 seconds. Check for an infinite loop.'); finish('Timed out');}, 3000);
 }
 function scheduleRun() {
@@ -104,12 +106,12 @@ function updateKeywords() {
     const config = configuration();
     keywordInputs.forEach((input, key) => input.setAttribute('aria-invalid', String(config.field === key)));
     if (!config.error) {
-        const changes = keywordChanges(view.state.doc.toString(), keywords, config.values, keywordDefinitions);
-        keywords = config.values;
-        language = createLanguage(keywords);
+        const changes = keywordChanges(view.state.doc.toString(), keywords, {...defaultKeywords,...config.values}, activeDefinitions());
+        keywords = {...defaultKeywords,...config.values};
+        language = createLanguage(keywords, profile);
         view.dispatch({changes, effects: languageSlot.reconfigure(language)});
         exampleNodes.forEach((node, key) => renderExample(node, exampleForKeyword(key, keywords)));
-        guideExamples.forEach((code, node) => renderExample(node, applyKeywordChanges(code, keywordChanges(code, defaultKeywords, keywords, keywordDefinitions))));
+        guideExamples.forEach((code, node) => renderExample(node, applyKeywordChanges(code, keywordChanges(code, defaultKeywords, keywords, activeDefinitions()))));
         document.querySelectorAll('#guide code[data-keyword]').forEach(node => {node.textContent = keywords[node.dataset.keyword];});
     }
     scheduleRun();
@@ -127,9 +129,27 @@ if (table) {
         input.setAttribute('autocapitalize','off'); input.setAttribute('autocorrect','off'); input.addEventListener('input', updateKeywords);
         inputCell.append(input); keywordInputs.set(key, input);
         const sampleCell = document.createElement('td'); const sample = document.createElement('code'); sampleCell.append(sample); exampleNodes.set(key, sample);
-        row.append(nameCell, inputCell, sampleCell); table.append(row);
+        row.dataset.settingKey=key; row.append(nameCell, inputCell, sampleCell); table.append(row);
     }
-    updateKeywords();
+    const select = document.getElementById('runtime-profile');
+    const filter=document.getElementById('keyword-filter');
+    function filterRows() {
+        const query=(filter?.value||'').toLowerCase();
+        for(const row of table.querySelectorAll('tr[data-setting-key]')) {
+            const definition=keywordDefinitions.find(item=>item[0]===row.dataset.settingKey);
+            row.hidden=!supportedFields(profile).has(row.dataset.settingKey) || !definition.slice(0,3).join(' ').toLowerCase().includes(query);
+        }
+    }
+    filter?.addEventListener('input',filterRows);
+    function setProfile() {
+        profile=select?.value || 'classic';
+        filterRows();
+        const note=document.getElementById('runtime-note');
+        if(note) note.textContent=profile==='functional' ? 'Functional branch preview · '+supportedFields(profile).size+' settings. Newer upstream features may differ from classic syntax.' : 'Classic runtime · '+supportedFields(profile).size+' settings. Renaming updates code and highlighting; strings and comments stay unchanged.';
+        updateKeywords();
+    }
+    select?.addEventListener('change',setProfile);
+    setProfile();
     document.getElementById('reset-keywords')?.addEventListener('click', () => {keywordInputs.forEach(input => {input.value = '';}); updateKeywords();});
 }
 runButton.addEventListener('click', run);
@@ -137,7 +157,7 @@ stopButton.addEventListener('click', () => {clearTimeout(typingTimer); finish('S
 document.getElementById('reset').addEventListener('click', () => {
     finish('Ready');
     const config = configuration();
-    view.dispatch({changes: {from: 0, to: view.state.doc.length, insert: applyKeywordChanges(initialCode, keywordChanges(initialCode, defaultKeywords, config.error ? defaultKeywords : config.values, keywordDefinitions))}});
+    view.dispatch({changes: {from: 0, to: view.state.doc.length, insert: applyKeywordChanges(initialCode, keywordChanges(initialCode, defaultKeywords, config.error ? defaultKeywords : config.values, activeDefinitions()))}});
     run();
 });
 const directionButton = dedicated ? document.getElementById('direction-toggle') : null;
