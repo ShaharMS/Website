@@ -82,9 +82,7 @@
         // Keep the wall fixed to the visible viewport; fit content into its board.
         // Measure full panels without changing the board's height on open or close.
         const bounds = board.getBoundingClientRect();
-        const narrow = matchMedia('(max-width:600px)').matches;
-        wall.style.setProperty('--wall-rest-size', Math.min(narrow ? 130 : 160,
-            bounds.height * (narrow ? .25 : .27), bounds.width * (narrow ? .32 : .20)) + 'px');
+        wall.style.setProperty('--wall-rest-size', Math.min(matchMedia('(max-width:600px)').matches ? 130 : 160, bounds.height*.27) + 'px');
         let height = 0;
         for (const entry of entries) {
             const probe = entry.cloneNode(true);
