@@ -75,7 +75,7 @@
 
 /* Wide prints keep their size while using more of the available contact sheet. */
 @container vision (min-width:901px){
- #section-6 .contact .print{width:min(37%,15cqw,calc(var(--print-area-height,440px)*.44));}
+ #section-6 .contact .print{width:min(37%,18cqw,calc(var(--print-area-height,440px)*.5));}
  #section-6 .contact .print:nth-child(1){left:min(2%,var(--print-max-left,2%));top:min(3%,var(--print-max-top,3%));--tilt:-14deg;z-index:4;}
  #section-6 .contact .print:nth-child(2){left:min(33%,var(--print-max-left,33%));top:min(15%,var(--print-max-top,15%));--tilt:12deg;z-index:2;}
  #section-6 .contact .print:nth-child(3){left:min(68%,var(--print-max-left,68%));top:min(2%,var(--print-max-top,2%));--tilt:-10deg;z-index:5;}
