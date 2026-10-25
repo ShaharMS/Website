@@ -72,3 +72,31 @@
  #section-6.vision-contact{height:auto;min-height:100dvh;}
  #section-6 .contact .prints{min-height:420px;}
 }
+
+/* Spread and enlarge the wide contact sheet without changing its content or counts. */
+@container vision (min-width:901px){
+ #section-6 .contact .print{width:min(37%,18cqw,calc(var(--print-area-height,440px)*.5));}
+ #section-6 .contact .print:nth-child(1){left:2%;top:3%;--tilt:-14deg;z-index:4;}
+ #section-6 .contact .print:nth-child(2){left:31%;top:13%;--tilt:12deg;z-index:2;}
+ #section-6 .contact .print:nth-child(3){left:64%;top:0%;--tilt:-10deg;z-index:5;}
+ #section-6 .contact .print:nth-child(4){left:9%;top:25%;--tilt:7deg;z-index:7;}
+ #section-6 .contact .print:nth-child(5){left:39%;top:32%;--tilt:-16deg;z-index:6;}
+ #section-6 .contact .print:nth-child(6){left:69%;top:21%;--tilt:13deg;z-index:3;}
+ #section-6 .contact .print:nth-child(7){left:0%;top:46%;--tilt:-8deg;z-index:8;}
+ #section-6 .contact .print:nth-child(8){left:31%;top:49%;--tilt:11deg;z-index:10;}
+ #section-6 .contact .print:nth-child(9){left:65%;top:44%;--tilt:-12deg;z-index:9;}
+}
+@container vision (min-width:1201px){
+ #section-6 .contact .print:nth-child(1){left:2%;top:3%;--tilt:-14deg;z-index:4;}
+ #section-6 .contact .print:nth-child(2){left:20%;top:15%;--tilt:11deg;z-index:2;}
+ #section-6 .contact .print:nth-child(3){left:47%;top:0%;--tilt:-9deg;z-index:5;}
+ #section-6 .contact .print:nth-child(4){left:70%;top:12%;--tilt:14deg;z-index:1;}
+ #section-6 .contact .print:nth-child(5){left:10%;top:23%;--tilt:-5deg;z-index:8;}
+ #section-6 .contact .print:nth-child(6){left:32%;top:32%;--tilt:-16deg;z-index:7;}
+ #section-6 .contact .print:nth-child(7){left:54%;top:18%;--tilt:8deg;z-index:6;}
+ #section-6 .contact .print:nth-child(8){left:75%;top:34%;--tilt:-12deg;z-index:3;}
+ #section-6 .contact .print:nth-child(9){left:0%;top:46%;--tilt:7deg;z-index:9;}
+ #section-6 .contact .print:nth-child(10){left:26%;top:49%;--tilt:13deg;z-index:12;}
+ #section-6 .contact .print:nth-child(11){left:48%;top:43%;--tilt:-11deg;z-index:10;}
+ #section-6 .contact .print:nth-child(12){left:70%;top:48%;--tilt:5deg;z-index:11;}
+}
