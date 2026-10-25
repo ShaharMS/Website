@@ -6,31 +6,23 @@
     const track = ticker.querySelector('.marquee-track');
     const group = track.firstElementChild;
     const prints = section.querySelector('.prints');
-    const layouts = new Map();
-    function scatter(count, width, height) {
-        if (layouts.has(count)) return layouts.get(count);
-        // Anchor the outer edges, then distribute irregular interior positions.
-        // Positions are generated once per layout, never again on hover.
-        const points = [{x:0,y:.08},{x:.91,y:0},{x:1,y:.92},{x:.06,y:1}];
-        while (points.length < count) {
-            const candidates = Array.from({length:12}, () => ({x:.04+Math.random()*.92,y:.06+Math.random()*.88}));
-            const score = point => Math.min(...points.map(p => ((p.x-point.x)*width)**2 + ((p.y-point.y)*height)**2));
-            candidates.sort((a,b) => score(b)-score(a));
-            points.push(candidates[Math.floor(Math.random()*3)]);
-        }
-        points.forEach(point => point.angle = (Math.random()<.5?-1:1)*(5+Math.random()*12));
-        layouts.set(count,points);
-        return points;
-    }
+    // Art-directed compositions, not random placement. Fractions span the full
+    // usable area after accounting for each rotated print's dimensions.
+    const compositions = {
+        3: [[0,0,-8],[1,.5,7],[.14,1,-6]],
+        6: [[0,0,-10],[1,.08,8],[.08,.48,5],[.93,.56,-11],[0,1,-7],[1,1,9]],
+        9: [[0,0,-11],[.48,.07,8],[1,0,-7],[.07,.48,6],[.49,.56,-12],[.94,.43,10],[0,1,-6],[.53,.94,9],[1,1,-8]],
+        12: [[0,0,-12],[.3,.08,7],[.65,0,-8],[1,.07,11],
+             [.07,.48,5],[.4,.56,-13],[.72,.43,9],[.98,.53,-6],
+             [0,.97,8],[.32,1,-10],[.66,.94,12],[1,1,-5]]
+    };
     const fitPrints = () => {
         prints.style.setProperty('--print-area-height', prints.clientHeight + 'px');
         const visible = [...prints.querySelectorAll('.print')].filter(print => print.offsetWidth);
-        const wide = section.clientWidth > 900;
-        const points = wide ? scatter(visible.length, prints.clientWidth, prints.clientHeight) : [];
+        const points = compositions[visible.length] || compositions[12];
         visible.forEach((print,index) => {
             print.style.transition = 'none';
-            if (wide) print.style.setProperty('--tilt', points[index].angle+'deg');
-            else print.style.removeProperty('--tilt');
+            print.style.setProperty('--tilt', points[index][2]+'deg');
             const angle = Math.abs(parseFloat(getComputedStyle(print).getPropertyValue('--tilt')) || 0)*Math.PI/180;
             const rotatedWidth = print.offsetWidth*Math.cos(angle)+print.offsetHeight*Math.sin(angle);
             const rotatedHeight = print.offsetHeight*Math.cos(angle)+print.offsetWidth*Math.sin(angle);
@@ -40,13 +32,8 @@
             const maxTop = Math.max(0, prints.clientHeight - print.offsetHeight - extraY);
             print.style.setProperty('--print-max-left', maxLeft+'px');
             print.style.setProperty('--print-max-top', maxTop+'px');
-            if (wide) {
-                print.style.left = (extraX + points[index].x*Math.max(0,maxLeft-extraX))+'px';
-                print.style.top = (extraY + points[index].y*Math.max(0,maxTop-extraY))+'px';
-            } else {
-                print.style.removeProperty('left');
-                print.style.removeProperty('top');
-            }
+            print.style.left = (extraX + points[index][0]*Math.max(0,maxLeft-extraX))+'px';
+            print.style.top = (extraY + points[index][1]*Math.max(0,maxTop-extraY))+'px';
             void print.offsetWidth;
             print.style.removeProperty('transition');
         });
