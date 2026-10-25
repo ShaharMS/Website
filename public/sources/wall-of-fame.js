@@ -168,7 +168,10 @@
     document.addEventListener('pointermove', event => {
         if (event.pointerType !== 'mouse') return;
         pointer = {x:event.clientX, y:event.clientY};
-        // Original footprints remain selectable even while another seal is centered.
+        // The open panel and its approach corridor take priority over stamps
+        // whose original footprints happen to lie behind the text or links.
+        if (current && (current.contains(event.target) || safe(current, pointer))) return;
+        // Another stamp can be approached after leaving that protected area.
         const target = entries.find(entry => entry !== current && entry !== closingEntry && nearHome(entry, pointer));
         if (target) {request(target); return;}
         if (closing) {if (queued && !nearHome(queued, pointer)) queued = null; return;}
