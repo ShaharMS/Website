@@ -26,6 +26,8 @@ hashes, and writes deployable output to the ignored `dist/` directory. The
 Wrangler `pages_build_output_dir` matches that directory. Local editing still
 serves the source `public/` files; `npm run deploy -- --committed` remains available
 for a manual release of the committed source through Wrangler.
+Build logs and the exact deployed Git commit are available under Workers & Pages
+> `shahar-ms` > Deployments in the Cloudflare dashboard.
 
 ### Edit text locally
 
