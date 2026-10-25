@@ -16,9 +16,19 @@ npm run deploy
 
 Static files live in `public/`. There is no build step. Wrangler is pinned in
 `package-lock.json`. Deployment uses the production branch `main`.
-This is a Direct Upload project; GitHub pushes do not automatically deploy it.
-Cloudflare does not support converting a Direct Upload project to native Git
-integration; a future GitHub Actions workflow can run `npm run deploy` instead.
+This is a Direct Upload project. Automatic deployments use the GitHub Actions
+workflow `.github/workflows/deploy-pages.yml`, triggered by pushes to `main` or
+manual dispatch. It tests the pushed commit, checks links, and runs the existing
+versioned deployment script against the same `shahar-ms` Pages project. Previous
+release assets are cached between successful runs so already-open pages can
+continue loading their matching scripts and styles.
+
+The workflow requires the repository variable `CLOUDFLARE_ACCOUNT_ID` and encrypted
+repository secret `CLOUDFLARE_API_TOKEN`. The deployment token needs only Account /
+Cloudflare Pages / Edit for the hosting account. Tokens must never be committed.
+Cloudflare does not support converting an existing Direct Upload project to its
+native Git integration; GitHub Actions provides push-to-deploy without replacing
+the project or moving its custom domains.
 
 ### Edit text locally
 
