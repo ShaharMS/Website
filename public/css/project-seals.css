@@ -22,10 +22,18 @@
 /* The shield leaves an open date band beneath the portrait, above its pointed tip. */
 [data-project=blustone] .seal-date{top:calc(var(--stamp-size)*.65);font-size:calc(var(--stamp-size)*.041);color:#141414;}
 @media(max-width:600px){
- .wall-entry[data-project=little],.wall-home[data-project=little]{--stamp-y:18%!important;}
- .wall-entry[data-project=blustone],.wall-home[data-project=blustone]{--stamp-y:48%!important;}
- .wall-entry[data-project=vision],.wall-home[data-project=vision]{--stamp-x:30%!important;--stamp-y:78%!important;}
+ .wall-entry[data-project=little],.wall-home[data-project=little]{--stamp-x:25%!important;--stamp-y:16%!important;}
+ .wall-entry[data-project=blustone],.wall-home[data-project=blustone]{--stamp-x:75%!important;--stamp-y:16%!important;}
+ .wall-entry[data-project=ezworksheet],.wall-home[data-project=ezworksheet]{--stamp-x:25%!important;--stamp-y:50%!important;}
+ .wall-entry[data-project=dynamically],.wall-home[data-project=dynamically]{--stamp-x:75%!important;--stamp-y:50%!important;}
+ .wall-entry[data-project=texter],.wall-home[data-project=texter]{--stamp-x:25%!important;--stamp-y:84%!important;}
+ .wall-entry[data-project=vision],.wall-home[data-project=vision]{--stamp-x:75%!important;--stamp-y:84%!important;}
 }
+
+/* Dates occupy the clear band left by the SVG's recessed date impression. */
+[data-project=ezworksheet] .seal-date{top:calc(var(--stamp-size)*.769);font-size:calc(var(--stamp-size)*.028);color:#555145;}
+[data-project=dynamically] .seal-date{top:calc(var(--stamp-size)*.755);font-size:calc(var(--stamp-size)*.028);color:#b5b7af;}
+[data-project=texter] .seal-date{top:calc(var(--stamp-size)*.761);font-size:calc(var(--stamp-size)*.026);color:#272342;}
 
 @media(max-height:600px){
  .fame-wall{padding-top:14px;padding-bottom:14px;}
