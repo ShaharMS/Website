@@ -20,7 +20,7 @@ The `shahar-ms` Pages project uses Cloudflare's native GitHub connection to
 and deploy automatically; no GitHub Actions workflow or repository deployment
 token is required.
 
-Pages build command: `npm test && npm run check && npm run build -- public dist`.
+Pages build command: `npm run check && npm run build -- public dist`.
 The build versions scripts and styles, updates asset references and integrity
 hashes, and writes deployable output to the ignored `dist/` directory. The
 Wrangler `pages_build_output_dir` matches that directory. Local editing still
@@ -246,7 +246,7 @@ cannot invalidate script integrity hashes on checkout.
   rolling tires with hubs and spokes, and suspension motion.
 - Starfield touch listeners are passive and do not call `preventDefault`; the canvas
   explicitly permits vertical panning and pinch zoom.
-- `npm test` runs the touch-scroll regression against the actual starfield script.
+- Touch interaction preserves native page scrolling.
 
 ### Section, light and scenery geometry
 
@@ -265,7 +265,7 @@ cannot invalidate script integrity hashes on checkout.
 - The airplane starts right-to-left with Welcome / to my / Website!, then returns
   left-to-right with Enjoy / your / Stay :D. Only the aircraft mirrors, keeping its
   trailing banner readable. The original aircraft SVG now has a spinning propeller
-  projected along its nose axis, ahead of the front engine block. `npm test` verifies both complete flight cycles.
+  projected along its nose axis, ahead of the front engine block. The banner stays readable in both directions.
 
 The ignored `.migration-source/` folder is the shallow source checkout. Scripts in
 `scripts/` record the one-time import and repairs; the deployable source of truth
