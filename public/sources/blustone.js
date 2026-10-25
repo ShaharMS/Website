@@ -32,6 +32,7 @@
             behavior: reducedMotion.matches ? 'instant' : 'smooth'});
     }
     steps.forEach(button => button.addEventListener('click', () => go(Number(button.dataset.slide))));
+    root.querySelector('#blustone-story-button')?.addEventListener('click', () => go(1));
     previous.addEventListener('click', () => go(current - 1));
     next.addEventListener('click', () => go((current + 1) % slides.length));
 
