@@ -144,11 +144,7 @@
         layer.append(...entry.childNodes);
         entry.append(layer); motion.set(entry,layer);
         observer.observe(entry);
-        for (const axis of ['x','y']) {
-            const property = '--stamp-' + axis;
-            const anchor = parseFloat(entry.style.getPropertyValue(property));
-            entry.style.setProperty(property, (anchor + (Math.random() - .5) * 5) + '%');
-        }
+        // Authored, scattered anchors stay identical across visits and reloads.
         // A noninteractive marker keeps the original footprint available after the seal moves.
         const home = document.createElement('span');
         home.className = 'wall-home'; home.dataset.project = entry.dataset.project;
