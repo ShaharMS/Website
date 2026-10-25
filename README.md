@@ -14,21 +14,18 @@ npm run dev
 npm run deploy
 ```
 
-Static files live in `public/`. There is no build step. Wrangler is pinned in
-`package-lock.json`. Deployment uses the production branch `main`.
-This is a Direct Upload project. Automatic deployments use the GitHub Actions
-workflow `.github/workflows/deploy-pages.yml`, triggered by pushes to `main` or
-manual dispatch. It tests the pushed commit, checks links, and runs the existing
-versioned deployment script against the same `shahar-ms` Pages project. Previous
-release assets are cached between successful runs so already-open pages can
-continue loading their matching scripts and styles.
+Static source files live in `public/`. Wrangler is pinned in `package-lock.json`.
+The `shahar-ms` Pages project uses Cloudflare's native GitHub connection to
+`ShaharMS/Website`, with `main` as the production branch. Pushes to `main` build
+and deploy automatically; no GitHub Actions workflow or repository deployment
+token is required.
 
-The workflow requires the repository variable `CLOUDFLARE_ACCOUNT_ID` and encrypted
-repository secret `CLOUDFLARE_API_TOKEN`. The deployment token needs only Account /
-Cloudflare Pages / Edit for the hosting account. Tokens must never be committed.
-Cloudflare does not support converting an existing Direct Upload project to its
-native Git integration; GitHub Actions provides push-to-deploy without replacing
-the project or moving its custom domains.
+Pages build command: `npm test && npm run check && npm run build -- public dist`.
+The build versions scripts and styles, updates asset references and integrity
+hashes, and writes deployable output to the ignored `dist/` directory. The
+Wrangler `pages_build_output_dir` matches that directory. Local editing still
+serves the source `public/` files; `npm run deploy -- --committed` remains available
+for a manual release of the committed source through Wrangler.
 
 ### Edit text locally
 
