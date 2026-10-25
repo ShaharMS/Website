@@ -6,7 +6,19 @@
     const track = ticker.querySelector('.marquee-track');
     const group = track.firstElementChild;
     const prints = section.querySelector('.prints');
-    const fitPrints = () => prints.style.setProperty('--print-area-height', prints.clientHeight + 'px');
+    const fitPrints = () => {
+        prints.style.setProperty('--print-area-height', prints.clientHeight + 'px');
+        // Keep the spread and its small hover expansion clear of the copy/links.
+        prints.querySelectorAll('.print').forEach(print => {
+            if (!print.offsetWidth) return;
+            const rect = print.getBoundingClientRect();
+            const extraX = Math.max(0, rect.width - print.offsetWidth) / 2;
+            const extraY = Math.max(0, rect.height - print.offsetHeight) / 2;
+            const hoverRoom = Math.max(rect.width, rect.height) * .03 + 4;
+            print.style.setProperty('--print-max-left', Math.max(0, prints.clientWidth - print.offsetWidth - extraX - hoverRoom) + 'px');
+            print.style.setProperty('--print-max-top', Math.max(0, prints.clientHeight - print.offsetHeight - extraY - hoverRoom) + 'px');
+        });
+    };
     new ResizeObserver(fitPrints).observe(prints);
     fitPrints();
     if (window.__localTextEditor) {

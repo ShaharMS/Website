@@ -9,7 +9,7 @@ async function fixture(viewport=1200,editing=false){
  const values={},classes=new Set(),original={getBoundingClientRect:()=>({width:1800}),cloneNode:()=>({setAttribute(name,value){this[name]=value}})};
  const track={children:[original],get firstElementChild(){return this.children[0]},get lastElementChild(){return this.children.at(-1)},append(clone){clone.remove=()=>this.children.pop();this.children.push(clone)},style:{setProperty:(k,v)=>values[k]=v},classList:{add:c=>classes.add(c)}};
  const ticker={clientWidth:viewport,querySelector:()=>track,classList:{add:c=>classes.add(c)}};
- const prints={clientHeight:400,style:{setProperty(){}}};
+ const prints={clientHeight:400,querySelectorAll:()=>[],style:{setProperty(){}}};
  const section={querySelector:s=>s==='.feature-marquee'?ticker:prints};
  vm.runInNewContext(script,{document:{getElementById:()=>section,fonts:{ready:Promise.resolve()}},window:{__localTextEditor:editing?{}:undefined},ResizeObserver:class{observe(){}}});
  await Promise.resolve();return {values,classes,track};

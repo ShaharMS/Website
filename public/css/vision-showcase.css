@@ -73,30 +73,34 @@
  #section-6 .contact .prints{min-height:420px;}
 }
 
-/* Spread and enlarge the wide contact sheet without changing its content or counts. */
+/* Wide prints keep their size while using more of the available contact sheet. */
 @container vision (min-width:901px){
  #section-6 .contact .print{width:min(37%,18cqw,calc(var(--print-area-height,440px)*.5));}
- #section-6 .contact .print:nth-child(1){left:2%;top:3%;--tilt:-14deg;z-index:4;}
- #section-6 .contact .print:nth-child(2){left:31%;top:13%;--tilt:12deg;z-index:2;}
- #section-6 .contact .print:nth-child(3){left:64%;top:0%;--tilt:-10deg;z-index:5;}
- #section-6 .contact .print:nth-child(4){left:9%;top:25%;--tilt:7deg;z-index:7;}
- #section-6 .contact .print:nth-child(5){left:39%;top:32%;--tilt:-16deg;z-index:6;}
- #section-6 .contact .print:nth-child(6){left:69%;top:21%;--tilt:13deg;z-index:3;}
- #section-6 .contact .print:nth-child(7){left:0%;top:46%;--tilt:-8deg;z-index:8;}
- #section-6 .contact .print:nth-child(8){left:31%;top:49%;--tilt:11deg;z-index:10;}
- #section-6 .contact .print:nth-child(9){left:65%;top:44%;--tilt:-12deg;z-index:9;}
+ #section-6 .contact .print:nth-child(1){left:min(2%,var(--print-max-left,2%));top:min(3%,var(--print-max-top,3%));--tilt:-14deg;z-index:4;}
+ #section-6 .contact .print:nth-child(2){left:min(33%,var(--print-max-left,33%));top:min(15%,var(--print-max-top,15%));--tilt:12deg;z-index:2;}
+ #section-6 .contact .print:nth-child(3){left:min(68%,var(--print-max-left,68%));top:min(2%,var(--print-max-top,2%));--tilt:-10deg;z-index:5;}
+ #section-6 .contact .print:nth-child(4){left:min(10%,var(--print-max-left,10%));top:min(28%,var(--print-max-top,28%));--tilt:7deg;z-index:7;}
+ #section-6 .contact .print:nth-child(5){left:min(42%,var(--print-max-left,42%));top:min(36%,var(--print-max-top,36%));--tilt:-16deg;z-index:6;}
+ #section-6 .contact .print:nth-child(6){left:min(73%,var(--print-max-left,73%));top:min(25%,var(--print-max-top,25%));--tilt:13deg;z-index:3;}
+ #section-6 .contact .print:nth-child(7){left:min(0%,var(--print-max-left,0%));top:min(51%,var(--print-max-top,51%));--tilt:-8deg;z-index:8;}
+ #section-6 .contact .print:nth-child(8){left:min(33%,var(--print-max-left,33%));top:min(55%,var(--print-max-top,55%));--tilt:11deg;z-index:10;}
+ #section-6 .contact .print:nth-child(9){left:min(69%,var(--print-max-left,69%));top:min(50%,var(--print-max-top,50%));--tilt:-12deg;z-index:9;}
 }
 @container vision (min-width:1201px){
- #section-6 .contact .print:nth-child(1){left:2%;top:3%;--tilt:-14deg;z-index:4;}
- #section-6 .contact .print:nth-child(2){left:20%;top:15%;--tilt:11deg;z-index:2;}
- #section-6 .contact .print:nth-child(3){left:47%;top:0%;--tilt:-9deg;z-index:5;}
- #section-6 .contact .print:nth-child(4){left:70%;top:12%;--tilt:14deg;z-index:1;}
- #section-6 .contact .print:nth-child(5){left:10%;top:23%;--tilt:-5deg;z-index:8;}
- #section-6 .contact .print:nth-child(6){left:32%;top:32%;--tilt:-16deg;z-index:7;}
- #section-6 .contact .print:nth-child(7){left:54%;top:18%;--tilt:8deg;z-index:6;}
- #section-6 .contact .print:nth-child(8){left:75%;top:34%;--tilt:-12deg;z-index:3;}
- #section-6 .contact .print:nth-child(9){left:0%;top:46%;--tilt:7deg;z-index:9;}
- #section-6 .contact .print:nth-child(10){left:26%;top:49%;--tilt:13deg;z-index:12;}
- #section-6 .contact .print:nth-child(11){left:48%;top:43%;--tilt:-11deg;z-index:10;}
- #section-6 .contact .print:nth-child(12){left:70%;top:48%;--tilt:5deg;z-index:11;}
+ #section-6 .contact .print:nth-child(1){left:min(2%,var(--print-max-left,2%));top:min(3%,var(--print-max-top,3%));--tilt:-14deg;z-index:4;}
+ #section-6 .contact .print:nth-child(2){left:min(21%,var(--print-max-left,21%));top:min(16%,var(--print-max-top,16%));--tilt:11deg;z-index:2;}
+ #section-6 .contact .print:nth-child(3){left:min(49%,var(--print-max-left,49%));top:min(2%,var(--print-max-top,2%));--tilt:-9deg;z-index:5;}
+ #section-6 .contact .print:nth-child(4){left:min(73%,var(--print-max-left,73%));top:min(14%,var(--print-max-top,14%));--tilt:14deg;z-index:1;}
+ #section-6 .contact .print:nth-child(5){left:min(11%,var(--print-max-left,11%));top:min(26%,var(--print-max-top,26%));--tilt:-5deg;z-index:8;}
+ #section-6 .contact .print:nth-child(6){left:min(34%,var(--print-max-left,34%));top:min(36%,var(--print-max-top,36%));--tilt:-16deg;z-index:7;}
+ #section-6 .contact .print:nth-child(7){left:min(57%,var(--print-max-left,57%));top:min(21%,var(--print-max-top,21%));--tilt:8deg;z-index:6;}
+ #section-6 .contact .print:nth-child(8){left:min(78%,var(--print-max-left,78%));top:min(38%,var(--print-max-top,38%));--tilt:-12deg;z-index:3;}
+ #section-6 .contact .print:nth-child(9){left:min(0%,var(--print-max-left,0%));top:min(51%,var(--print-max-top,51%));--tilt:7deg;z-index:9;}
+ #section-6 .contact .print:nth-child(10){left:min(28%,var(--print-max-left,28%));top:min(55%,var(--print-max-top,55%));--tilt:13deg;z-index:12;}
+ #section-6 .contact .print:nth-child(11){left:min(51%,var(--print-max-left,51%));top:min(48%,var(--print-max-top,48%));--tilt:-11deg;z-index:10;}
+ #section-6 .contact .print:nth-child(12){left:min(74%,var(--print-max-left,74%));top:min(54%,var(--print-max-top,54%));--tilt:5deg;z-index:11;}
 }
+/* Enlarge around the existing center: no lift, straightening or positional shift. */
+#section-6 .contact .print{transition:transform .18s ease-out;transform-origin:center;}
+#section-6 .contact .print:hover{transform:rotate(var(--tilt)) scale(1.06);z-index:30;}
+@media(prefers-reduced-motion:reduce){#section-6 .contact .print{transition:none;}}
