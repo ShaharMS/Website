@@ -16,6 +16,10 @@ def check(raw, page):
     global checked
     raw = raw.strip()
     url = urlsplit(raw)
+    # The Wall of Fame intentionally links to the previous homepage as a project.
+    # Keep rejecting legacy asset and subdomain dependencies below.
+    if raw == 'https://spacebubble.io/' and page == root / 'index.html':
+        return
     if url.hostname and (url.hostname == 'spacebubble.io' or url.hostname.endswith('.spacebubble.io') or url.hostname == 'spacebubble-io.pages.dev'):
         missing['Legacy host dependency: ' + raw].add(str(page.relative_to(root)))
         return

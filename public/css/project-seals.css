@@ -64,3 +64,21 @@
 
 .wall-pencil{position:absolute;right:22px;bottom:14px;width:150px;height:auto;color:#554e42;opacity:.22;pointer-events:none;}
 @media(max-width:600px){.wall-pencil{right:8px;bottom:4px;width:90px}}
+
+/* spacebubble.io keeps all copy editable, including the name pressed into its face. */
+[data-project=spacebubble] .seal-name{position:absolute;top:calc(var(--stamp-size)*.5466667);left:50%;transform:translateX(-50%);white-space:nowrap;font:bold calc(var(--stamp-size)*.0533333)/1 Arial,sans-serif;letter-spacing:calc(var(--stamp-size)*-.001);color:#ecf1ff;pointer-events:none;}
+[data-project=spacebubble] .seal-name[contenteditable=true]{pointer-events:auto;}
+[data-project=spacebubble] .seal-date{top:calc(var(--stamp-size)*.64);font-size:calc(var(--stamp-size)*.038);line-height:1.15;color:#ecf1ff;}
+/* Seven stamps use four staggered rows on narrow screens. Desktop anchors stay put. */
+@media(max-width:600px){
+ .wall-entry[data-project],.wall-home[data-project]{--stamp-size:min(100px,var(--wall-rest-size,100px));}
+ .wall-entry.is-open[data-project]{--stamp-size:210px;}
+ .wall-entry[data-project=little],.wall-home[data-project=little]{--stamp-x:25%!important;--stamp-y:12%!important;}
+ .wall-entry[data-project=ezworksheet],.wall-home[data-project=ezworksheet]{--stamp-y:13%!important;}
+ .wall-entry[data-project=blustone],.wall-home[data-project=blustone]{--stamp-y:37%!important;}
+ .wall-entry[data-project=dynamically],.wall-home[data-project=dynamically]{--stamp-y:38%!important;}
+ .wall-entry[data-project=vision],.wall-home[data-project=vision]{--stamp-y:62%!important;}
+ .wall-entry[data-project=texter],.wall-home[data-project=texter]{--stamp-y:64%!important;}
+ .wall-entry[data-project=spacebubble],.wall-home[data-project=spacebubble]{--stamp-x:49%!important;--stamp-y:88%!important;}
+}
+@media(max-width:600px) and (max-height:600px){.wall-entry.is-open[data-project]{--stamp-size:160px;}}
