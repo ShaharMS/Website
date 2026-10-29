@@ -7,7 +7,8 @@
     "dev": "node scripts/dev-server.mjs",
     "dev:wrangler": "wrangler pages dev public",
     "build": "node scripts/build-site.mjs",
-    "deploy": "node scripts/deploy-site.mjs"
+    "deploy": "node scripts/deploy-site.mjs",
+    "test:technology": "node scripts/test-technology-pool.mjs"
   },
   "devDependencies": {
     "parse5": "^8.0.1",

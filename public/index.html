@@ -21,6 +21,8 @@
 
 	<script src="/vendor/4047a043ad8e-matter.min.js" integrity="sha512-0z8URjGET6GWnS1xcgiLBZBzoaS8BNlKayfZyQNKz4IRp+s7CKXx0yz7Eco2+TcwoeMBa5KMwmTX7Kus7Fa5Uw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><link rel="stylesheet" href="css/blustone.css">
 <link rel="stylesheet" href="css/vision-showcase.css">
+<link rel="stylesheet" href="css/technology-intro.css?v=20261029">
+<link rel="stylesheet" href="css/technology-pool.css">
 </head>
 	<script src="/vendor/027051effa47-gsap.min.js"
 		integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
@@ -544,7 +546,53 @@
 <article class="wall-entry" data-project="spacebubble" style="--stamp-x:88%;--stamp-y:87%;--stamp-turn:11deg"><button class="wall-trigger" data-edit-skip aria-label="Explore spacebubble.io" aria-expanded="false" aria-controls="spacebubble-wall-details"><img src="images/project-seals/spacebubble.svg?v=20261026" width="300" height="270" alt="spacebubble.io cobalt bubble stamp"></button><span class="seal-name">spacebubble.io</span><span class="seal-date">EST. 16.02.2022</span><div class="wall-details" id="spacebubble-wall-details" hidden><h3>spacebubble.io</h3><p>My previous website; still floating around.</p><a href="https://spacebubble.io/" target="_blank" rel="noreferrer">Visit the previous website ↗</a></div></article>
 </div></section>
 <script src="./sources/wall-of-fame.js?v=20261025-fixed-layout"></script>
-	<script src="./sources/page-copy.js"></script>
+	<section class="section technologies-intro" id="technology-intro" aria-labelledby="technology-intro-title">
+ <div class="technology-intro-copy"><h2 id="technology-intro-title">And Now,</h2><p class="technology-boring"><s>Boring ahh things bro nobody cares</s></p><h3>What About<br class="tech-mobile-break"> Technologies?</h3></div>
+ <a class="technology-next" href="#technology-pool"><span>Let’s get into it.</span><svg aria-hidden="true" viewBox="0 0 34 42"><path d="M17 2V37M3 23L17 37 31 23"/></svg></a>
+</section>
+<section class="section technology-pool" id="technology-pool" aria-labelledby="technology-pool-title">
+ <div class="pool-tub">
+  <svg class="pool-definitions" aria-hidden="true" width="0" height="0"><defs><marker id="water-arrow" viewBox="0 0 12 10" refX="9" refY="5" markerWidth="9" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L10 5 1 9" fill="none" stroke="#111" stroke-width="1.8"/></marker></defs></svg>
+  <h2 id="technology-pool-title">Let’s see what floats!</h2>
+  <canvas data-edit-skip id="technology-canvas" class="technology-physics-layer" aria-label="Draggable technology logos contained in a water chamber"></canvas>
+  <svg class="water-note water-note-wide pool-annotation" data-copy="pool-water-copy" aria-hidden="true" viewBox="0 0 1250 215"><defs><path id="water-writing" d="M85 96C126 41 245 51 310 82"/></defs><use href="#water-writing" marker-start="url(#water-arrow)"/><path d="M310 107C235 127 156 140 91 119" marker-end="url(#water-arrow)"/></svg>
+  <svg class="water-note water-note-small pool-annotation" data-copy="pool-water-copy" aria-hidden="true" viewBox="0 0 180 220"><defs><path id="water-writing-small" d="M104 108C124 73 158 74 180 91"/></defs><use href="#water-writing-small" marker-start="url(#water-arrow)"/><path d="M180 113C155 137 127 140 104 128" marker-end="url(#water-arrow)"/></svg>
+  <div class="pool-faucet-body"><svg aria-hidden="true" viewBox="0 0 200 150"><path d="M-8 59H87Q111 39 134 61Q145 71 145 94V112H111V98Q112 91 104 88H-8Z" fill="#aac6ed" stroke="#171717" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="128" cy="112" rx="17" ry="5" fill="#171717"/><path d="M68 55V13H82V54" fill="#aac6ed" stroke="#171717" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="104" cy="70" r="5" fill="#171717"/><path d="M119 69Q125 76 133 73" fill="none" stroke="#171717" stroke-width="2.5"/></svg><button id="pool-faucet-handle" class="pool-handle" type="button" data-edit-skip aria-label="Hold to pour water" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 64 64"><g class="faucet-handle-symbol"><path d="M26 27Q1 16 9 7Q21 0 33 24Q46 0 56 9Q62 22 38 31Q61 44 51 54Q40 61 32 38Q18 61 7 49Q0 37 26 27Z" fill="#f8e578" stroke="#171717" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="31" r="6" fill="#fff" stroke="#171717" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg></button></div>
+  <svg class="drain-note pool-annotation" data-copy="pool-drain-copy" aria-hidden="true" viewBox="0 0 170 100"><defs><path id="drain-writing" d="M55 76C60 22 126 16 158 40"/></defs><use href="#drain-writing" marker-start="url(#water-arrow)"/><path d="M145 61C120 48 100 59 85 72" marker-end="url(#water-arrow)"/></svg>
+  <button id="pool-drain" class="pool-drain" type="button" data-edit-skip aria-label="Hold the rubber duck to drain water" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 100 100"><ellipse cx="50" cy="76" rx="39" ry="19" fill="#171717"/><g class="drain-plug"><path d="M19 54L11 39Q27 40 32 49L43 45Q32 34 44 19Q65 5 77 25Q83 35 74 45Q89 48 88 63Q80 85 47 85Q17 85 19 54Z" fill="#f8dc66" stroke="#171717" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M77 30Q98 26 96 38L78 40Z" fill="#ef8950" stroke="#171717" stroke-width="3" stroke-linejoin="round"/><circle cx="65" cy="28" r="3.4" fill="#171717"/><path d="M34 59Q50 77 70 59" fill="none" stroke="#171717" stroke-width="2.5" stroke-linecap="round"/></g></svg></button>
+  <p id="pool-water-copy" class="pool-annotation-copy">press for water</p><p id="pool-drain-copy" class="pool-annotation-copy">press to empty</p>
+  <div class="pool-exhibit-viewport"><div id="pool-exhibit-card" class="pool-exhibit-card" hidden><div class="tech-card-hero" data-edit-skip><img id="pool-exhibit-icon" alt=""></div><div id="pool-exhibit-content"></div></div></div><div id="pool-technology-copy" hidden><article data-technology="c"><h3>C</h3><p>A compiled systems language with direct control over memory and hardware. Commonly used for operating systems, embedded software, libraries, and native interfaces.</p></article>
+<article data-technology="rust"><h3>Rust</h3><p>A systems language that combines native performance with memory safety, checked by the compiler. Its ownership model makes resource lifetimes explicit.</p></article>
+<article data-technology="java"><h3>Java</h3><p>A general-purpose language that runs on the Java Virtual Machine. Its libraries and tooling are used for servers, applications, and game plugins.</p></article>
+<article data-technology="csharp"><h3>C#</h3><p>A typed, general-purpose language in the .NET ecosystem. It is used for desktop applications, web services, tools, and games.</p></article>
+<article data-technology="haxe"><h3>Haxe</h3><p>A typed language and cross-compiler. One Haxe codebase can target platforms such as JavaScript, C++, Java, and C#, with platform-specific escape hatches.</p></article>
+<article data-technology="python"><h3>Python</h3><p>A general-purpose language with a readable syntax and a large library ecosystem. A useful companion for automation, experiments, data work, and tooling.</p></article>
+<article data-technology="javascript"><h3>JavaScript</h3><p>The programming language of the web. It powers browser interactions and also runs outside the browser through runtimes such as Node.js.</p></article>
+<article data-technology="typescript"><h3>TypeScript</h3><p>JavaScript with a static type system. The types help catch mistakes and describe interfaces; the output still runs as ordinary JavaScript.</p></article>
+<article data-technology="html"><h3>HTML</h3><p>The structural language of web pages. Elements describe the meaning of content, from headings and links to forms, images, and interactive controls.</p></article>
+<article data-technology="css"><h3>CSS</h3><p>The language that styles and lays out the web. It controls typography, color, responsive layouts, animation, and how a page adapts to different screens.</p></article>
+<article data-technology="react"><h3>React</h3><p>A library for building interfaces from components. State and data determine what appears on screen, while components keep pieces of an interface reusable.</p></article>
+<article data-technology="node"><h3>Node.js</h3><p>A runtime for JavaScript outside the browser. It is widely used for servers, command-line tools, build systems, and network applications.</p></article>
+<article data-technology="dotnet"><h3>.NET</h3><p>A development platform with a managed runtime, standard libraries, and tooling. Languages such as C# use it to build applications across platforms.</p></article>
+<article data-technology="vite"><h3>Vite</h3><p>A frontend development server and build tool. It gives web projects a fast feedback loop during development and packages their assets for release.</p></article>
+<article data-technology="sqlite"><h3>SQLite</h3><p>An embedded SQL database that lives in a regular file. Applications can store and query structured data without running a separate database server.</p></article>
+<article data-technology="tailwind"><h3>Tailwind CSS</h3><p>A utility-first CSS framework. Small styling classes compose directly in markup to build custom layouts and visual systems.</p></article>
+<article data-technology="flixel"><h3>HaxeFlixel</h3><p>A 2D game framework built with Haxe and OpenFL. It provides practical game-building pieces such as sprites, animation, collision, input, and tilemaps.</p></article>
+<article data-technology="avalonia"><h3>Avalonia</h3><p>A cross-platform UI framework for .NET. Interfaces are described with XAML and code, and can share a common application across desktop platforms.</p></article>
+<article data-technology="lime"><h3>Lime</h3><p>A foundational layer for Haxe applications. It supplies platform access for windows, input, audio, graphics contexts, and other native capabilities.</p></article>
+<article data-technology="openfl"><h3>OpenFL</h3><p>A Haxe framework for cross-platform graphics and applications. Its Flash-style APIs cover drawing, display objects, audio, input, and assets.</p></article>
+<article data-technology="openshift"><h3>OpenShift</h3><p>An application platform built around Kubernetes. It brings together tools for deploying, operating, and managing containerized applications.</p></article>
+<article data-technology="kotlin"><h3>Kotlin</h3><p>A typed language created by JetBrains. It works with Java on the JVM and also supports shared code across platforms through Kotlin Multiplatform.</p></article>
+<article data-technology="mongodb"><h3>MongoDB</h3><p>A document database that stores flexible, JSON-like records in BSON. Applications can query, index, and aggregate those documents without a fixed table layout.</p></article>
+<article data-technology="haxeui"><h3>HaxeUI</h3><p>A cross-platform UI toolkit for Haxe. It provides reusable interface components, layouts, styling, and multiple rendering backends.</p></article>
+<article data-technology="wpf"><h3>WPF</h3><p>Windows Presentation Foundation is a .NET framework for Windows desktop interfaces. XAML, data binding, layout, and vector graphics help build rich applications.</p></article>
+<article data-technology="flash"><h3>Flash</h3><p>Adobe Flash combined vector graphics, animation, audio, and ActionScript for interactive media and games. Its display-list model influenced frameworks such as OpenFL.</p></article></div>
+  <div id="pool-exhibit-copy" class="tech-sr-only" aria-live="polite"></div><output data-edit-skip id="pool-status" class="tech-sr-only" aria-live="off">26 technology objects</output><ul id="pool-technology-list" class="tech-sr-only" aria-label="Technologies in the bathtub"></ul>
+ </div><div class="pool-runoff" aria-hidden="true"></div>
+</section>
+
+<script type="module" src="./sources/technology-pool/index.mjs"></script>
+<script src="./sources/page-copy.js"></script>
 	<script src="./sources/starsBackground.js"></script>
 	<script src="./sources/svgsBackground.js?v=20261024-denser-scatter"></script>
 	<script src="./sources/clouds.js?v=20261024-scene-stable"></script>

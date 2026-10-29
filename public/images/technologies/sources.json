@@ -1,0 +1,165 @@
+{
+  "technologies": [
+    {
+      "id": "c",
+      "name": "C",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/c/c-original.svg",
+      "sha256": "7f383aff199491bfc4d45ba3d4f0486cd1ece307216ace19bf205a8783ae68fd"
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/rust/rust-original.svg",
+      "sha256": "16c6c6a98e990944fc5e1cc64cc8fc7b8be3a662ec4ee7951b7995d2e52f5e12"
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
+      "sha256": "7582e518a9c02425f97155e5a3bd39d1a3a7d421b78caf9c8df7443dad3edc5d"
+    },
+    {
+      "id": "csharp",
+      "name": "C#",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg",
+      "sha256": "7093478d0888e22a224b6fa832da6c9ffd14c433de8bd14aab0c1cb50925f3ee"
+    },
+    {
+      "id": "haxe",
+      "name": "Haxe",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/haxe/haxe-original.svg",
+      "sha256": "820f1e5dc6954a9d05c4f45383e3e1041ec47018a52d639362b5866c4f55d9de"
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
+      "sha256": "71493b4a732f0532b3a03a7a95da3ee11a65766367c8303b901ffbe7bf91a3a2"
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
+      "sha256": "0656ff65fc8eeacda5c78d7f9ffe91ec1eb919db64f56e0b7dcd460af4bbd36c"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg",
+      "sha256": "c9191199f4049920c2fc19035b8a6664f37f4689fcd9e8434e786097e78863f0"
+    },
+    {
+      "id": "html",
+      "name": "HTML",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
+      "sha256": "34826e5b3315daadf4fa15f723a3c1d5ba4a89277bfd94e22ac4d7d3d54338c5"
+    },
+    {
+      "id": "css",
+      "name": "CSS",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg",
+      "sha256": "36b7d94b657d571d3f94042acbf6a4c86a5301a222f83f4b4583ad2acf6e297d"
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg",
+      "sha256": "5825b649c8c04dec13ecf01d0182401bd0ec71789d2fa06224866d882cd1515f"
+    },
+    {
+      "id": "node",
+      "name": "Node.js",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
+      "sha256": "3218687c5ea24a4d4c0a33dc5c287da38c33a72dcfe9382469d7ce4e0bf661fb"
+    },
+    {
+      "id": "dotnet",
+      "name": ".NET",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/dotnetcore/dotnetcore-original.svg",
+      "sha256": "b1b71d747aaf277a00efeab3f5f5844578fc4a42bb605f60c3b0510256009ca4"
+    },
+    {
+      "id": "vite",
+      "name": "Vite",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/vitejs/vitejs-original.svg",
+      "sha256": "f84e50febcb3a2a81399c9a1ae76d96dc235428202f91610b6f36bfb5b62051a"
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg",
+      "sha256": "2b91c30887d3602479ba845cc012ef6ae577fba71eb96705a05b12e35d2c5e7e"
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind CSS",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg",
+      "sha256": "f8cec54589553807eb603bcaf4e056aa090196211698b056542e3cc62a2f3448"
+    },
+    {
+      "id": "flixel",
+      "name": "HaxeFlixel",
+      "iconSource": "https://raw.githubusercontent.com/HaxeFlixel/flixel/dev/assets/images/logo/HaxeFlixel.svg",
+      "sha256": "97f9c086ec41ac33c01c4cb35b725052f46885632cb074612fda85e8f7959703"
+    },
+    {
+      "id": "avalonia",
+      "name": "Avalonia",
+      "iconSource": "https://api.nuget.org/v3-flatcontainer/avalonia/0.10.22/icon",
+      "sha256": "1821e7bd48a6f407bddcbc1fd789132a3d5b6a5b787951114e3360b4bd650c96"
+    },
+    {
+      "id": "lime",
+      "name": "Lime",
+      "iconSource": "https://raw.githubusercontent.com/openfl/lime/develop/assets/docs-theme/resources/images/logo.png",
+      "sha256": "142172b84217734f203f3119d4f481e09cfb3cab48f7a2eae9dd070be590119d"
+    },
+    {
+      "id": "openfl",
+      "name": "OpenFL",
+      "iconSource": "https://raw.githubusercontent.com/openfl/openfl.org/master/_assets/images/icon.svg",
+      "sha256": "fdc1f2141e37f8fe4a98ce9f42123b44105c1b32493cc6b990ecae42ae7d14c2"
+    },
+    {
+      "id": "openshift",
+      "name": "OpenShift",
+      "iconSource": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/redhatopenshift.svg",
+      "sha256": "ba24d5201fb9b7099966e97212d60981b05eda5682957774012df9087429434d"
+    },
+    {
+      "id": "kotlin",
+      "name": "Kotlin",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/kotlin/kotlin-original.svg",
+      "sha256": "5053c2e1288582d1ac2cfc1e807eabb7f6059b1aa2f7d04e5cf00063682a2cbe"
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "iconSource": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+      "sha256": "d9f2bf7041264f4747e9969fb82ede0199c0ac97dfa8632aa0687d702ec05f7b"
+    },
+    {
+      "id": "haxeui",
+      "name": "HaxeUI",
+      "iconSource": "https://avatars.githubusercontent.com/u/14859949?v=4&s=512",
+      "sha256": "cc9f13b751fca82b53849ea1563d603b2b6754defe245e9fcc62624f29a24872"
+    },
+    {
+      "id": "wpf",
+      "name": "WPF",
+      "iconSource": "https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_xaml.svg",
+      "sha256": "74357e31611f91dfd8ae477ef3c0d036b47732da579f276c2765911b376ac01f"
+    },
+    {
+      "id": "flash",
+      "name": "Flash",
+      "iconSource": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Flash_Player_SVG.svg",
+      "sha256": "cf91cc2b64229c8bac7a1d98dd938ed27ffe4debdb9b1976d5b68d9364465c5c"
+    }
+  ],
+  "glove": {
+    "open": "https://www.pngaaa.com/detail/675249",
+    "grab": "https://www.clipartmax.com/middle/m2H7N4b1b1Z5d3A0_rock-paper-scissor-icon-png/",
+    "method": "Two separate SVG pose studies traced from the web references; no point morph or layered finger construction."
+  }
+}

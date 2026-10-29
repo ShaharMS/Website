@@ -1,0 +1,84 @@
+.technology-pool.section{position:relative;height:172dvh;min-height:0;padding:0;box-sizing:border-box;border:0;background:#f7f5ee;color:#111;overflow:visible;}
+.pool-tub{position:relative;box-sizing:border-box;width:100%;height:100dvh;background:#f7f5ee;border:4px solid #111;border-top:0;border-bottom-width:4px;border-radius:0;touch-action:none;}
+.pool-tub h2{position:absolute;top:35px;left:clamp(215px,25vw,420px);right:24px;z-index:5;font:800 clamp(32px,4.4vw,64px)/1.1 'Montserrat',sans-serif;letter-spacing:-.035em;margin:0;pointer-events:none;}
+.technology-physics-layer{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;}
+.pool-faucet-body{position:absolute;left:-4px;top:65px;width:180px;height:135px;z-index:5;}
+.pool-faucet-body>svg{width:100%;height:100%;display:block;overflow:visible;pointer-events:none;}
+.pool-handle{position:absolute;left:37%;top:16%;width:58px;height:58px;transform:translate(-50%,-50%);padding:0;border:0;background:none;cursor:pointer;touch-action:none;}
+.pool-handle svg{display:block;width:100%;height:100%;overflow:visible;}
+.faucet-handle-symbol{transform-origin:32px 31px;transition:transform .13s ease;}
+.pool-handle[aria-pressed=true] .faucet-handle-symbol{transform:rotate(37deg);}
+.pool-handle:focus-visible,.pool-drain:focus-visible{outline:3px dashed #111;outline-offset:4px;}
+.water-note,.drain-note{position:absolute;z-index:5;pointer-events:none;overflow:visible;fill:none;stroke:#111;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.water-note-wide{left:0;top:0;width:100%;height:215px;}
+.water-note-small{display:none;}
+.water-note text,.drain-note text{fill:#111;stroke:none;font:500 14px 'Montserrat',sans-serif;letter-spacing:.1px;}
+.drain-note{left:20px;bottom:15px;width:320px;height:160px;}
+.pool-drain{position:absolute;left:23px;bottom:14px;z-index:6;width:94px;height:94px;border:0;padding:0;background:none;cursor:pointer;touch-action:none;}
+.pool-drain svg{display:block;width:100%;height:100%;overflow:visible;}
+.drain-plug{transition:transform .14s ease;transform-origin:50px 60px;}
+.pool-drain[aria-pressed=true] .drain-plug{transform:translate(9px,-20px) rotate(-12deg);}
+.pool-runoff{height:72dvh;pointer-events:none;}
+.tech-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+.pool-definitions{position:absolute;pointer-events:none;overflow:visible;}
+@media(max-width:700px){.pool-tub h2{top:27px;left:21px;right:14px;font-size:clamp(27px,6.3vw,36px);}.pool-faucet-body{top:100px;width:150px;height:112.5px;}.pool-handle{width:52px;height:52px;}.water-note-wide{display:none;}.water-note-small{display:block;left:0;top:0;width:180px;height:220px;}.water-note-small text{font-size:11px;}.drain-note{left:23px;bottom:18px;width:145px;height:72.5px;}.drain-note text{font-size:22px;}}
+@media(prefers-reduced-motion:reduce){.faucet-handle-symbol,.drain-plug{transition:none;}}
+
+/* Each option owns its fixtures, shelf construction, card composition and lettering. */
+.pool-tub h2{right:auto;width:calc(100% - clamp(215px,25vw,420px) - 26%);font-size:clamp(28px,3.6vw,54px);max-width:650px;}
+.pool-faucet-body,.pool-drain{z-index:24;}
+.pool-tub h2{z-index:25;}
+.pool-annotation{z-index:1;opacity:.83;}
+.pool-annotation text{font-weight:500;fill:#171717;stroke:none;paint-order:normal;}
+.pool-annotation use,.pool-annotation>path{filter:none;stroke-width:1.8;}
+.drain-note{left:8px;bottom:106px;width:180px;height:100px;}
+.pool-tub{background:#f7bcaa;border:5px solid #171717;border-radius:20px 20px 0 0;}
+.pool-tub h2{font-weight:800;letter-spacing:-.035em;}
+@media(max-width:700px){.pool-tub h2{top:23px;left:18px;width:calc(100% - 36px);font-size:28px;max-width:none;transform:rotate(-1.5deg);}.water-note-small{top:0;}.drain-note{left:8px;bottom:106px;height:85px;}.drain-note text{font-size:14px;}.pool-faucet-body{top:100px;}}
+
+.technology-rescue-layer{position:fixed;inset:0;width:100%;height:100%;z-index:26;pointer-events:none;}
+.pool-tub h2{z-index:31;}
+
+.water-note-small{width:195px;}
+
+.pool-tub[data-rescue-grip=true] .drain-plug{opacity:0;}
+
+/* Painted between water and actors, using these SVG paths as the layout source. */
+.pool-annotation{visibility:hidden;}
+
+
+/* The approved Duck Tray design. The stem extends beneath the valve hub. */
+.pool-tub h2{font-size:clamp(31px,4.1vw,62px);transform:rotate(-1.8deg);transform-origin:left center;line-height:1.08;}
+#pool-drain,#pool-drain svg{pointer-events:none;}
+#pool-drain .drain-plug,#pool-drain .drain-plug *{pointer-events:visiblePainted;}
+@media(max-width:700px){.pool-tub h2{top:23px;left:18px;width:calc(100% - 36px);font-size:28px;max-width:none;transform:rotate(-1.5deg);}.water-note-small{top:0;}.drain-note{left:8px;bottom:106px;height:85px;}.drain-note text{font-size:14px;}.pool-faucet-body{top:100px;}}
+
+.pool-tub[data-rescue-grip=true] #pool-drain .drain-plug,.pool-tub[data-rescue-grip=true] #pool-drain .drain-plug *{pointer-events:none;}
+/* Match the 16px black dividers used by the surrounding website sections. */
+#wall-of-fame{border-bottom:16px solid #000;}
+.technologies-intro{height:100dvh;border:0;border-bottom:16px solid #000;}
+.pool-tub{border:0;border-bottom:16px solid #000;border-radius:0;}
+.technology-physics-layer{z-index:1;}
+.technology-object-layer{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;}
+.pool-exhibit-card{position:absolute;z-index:4;box-sizing:border-box;background:#fff;border:3.5px solid #171717;padding:23px;pointer-events:none;transform-origin:center;}
+.pool-exhibit-card[hidden]{display:none;}
+.tech-card-hero{height:94px;box-sizing:border-box;border:3px solid #171717;border-radius:22px;background:#fff0b9;display:flex;justify-content:center;align-items:flex-start;padding-top:9px;margin-bottom:16px;}
+.tech-card-hero img{width:64px;height:64px;}
+.pool-exhibit-card h3{font:800 27px/1.12 Montserrat,sans-serif;letter-spacing:0;margin:0 0 13px;color:#171717;}
+.pool-exhibit-card p{font:500 14px/22px Montserrat,sans-serif;margin:0;color:#171717;}
+.pool-exhibit-card.is-small{padding:15px;}
+.pool-exhibit-card.is-small .tech-card-hero{height:70px;}
+.pool-exhibit-card.is-small .tech-card-hero img{width:46px;height:46px;}
+.pool-exhibit-card.is-small h3{font-size:19px;}
+.pool-exhibit-card.is-small p{font-size:12px;line-height:18px;}
+.pool-annotation-copy{position:absolute;left:0;top:0;width:0;height:0;margin:0;z-index:2;pointer-events:none;white-space:nowrap;font:500 14px Montserrat,sans-serif;color:#171717;}
+.pool-annotation-copy span{position:absolute;white-space:pre;pointer-events:auto;transform-origin:center;}
+.pool-annotation-copy[data-editing=true]{width:auto;height:auto;pointer-events:auto;}
+.pool-exhibit-card [data-local-edit]{pointer-events:auto;}
+@media(max-width:700px){#pool-water-copy{font-size:11px;}#pool-drain-copy{font-size:14px;}}
+
+.pool-exhibit-viewport{position:absolute;inset:0 0 16px;overflow:clip;contain:paint;z-index:4;pointer-events:none;}
+
+.pool-exhibit-card.is-small .tech-card-hero{height:64px;margin-bottom:14px;}
+.pool-exhibit-card.is-small h3{margin-bottom:12px;}
+.pool-exhibit-card.is-small p{line-height:16px;}
