@@ -13,6 +13,10 @@ const ctx=canvas.getContext('2d'),M=window.Matter;
 const data=await(await fetch(new URL('../../images/technologies/physics-data.json',import.meta.url))).json(),images=new Map();
 await Promise.all(data.map(meta=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{images.set(meta.id,im);resolve();};im.onerror=()=>reject(Error('Logo failed: '+meta.id));im.src=new URL('../../images/technologies/'+meta.normalizedIcon,import.meta.url).href;})));
 await Promise.all(['open','grab'].map(pose=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{images.set('glove-'+pose,im);resolve();};im.onerror=reject;im.src=new URL('../../images/technologies/glove-'+pose+'.svg',import.meta.url).href;})));
+// Rasterize immutable vector artwork once rather than replaying SVG drawing
+// commands for every logo on every physics frame. Keep originals for DOM cards.
+const drawingImages=new Map();
+for(const [id,image] of images){const raster=document.createElement('canvas');raster.width=raster.height=384;raster.getContext('2d').drawImage(image,0,0,384,384);drawingImages.set(id,raster);}
 const tap=document.getElementById('pool-faucet-handle'),drain=document.getElementById('pool-drain'),status=document.getElementById('pool-status');
 for(const meta of data){const li=document.createElement('li');li.textContent=meta.name;document.getElementById('pool-technology-list').append(li);}
 let dragTarget=null;
@@ -77,9 +81,9 @@ function waterPath(){const f=world.frame;ctx.beginPath();ctx.moveTo(f.left,world
 function tubClip(){const f=world.frame;ctx.beginPath();ctx.roundRect(f.left+4,f.top,world.width-8,world.height-4,[0,0,31,31]);ctx.clip();}
 function draw(active){
  sync();tub.dataset.rescueGrip=String(world.rescue.visible&&world.rescue.grip>.35);
- paintBath(ctx,{world,images,waves,drops,viewW,viewH,activated,active,front});
+ paintBath(ctx,{world,images:drawingImages,waves,drops,viewW,viewH,activated,active,front});
  updateCard(active);
- rescueInk.clearRect(0,0,viewW,viewH);if(activated&&active){rescueInk.save();rescueInk.beginPath();rescueInk.rect(world.frame.left+4,world.frame.top,world.width-8,world.height-4);rescueInk.clip();paintRescue(rescueInk,world,images);rescueInk.restore();}
+ rescueInk.clearRect(0,0,viewW,viewH);if(activated&&active){rescueInk.save();rescueInk.beginPath();rescueInk.rect(world.frame.left+4,world.frame.top,world.width-8,world.height-4);rescueInk.clip();paintRescue(rescueInk,world,drawingImages);rescueInk.restore();}
  if(frame%12===0){status.textContent=`${data.length} technology objects. Faucet ${world.tap?'open':'closed'}. Drain ${world.draining?'open':'closed'}.`;status.dataset.objectCount=String(world.sprites.length);status.dataset.water=world.fill.toFixed(4);status.dataset.simTicks=String(frame);status.dataset.drained=world.drained.toFixed(2);status.dataset.frameTop=world.frame.top.toFixed(1);status.dataset.runoffDrops=String(drops.length);status.dataset.shelf=world.exhibit.occupantId||'';status.dataset.exhibitState=world.exhibit.state;status.dataset.exhibitShown=world.exhibit.shownId||'';status.dataset.waterVolume=world.waterVolume.toFixed(2);status.dataset.fluidArea=world.actualFluidArea.toFixed(2);status.dataset.cardWetArea=world.cardWetArea.toFixed(2);status.dataset.rescue=world.rescue.state;status.dataset.grip=String(world.rescue.grip||0);status.dataset.rescueCount=String(world.rescue.interventions);status.dataset.obstacleWetArea=String(world.obstacleWetArea||0);status.dataset.leftGate=String(world.gateOpen.left);status.dataset.rightGate=String(world.gateOpen.right);}
  if(lastExhibitId!==world.exhibit.shownId){lastExhibitId=world.exhibit.shownId;const meta=data.find(x=>x.id===lastExhibitId);document.getElementById('pool-exhibit-copy').textContent=meta?meta.name+'. '+TECHNOLOGY_COPY[meta.id]:'';}
 }
@@ -90,9 +94,15 @@ function updateCard(active){
  card.classList.toggle('is-small',p.width<270);card.style.width=p.width+'px';card.style.height=p.height+'px';card.style.left=(p.body.position.x-world.frame.left)+'px';card.style.top=(p.body.position.y-world.frame.top)+'px';card.style.transform=`translate(-50%,-50%) rotate(${p.angle}rad)`;
  const key=p.width+':'+p.height+':'+p.shownId+':'+activeArticle.textContent;if(key!==lastFitKey&&!activeArticle.contains(document.activeElement)){fitCardText(card);lastFitKey=key;}
 }
+let poolFrame=0,poolVisible=false,geometryDirty=true,cachedTubBounds;
+const dirtyGeometry=()=>{geometryDirty=true;};
+window.addEventListener('scroll',dirtyGeometry,{passive:true});
+window.addEventListener('resize',dirtyGeometry);
+new ResizeObserver(dirtyGeometry).observe(scene);
 function tick(time){
  const dt=last?Math.min(50,time-last):16.67;last=time;
- const r=tub.getBoundingClientRect(),sceneBounds=scene.getBoundingClientRect(),active=sceneBounds.top<viewH&&sceneBounds.bottom>0;
+ if(geometryDirty||!cachedTubBounds){cachedTubBounds=tub.getBoundingClientRect();geometryDirty=false;}
+ const r=cachedTubBounds,active=poolVisible;
  if(active&&!activated){world.setFrame(r.left,r.top,{initial:true});activated=true;}
 
  if(activated&&(active||drops.length)&&running&&!document.hidden&&!document.activeElement?.closest('[data-local-edit],[data-local-copy]')){
@@ -105,8 +115,13 @@ function tick(time){
   }
   frame++;
  }else{accumulator=0;if(activated){world.setFrame(r.left,r.top);world.solveWaterSurface();}}
- draw(active);requestAnimationFrame(tick);
+ draw(active);poolFrame=requestAnimationFrame(tick);
 }
-new ResizeObserver(resize).observe(tub);window.addEventListener('resize',resize);resize();requestAnimationFrame(tick);
+new ResizeObserver(resize).observe(tub);window.addEventListener('resize',resize);resize();
+window.sceneMotion.watch(scene,(active)=>{
+ poolVisible=active;cancelAnimationFrame(poolFrame);last=0;accumulator=0;geometryDirty=true;
+ if(active)poolFrame=requestAnimationFrame(tick);
+ else{releaseAll();ctx.clearRect(0,0,viewW,viewH);front.clearRect(0,0,viewW,viewH);rescueInk.clearRect(0,0,viewW,viewH);card.hidden=true;}
+});
 
 document.fonts.ready.then(layoutAnnotationCopy);

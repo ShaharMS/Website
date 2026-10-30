@@ -63,6 +63,34 @@
 
 /* Allow the existing animated artwork to extend beyond its symbol viewport. */
 #section-2 symbol,
-#section-2 #main-wrapper > svg {
+#section-2 #main-wrapper > .pattern-icon {
 	overflow: visible;
 }
+
+/* Keep shared artwork static and move its small, independently composited tiles. */
+#main-wrapper > .pattern-icon {
+    will-change: transform;
+    --icon-turn: 5deg;
+    animation: icon-sway 2s ease-in-out infinite alternate;
+}
+#main-wrapper > .pattern-icon[data-icon=keyboard] { --icon-from: 25deg; --icon-turn: 35deg; }
+#main-wrapper > .pattern-icon[data-icon=headphones] { --icon-from: -5deg; --icon-turn: 0deg; animation-duration: .5s; }
+#main-wrapper > .pattern-icon[data-icon=frying-pan] { --icon-from: -15deg; --icon-turn: 4deg; }
+#main-wrapper > .pattern-icon[data-icon=dumbbell] { --icon-from: -10deg; --icon-turn: 10deg; }
+#main-wrapper > .pattern-icon[data-icon=steering-wheel] { --icon-from: -24deg; --icon-turn: 24deg; }
+#main-wrapper > .pattern-icon[data-icon=hanger] { --icon-from: -9deg; --icon-turn: 9deg; }
+#main-wrapper > .pattern-icon[data-icon=moon-full] { animation: icon-orbit 20s linear infinite; }
+#main-wrapper > .pattern-icon[data-icon=galaxy] { animation: icon-tilt 5s linear infinite alternate; }
+#main-wrapper > .pattern-icon[data-icon=car] { animation: icon-drive .3s ease-in-out infinite alternate; }
+#main-wrapper.pattern-stopped > .pattern-icon { animation-play-state: paused; }
+#section-2.scene-paused #main-wrapper > .pattern-icon { will-change: auto; }
+@keyframes icon-sway {
+    from { transform: rotate(var(--icon-from, -5deg)); }
+    to { transform: translateY(1px) rotate(var(--icon-turn)); }
+}
+@keyframes icon-orbit { to { transform: rotate(360deg); } }
+@keyframes icon-tilt { to { transform: rotateX(-45deg); } }
+@keyframes icon-drive { to { transform: translateY(.5px); } }
+
+#section-2 .pattern-icon { width:56px; height:42px; margin:10px; opacity:.9; position:absolute; }
+#section-2 .pattern-icon img { position:absolute; left:-12px; top:-12px; width:80px; height:66px; max-width:none; }

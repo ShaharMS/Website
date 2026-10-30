@@ -87,3 +87,6 @@ italic {
         opacity: 0;
     }
 }
+.scene-paused *, .scene-paused *::before, .scene-paused *::after {
+    animation-play-state: paused !important;
+}

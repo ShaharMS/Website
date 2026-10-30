@@ -24,6 +24,12 @@ const cloudContent = () => {
 }
 
 setTimeout(() => timerDone = true, getTime(container.getBoundingClientRect().width));
+let cloudWidth = container.clientWidth, cloudHeight = container.clientHeight;
+const cloudPositions = new WeakMap();
+new ResizeObserver(() => {
+    cloudWidth = container.clientWidth;
+    cloudHeight = container.clientHeight;
+}).observe(container);
 
 for (let i = 0; i < Math.ceil(container.getBoundingClientRect().width / 200); i++) {
     let cloud = document.createElement("div");
@@ -36,29 +42,32 @@ for (let i = 0; i < Math.ceil(container.getBoundingClientRect().width / 200); i+
     container.appendChild(cloud);
 }
 
-function run() {
+function run(now, elapsed) {
     let clouds = container.getElementsByClassName("cloud");
     for (const cloud of clouds) {
         if (window.__localTextEditor && cloud.matches(':hover, :focus-within')) continue;
-        if (cloud.getBoundingClientRect().x > container.getBoundingClientRect().x + container.getBoundingClientRect().width) {
+        const x = cloudPositions.get(cloud) ?? parseFloat(cloud.style.left);
+        if (x > cloudWidth) {
             container.removeChild(cloud);
         } else {
-            cloud.style.left = +parseFloat(cloud.style.left) + +cloud.getAttribute("velocity") + "px";
+            const next = x + +cloud.getAttribute('velocity') * elapsed / (1000 / 60);
+            cloudPositions.set(cloud, next);
+            cloud.style.left = '0px';
+            cloud.style.transform = `translateX(${next}px)`;
         }
     }
 
-    if (shouldCreateCloud(container.getBoundingClientRect().width)) {
+    if (shouldCreateCloud(cloudWidth)) {
         let cloud = document.createElement("div");
         cloud.classList.add("cloud");
 		cloud.innerHTML = cloudContent();
 	window.__localTextEditor?.bind(cloud.firstElementChild, cloud.firstElementChild.dataset.copyKey);
-        cloud.style.top = randomHeight(container.getBoundingClientRect().height) + "px";
+        cloud.style.top = randomHeight(cloudHeight) + "px";
         cloud.style.left = "-240px";
         cloud.setAttribute("velocity", randomVelocity());
         container.appendChild(cloud);
     }
-    requestAnimationFrame(run);
 }
 
 
-requestAnimationFrame(run);
+window.sceneMotion.animate(container.closest('section'), run);

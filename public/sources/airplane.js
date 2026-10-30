@@ -10,7 +10,11 @@ const runPlane = (plane, velocity) => {
     const graphic = plane.querySelector('img');
     let direction = -1;
     let x = section.clientWidth + 40;
-    let previous = performance.now();
+    let sectionWidth = section.clientWidth, planeWidth = plane.offsetWidth, planeScale = 1;
+    const measure = () => { sectionWidth = section.clientWidth; planeWidth = plane.offsetWidth; planeScale = parseFloat(getComputedStyle(plane).scale) || 1; };
+    const sizeObserver = new ResizeObserver(measure);
+    sizeObserver.observe(section);
+    sizeObserver.observe(plane);
     plane.style.right = 'auto';
     plane.style.transformOrigin = 'left center';
     function orient() {
@@ -24,28 +28,27 @@ const runPlane = (plane, velocity) => {
         window.__localTextEditor?.bind(title, 'airplane.' + key);
     }
     orient();
-    function frame(now) {
-        const elapsed = Math.min(now - previous, 50) / (1000 / 60);
-        previous = now;
+    plane.style.left = '0px';
+    function frame(now, delta) {
+        const elapsed = delta / (1000 / 60);
         if (window.__localTextEditor && plane.matches(':hover, :focus-within')) {
-            requestAnimationFrame(frame);
             return;
         }
         x += direction * velocity * elapsed;
-        const width = plane.getBoundingClientRect().width;
-        if (direction === 1 && x > section.clientWidth + 40) {
+        const width = planeWidth * planeScale;
+        if (direction === 1 && x > sectionWidth + 40) {
             direction = -1;
             orient();
-            x = section.clientWidth + 40;
+            x = sectionWidth + 40;
         } else if (direction === -1 && x + width < -40) {
             direction = 1;
             orient();
-            x = -plane.getBoundingClientRect().width - 40;
+            x = -width - 40;
         }
-        plane.style.left = x + 'px';
-        requestAnimationFrame(frame);
+        // Individual translate is outside the plane's existing CSS scale.
+        plane.style.translate = x + 'px 0';
     }
-    requestAnimationFrame(frame);
+    window.sceneMotion.animate(section, frame);
 }
 
 
@@ -108,11 +111,11 @@ for (const plane of planes) {
 		definitions.style.position = 'absolute';
 		definitions.innerHTML = `<defs><filter id="${filterId}" x="-5%" y="-20%" width="110%" height="140%">
 		  <feTurbulence type="fractalNoise" baseFrequency=".003 .012" numOctaves="1" seed="4" result="wind">
-		    <animate attributeName="baseFrequency" values=".003 .012;.005 .02;.003 .012" dur="2.8s" repeatCount="indefinite"/>
 		  </feTurbulence><feDisplacementMap in="SourceGraphic" in2="wind" scale="22" xChannelSelector="R" yChannelSelector="G"/>
 		</filter></defs>`;
 		plane.appendChild(definitions);
 		container.style.filter = `url(#${filterId})`;
+		container.classList.add('plane-banner');
 
 		if (!plane.getAttribute("ran")) {
 			requestAnimationFrame(() => {

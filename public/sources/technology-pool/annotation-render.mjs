@@ -1,10 +1,17 @@
 const notes=[...document.querySelectorAll('.pool-annotation')],measure=document.createElement('canvas').getContext('2d');
+const arrowPaths=new WeakMap();
+function arrow(node,path){
+ const d=path.getAttribute('d'),start=node.hasAttribute('marker-start'),cached=arrowPaths.get(node);
+ if(cached&&cached.d===d&&cached.start===start)return cached;
+ const len=path.getTotalLength(),a=path.getPointAtLength(start?0:len),b=path.getPointAtLength(start?1:len-1);
+ const result={d,start,path:new Path2D(d),x:a.x,y:a.y,angle:Math.atan2(a.y-b.y,a.x-b.x)};arrowPaths.set(node,result);return result;
+}
 function geometry(svg){const r=svg.getBoundingClientRect(),v=svg.viewBox.baseVal,scale=Math.min(r.width/v.width,r.height/v.height);return {r,v,scale,ox:r.left+(r.width-v.width*scale)/2,oy:r.top+(r.height-v.height*scale)/2};}
 export function paintAnnotations(c){
  for(const svg of notes){if(getComputedStyle(svg).display==='none')continue;const {r,scale,ox,oy}=geometry(svg);if(!r.width||!r.height)continue;
   c.save();c.translate(ox,oy);c.scale(scale,scale);c.strokeStyle='#171717';c.globalAlpha=.82;c.lineWidth=1.8;c.lineCap='round';c.lineJoin='round';
   const use=svg.querySelector('use'),writing=svg.querySelector(use.getAttribute('href')),other=svg.querySelector(':scope>path');
-  for(const [node,path] of [[use,writing],[other,other]]){if(!path)continue;c.stroke(new Path2D(path.getAttribute('d')));const start=node.hasAttribute('marker-start'),len=path.getTotalLength(),a=path.getPointAtLength(start?0:len),b=path.getPointAtLength(start?1:len-1),angle=Math.atan2(a.y-b.y,a.x-b.x);c.save();c.translate(a.x,a.y);c.rotate(angle);c.beginPath();c.moveTo(-8,-4);c.lineTo(0,0);c.lineTo(-8,4);c.stroke();c.restore();}
+  for(const [node,path] of [[use,writing],[other,other]]){if(!path)continue;const shape=arrow(node,path);c.stroke(shape.path);c.save();c.translate(shape.x,shape.y);c.rotate(shape.angle);c.beginPath();c.moveTo(-8,-4);c.lineTo(0,0);c.lineTo(-8,4);c.stroke();c.restore();}
   c.restore();
  }
 }

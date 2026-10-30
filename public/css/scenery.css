@@ -63,3 +63,15 @@
 }
 #section-3 .tree2.behind-sign { right: 34%; bottom: 26%; scale: .3; }
 #section-3 .tree5.behind-sign { right: 6%; bottom: 34%; scale: .22; }
+.plane-banner {
+    will-change: transform;
+    transform-origin: left center;
+    animation: banner-flutter 2.8s ease-in-out infinite alternate;
+}
+@keyframes banner-flutter {
+    from { transform: skewY(-.7deg) scaleY(.99); }
+    to { transform: skewY(.7deg) scaleY(1.01); }
+}
+#section-3 .airplane, #section-3 .cloud { will-change: transform; }
+#section-3.scene-paused .airplane, #section-3.scene-paused .cloud,
+#section-3.scene-paused .plane-banner { will-change: auto; }

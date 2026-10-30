@@ -26,7 +26,7 @@ let starsBackground__velocity = {
 let starsBackground__touchInput = false;
 starsBackground__generate();
 starsBackground__resize();
-starsBackground__step();
+window.sceneMotion.animate(starsBackground__canvas.closest('section'), starsBackground__step);
 window.addEventListener('resize', starsBackground__resize);
 starsBackground__canvas.onmousemove = starsBackground__onMouseMove;
 starsBackground__canvas.addEventListener('touchmove', starsBackground__onTouchMove, {passive: true});
@@ -83,7 +83,7 @@ function starsBackground__recycleStar(star) {
 	}
 }
 function starsBackground__resize() {
-	starsBackground__scale = window.devicePixelRatio || 1;
+	starsBackground__scale = Math.min(window.devicePixelRatio || 1, 2);
 	starsBackground__width = starsBackground__canvas.clientWidth * starsBackground__scale;
 	starsBackground__height = starsBackground__canvas.clientHeight * starsBackground__scale;
 	starsBackground__canvas.width = starsBackground__width;
@@ -94,7 +94,6 @@ function starsBackground__step() {
 	starsBackground__context.clearRect(0, 0, starsBackground__width, starsBackground__height);
 	starsBackground__update();
 	render();
-	requestAnimationFrame(starsBackground__step);
 }
 function starsBackground__update() {
 	starsBackground__velocity.tx *= 0.96;
