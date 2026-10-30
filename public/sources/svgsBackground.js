@@ -59,7 +59,7 @@ for (const image of images) {
     art.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     art.setAttribute('width', '80'); art.setAttribute('height', '66');
     art.innerHTML = `<svg x="12" y="12" width="56" height="42" viewBox="${symbol.getAttribute('viewBox')}" overflow="visible">${symbol.innerHTML}</svg>`;
-    art.querySelectorAll('*').forEach(node => node.style.stroke = '#fff');
+    art.querySelectorAll('*').forEach(node => node.style.stroke = '#000');
     image.source = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(art));
 }
 document.querySelectorAll('#main symbol').forEach(symbol => symbol.setAttribute('overflow', 'visible'));
